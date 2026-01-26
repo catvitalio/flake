@@ -107,6 +107,8 @@ let
 
     ".anytype.io"
 
+    ".plane.so"
+
     ".medium.com"
     ".speedtest.net"
     ".discourse-cdn.com"

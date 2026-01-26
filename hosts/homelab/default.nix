@@ -12,6 +12,7 @@
     ../../dots/nvim
     ../../dots/ssh
     ../../dots/users
+    ../../dots/common
     ./hardware.nix
     ./wireguard.nix
     ./dns.nix
