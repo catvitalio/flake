@@ -14,7 +14,7 @@
     ../../dots/users
     ../../dots/common
     ./hardware.nix
-    ./wireguard.nix
+    ./vpn.nix
     ./dns.nix
     ./nextcloud.nix
     ./vaultwarden.nix

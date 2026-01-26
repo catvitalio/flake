@@ -106,11 +106,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1769268480,
-        "narHash": "sha256-9I6GdaOZV6kF+IAv6NsVPgGzCdnzteXZxt+suTbhx6o=",
+        "lastModified": 1769452349,
+        "narHash": "sha256-192+6W1yJJh10bwbAJk5mSZt4G1ifipR5D4Hd8gHMIU=",
         "ref": "refs/heads/main",
-        "rev": "0376274ae26d309a0d5b5cb666df65d843157006",
-        "revCount": 5,
+        "rev": "416bfcbac57d6a8d1a634d8dc542aea68ccd506b",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@github.com/catvitalio/flake-private.git"
       },
