@@ -112,11 +112,11 @@
         "rev": "416bfcbac57d6a8d1a634d8dc542aea68ccd506b",
         "revCount": 8,
         "type": "git",
-        "url": "ssh://git@github.com/catvitalio/flake-private.git"
+        "url": "ssh://git@github.com/catvitalio/secrets.git"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@github.com/catvitalio/flake-private.git"
+        "url": "ssh://git@github.com/catvitalio/secrets.git"
       }
     },
     "systems": {

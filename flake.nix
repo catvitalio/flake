@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     agenix.url = "github:ryantm/agenix";
     secrets = {
-      url = "git+ssh://git@github.com/catvitalio/flake-private.git";
+      url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
     };
   };
