@@ -96,6 +96,7 @@ let
     ".discordactivities.com"
     ".discordsays.com"
     ".website-files.com"
+    ".hubspotonwebflow.com"
 
     ".rutracker.org"
     ".rutrk.org"
@@ -108,6 +109,10 @@ let
     ".anytype.io"
 
     ".plane.so"
+
+    ".gofiber.io"
+
+    ".kino.pub"
 
     ".medium.com"
     ".speedtest.net"
