@@ -8,6 +8,7 @@
   ".plane.so"
 
   ".kino.pub"
+  ".hdrezka.ag"
 
   ".raycast.com"
   ".raycast-releases.com"
