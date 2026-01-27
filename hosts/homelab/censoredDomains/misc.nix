@@ -9,6 +9,8 @@
 
   ".kino.pub"
   ".hdrezka.ag"
+  ".hdrezka.co"
+  ".hdrezka.club"
 
   ".raycast.com"
   ".raycast-releases.com"
