@@ -34,9 +34,6 @@
     docker.enable = true;
     oci-containers.backend = "docker";
   };
-  systemd.services.nix-daemon.environment = {
-    https_proxy = "socks5://192.168.1.1:1080";
-  };
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
