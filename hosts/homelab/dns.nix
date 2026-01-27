@@ -4,12 +4,11 @@
 }:
 
 let
-  makeDomainPair = domain: [
+  censoredDomains = import ./censoredDomains { inherit lib; };
+  censoredAddresses = lib.concatMap (domain: [
     "/${domain}/10.100.0.100"
     "/${domain}/::"
-  ];
-  censoredDomains = import ./censoredDomains { inherit lib; };
-  censoredPairs = lib.flatten (map makeDomainPair censoredDomains);
+  ]) censoredDomains;
   selfHostedIP = "10.100.0.2";
 in
 {
@@ -24,7 +23,7 @@ in
         "77.88.8.8"
         "77.88.8.1"
       ];
-      address = censoredPairs ++ [
+      address = censoredAddresses ++ [
         "/nextcloud.catvitalio.com/${selfHostedIP}"
         "/bitwarden.catvitalio.com/${selfHostedIP}"
       ];
