@@ -1,0 +1,14 @@
+[
+  ".ytimg.com"
+  ".googlevideo.com"
+  ".gstatic.com"
+  ".googleapis.com"
+  ".youtube.com"
+  ".yt.com"
+  ".google.com"
+  ".googleusercontent.com"
+  ".gvt1.com"
+  ".gvt2.com"
+  ".googleplay.com"
+  ".ggpht.com"
+]
