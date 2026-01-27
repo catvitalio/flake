@@ -60,6 +60,7 @@
     pkgs.pciutils
     pkgs.intel-gpu-tools
     pkgs.fastfetch
+    pkgs.tcpdump
   ];
 
   services.nginx = {
