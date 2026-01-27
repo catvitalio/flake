@@ -1,0 +1,4 @@
+[
+  ".kino.pub"
+  ".pushbr.com"
+]

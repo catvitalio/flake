@@ -1,22 +1,8 @@
 [
-  ".patreon.com"
-  ".patreonusercontent.com"
-  ".patreoncommunity.com"
-
   ".anytype.io"
-
   ".plane.so"
-
-  ".kino.pub"
-  ".hdrezka.ag"
-  ".hdrezka.ac"
-  ".hdrezka.co"
-  ".hdrezka.club"
-  ".hdrezka-home.tv"
-
   ".raycast.com"
   ".raycast-releases.com"
-
   ".medium.com"
   ".speedtest.net"
   ".discourse-cdn.com"

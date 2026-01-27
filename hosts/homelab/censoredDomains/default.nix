@@ -9,4 +9,7 @@ lib.flatten [
   (import ./torrents.nix)
   (import ./development.nix)
   (import ./misc.nix)
+  (import ./kinopub.nix)
+  (import ./hdrezka.nix)
+  (import ./patreon.nix)
 ]
