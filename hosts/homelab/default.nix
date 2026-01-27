@@ -29,12 +29,6 @@
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
     firewall.enable = true;
-    firewall.allowedTCPPorts = [
-      22
-      80
-      443
-    ];
-    firewall.allowedUDPPorts = [ 53 ];
   };
   virtualisation = {
     docker.enable = true;
