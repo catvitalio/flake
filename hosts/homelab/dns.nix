@@ -10,6 +10,7 @@ let
   ];
   censoredDomains = import ./censoredDomains { inherit lib; };
   censoredPairs = lib.flatten (map makeDomainPair censoredDomains);
+  selfHostedIP = "10.100.0.2";
 in
 {
   services.dnsmasq = {
@@ -24,8 +25,8 @@ in
         "77.88.8.1"
       ];
       address = censoredPairs ++ [
-        "/nextcloud.catvitalio.com/10.100.0.2"
-        "/bitwarden.catvitalio.com/10.100.0.2"
+        "/nextcloud.catvitalio.com/${selfHostedIP}"
+        "/bitwarden.catvitalio.com/${selfHostedIP}"
       ];
       cache-size = 10000;
     };
