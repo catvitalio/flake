@@ -18,6 +18,7 @@ in
     "net.ipv4.conf.all.route_localnet" = 1;
   };
 
+  networking.firewall.trustedInterfaces = [ wgInterface ];
   networking.wireguard.interfaces.${wgInterface} = {
     ips = [ "10.100.0.2/24" ];
     privateKeyFile = config.age.secrets.wireguardKey.path;
