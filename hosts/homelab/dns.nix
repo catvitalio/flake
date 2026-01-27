@@ -114,6 +114,9 @@ let
 
     ".kino.pub"
 
+    ".raycast.com"
+    ".raycast-releases.com"
+
     ".medium.com"
     ".speedtest.net"
     ".discourse-cdn.com"
