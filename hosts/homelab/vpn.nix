@@ -26,7 +26,6 @@ in
     postSetup = ''
       ${pkgs.iptables}/bin/iptables -t nat -N XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -F XRAY
-      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -m mark --mark 2 -j RETURN
       ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoTcpPort}
       ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -i ${wgInterface} -j XRAY
