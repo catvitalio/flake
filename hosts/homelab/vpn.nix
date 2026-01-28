@@ -76,6 +76,11 @@ in
         udp = true;
       };
     }
+    {
+      port = 1081;
+      protocol = "http";
+      listen = "0.0.0.0";
+    }
   ];
   services.xray.settings.outbounds = [
     {
