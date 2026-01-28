@@ -40,7 +40,7 @@ in
 
     peers = [
       {
-        publicKey = "uYi32L/K0nkQT0GpPBcuGsW475FipH/0JfomRrWMFRk=";
+        publicKey = "mL2pYNjMdCjaW1CCFTVxeKUIbjlv3/Bg5vw0yfEO6H8=";
         allowedIPs = [ "${allowedIp}" ];
         endpoint = "192.168.1.1:51820";
         persistentKeepalive = 25;
@@ -49,6 +49,7 @@ in
   };
 
   services.xray.enable = true;
+  networking.firewall.allowedTCPPorts = [ 1080 ];
   services.xray.settings.inbounds = [
     {
       port = dokodemoTcpPort;
