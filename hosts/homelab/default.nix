@@ -7,6 +7,7 @@
 {
   imports = [
     ../../dots/age
+    ../../dots/nginx
     ../../dots/fish
     ../../dots/locale
     ../../dots/nvim
@@ -53,16 +54,6 @@
     pkgs.fastfetch
     pkgs.tcpdump
   ];
-
-  services.nginx = {
-    enable = true;
-    group = "acme";
-  };
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "catvitalio@gmail.com";
-  };
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
