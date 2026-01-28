@@ -9,7 +9,9 @@ let
   wgInterface = "wg0";
   allowedIp = "10.100.0.0/24";
   censoredIp = "10.100.0.100";
-  dokodemoTcpPort = 12345;
+  dokodemoPort = 12345;
+  socksPort = 1080;
+  httpPort = 1081;
   xtls = import "${secrets}/xtls.nix";
 in
 {
@@ -26,7 +28,7 @@ in
     postSetup = ''
       ${pkgs.iptables}/bin/iptables -t nat -N XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -F XRAY
-      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoTcpPort}
+      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
       ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -i ${wgInterface} -j XRAY
     '';
@@ -48,10 +50,13 @@ in
   };
 
   services.xray.enable = true;
-  networking.firewall.allowedTCPPorts = [ 1080 ];
+  networking.firewall.allowedTCPPorts = [
+    socksPort
+    httpPort
+  ];
   services.xray.settings.inbounds = [
     {
-      port = dokodemoTcpPort;
+      port = dokodemoPort;
       protocol = "dokodemo-door";
       settings = {
         network = "tcp";
@@ -68,7 +73,7 @@ in
       };
     }
     {
-      port = 1080;
+      port = socksPort;
       protocol = "socks";
       listen = "0.0.0.0";
       settings = {
@@ -76,7 +81,7 @@ in
       };
     }
     {
-      port = 1081;
+      port = httpPort;
       protocol = "http";
       listen = "0.0.0.0";
     }
