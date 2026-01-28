@@ -35,6 +35,9 @@
     docker.enable = true;
     oci-containers.backend = "docker";
   };
+  programs.fish.shellAliases = {
+    claude = "env https_proxy=http://127.0.0.1:1081 claude";
+  };
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
