@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   secrets,
@@ -11,14 +12,22 @@ let
   dokodemoPort = 12345;
   constants = import ./constants.nix;
   xtls = import "${secrets}/xtls.nix";
+
+  censoredIp = "10.100.0.100";
+  censoredDomains = import ./censoredDomains { inherit lib; };
+  censoredAddresses = lib.concatMap (domain: [
+    "/${domain}/${censoredIp}"
+    "/${domain}/::"
+  ]) censoredDomains;
 in
 {
+  services.dnsmasq.settings.address = lib.mkAfter censoredAddresses;
+
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv4.conf.all.route_localnet" = 1;
   };
 
-  networking.firewall.trustedInterfaces = [ wgInterface ];
   networking.wireguard.interfaces.${wgInterface} = {
     ips = [ "${constants.wireguard.address}/24" ];
     privateKeyFile = config.age.secrets.wireguardKey.path;
@@ -26,7 +35,7 @@ in
     postSetup = ''
       ${pkgs.iptables}/bin/iptables -t nat -N XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -F XRAY
-      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${constants.xray.censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
+      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
       ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -i ${wgInterface} -j XRAY
     '';
@@ -47,11 +56,13 @@ in
     ];
   };
 
-  services.xray.enable = true;
+  networking.firewall.trustedInterfaces = [ wgInterface ];
   networking.firewall.allowedTCPPorts = [
     constants.xray.socksPort
     constants.xray.httpPort
   ];
+
+  services.xray.enable = true;
   services.xray.settings.inbounds = [
     {
       port = dokodemoPort;

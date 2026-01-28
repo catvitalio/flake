@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   ...
@@ -6,6 +7,7 @@
 
 let
   domain = "nextcloud.catvitalio.com";
+  constants = import ./constants.nix;
 in
 {
   services.nextcloud = {
@@ -31,4 +33,8 @@ in
     environmentFile = config.age.secrets.acmeEnv.path;
     reloadServices = [ "nginx" ];
   };
+
+  services.dnsmasq.settings.address = lib.mkAfter [
+    "/${domain}/${constants.wireguard.address}"
+  ];
 }

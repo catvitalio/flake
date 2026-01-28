@@ -1,9 +1,10 @@
-{ config, ... }:
+{ lib, config, ... }:
 
 let
   domain = "bitwarden.catvitalio.com";
   address = "127.0.0.1";
   port = 8222;
+  constants = import ./constants.nix;
 in
 {
   services.vaultwarden = {
@@ -29,4 +30,8 @@ in
     environmentFile = config.age.secrets.acmeEnv.path;
     reloadServices = [ "nginx" ];
   };
+
+  services.dnsmasq.settings.address = lib.mkAfter [
+    "/${domain}/${constants.wireguard.address}"
+  ];
 }
