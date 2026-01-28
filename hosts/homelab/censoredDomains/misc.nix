@@ -12,4 +12,6 @@
   ".ziffstatic.com"
   ".cloudfront.net"
   ".tableplus.com"
+  ".cap.so"
+  ".insales-cdn.com"
 ]
