@@ -8,10 +8,8 @@
 let
   wgInterface = "wg0";
   allowedIp = "10.100.0.0/24";
-  censoredIp = "10.100.0.100";
   dokodemoPort = 12345;
-  socksPort = 1080;
-  httpPort = 1081;
+  constants = import ./constants.nix;
   xtls = import "${secrets}/xtls.nix";
 in
 {
@@ -22,13 +20,13 @@ in
 
   networking.firewall.trustedInterfaces = [ wgInterface ];
   networking.wireguard.interfaces.${wgInterface} = {
-    ips = [ "10.100.0.2/24" ];
+    ips = [ "${constants.wireguard.address}/24" ];
     privateKeyFile = config.age.secrets.wireguardKey.path;
 
     postSetup = ''
       ${pkgs.iptables}/bin/iptables -t nat -N XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -F XRAY
-      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
+      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${constants.xray.censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
       ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
       ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -i ${wgInterface} -j XRAY
     '';
@@ -51,8 +49,8 @@ in
 
   services.xray.enable = true;
   networking.firewall.allowedTCPPorts = [
-    socksPort
-    httpPort
+    constants.xray.socksPort
+    constants.xray.httpPort
   ];
   services.xray.settings.inbounds = [
     {
@@ -73,17 +71,17 @@ in
       };
     }
     {
-      port = socksPort;
+      port = constants.xray.socksPort;
       protocol = "socks";
-      listen = "0.0.0.0";
+      listen = constants.wireguard.address;
       settings = {
         udp = true;
       };
     }
     {
-      port = httpPort;
+      port = constants.xray.httpPort;
       protocol = "http";
-      listen = "0.0.0.0";
+      listen = constants.wireguard.address;
     }
   ];
   services.xray.settings.outbounds = [

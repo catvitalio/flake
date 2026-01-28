@@ -4,6 +4,9 @@
   ...
 }:
 
+let
+  constants = import ./constants.nix;
+in
 {
   imports = [
     ../../dots/age
@@ -36,7 +39,7 @@
     oci-containers.backend = "docker";
   };
   programs.fish.shellAliases = {
-    claude = "env https_proxy=http://127.0.0.1:1081 claude";
+    claude = "env https_proxy=http://${constants.wireguard.address}:${toString constants.xray.httpPort} claude";
   };
 
   environment.systemPackages = with pkgs; [

@@ -4,19 +4,19 @@
 }:
 
 let
+  constants = import ./constants.nix;
   censoredDomains = import ./censoredDomains { inherit lib; };
   censoredAddresses = lib.concatMap (domain: [
-    "/${domain}/10.100.0.100"
+    "/${domain}/${constants.xray.censoredIp}"
     "/${domain}/::"
   ]) censoredDomains;
-  selfHostedIP = "10.100.0.2";
 in
 {
   services.dnsmasq = {
     enable = true;
     resolveLocalQueries = false;
     settings = {
-      listen-address = "0.0.0.0";
+      listen-address = constants.wireguard.address;
       bind-interfaces = true;
       port = 53;
       server = [
@@ -24,8 +24,8 @@ in
         "77.88.8.1"
       ];
       address = censoredAddresses ++ [
-        "/nextcloud.catvitalio.com/${selfHostedIP}"
-        "/bitwarden.catvitalio.com/${selfHostedIP}"
+        "/nextcloud.catvitalio.com/${constants.wireguard.address}"
+        "/bitwarden.catvitalio.com/${constants.wireguard.address}"
       ];
       cache-size = 10000;
     };
