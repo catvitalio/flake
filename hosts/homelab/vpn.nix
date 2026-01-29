@@ -57,10 +57,6 @@ in
   };
 
   networking.firewall.trustedInterfaces = [ wgInterface ];
-  networking.firewall.allowedTCPPorts = [
-    constants.xray.socksPort
-    constants.xray.httpPort
-  ];
 
   services.xray.enable = true;
   services.xray.settings.inbounds = [
