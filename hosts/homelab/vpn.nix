@@ -33,17 +33,61 @@ in
     privateKeyFile = config.age.secrets.wireguardKey.path;
 
     postSetup = ''
-      ${pkgs.iptables}/bin/iptables -t nat -N XRAY 2>/dev/null || true
-      ${pkgs.iptables}/bin/iptables -t nat -F XRAY
-      ${pkgs.iptables}/bin/iptables -t nat -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j REDIRECT --to-ports ${toString dokodemoPort}
-      ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
-      ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -i ${wgInterface} -j XRAY
+      # Policy-based routing для TPROXY
+      ${pkgs.iproute2}/bin/ip route add local default dev lo table 100 2>/dev/null || true
+      ${pkgs.iproute2}/bin/ip rule add fwmark 1 table 100 2>/dev/null || true
+      # Разрешить трафик с mark 2 идти обычным путем (в обход TPROXY)
+      ${pkgs.iproute2}/bin/ip rule add fwmark 2 lookup main pref 100 2>/dev/null || true
+
+      # TPROXY правила в mangle таблице для PREROUTING
+      ${pkgs.iptables}/bin/iptables -t mangle -N XRAY 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -F XRAY
+
+      # Восстановить connmark для существующих соединений
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY -j CONNMARK --restore-mark
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY -m mark --mark 2 -j RETURN
+
+      # TPROXY для TCP и UDP
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark 1
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY -s ${allowedIp} -d ${censoredIp} -p udp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark 1
+
+      # Сохранить mark в connmark
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY -j CONNMARK --save-mark
+
+      ${pkgs.iptables}/bin/iptables -t mangle -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -I PREROUTING -i ${wgInterface} -j XRAY
+
+      # OUTPUT правила для локально генерируемых пакетов
+      ${pkgs.iptables}/bin/iptables -t mangle -N XRAY_OUTPUT 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -F XRAY_OUTPUT
+
+      # Маркировать весь трафик от Xray mark 2 ПЕРЕД restore (избегаем петли)
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY_OUTPUT -m owner --uid-owner xray -j MARK --set-mark 2
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY_OUTPUT -m mark --mark 2 -j RETURN
+
+      # Восстановить connmark для остального трафика
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY_OUTPUT -j CONNMARK --restore-mark
+
+      # Сохранить mark в connmark
+      ${pkgs.iptables}/bin/iptables -t mangle -A XRAY_OUTPUT -j CONNMARK --save-mark
+
+      ${pkgs.iptables}/bin/iptables -t mangle -D OUTPUT -j XRAY_OUTPUT 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -I OUTPUT -j XRAY_OUTPUT
     '';
 
     postShutdown = ''
-      ${pkgs.iptables}/bin/iptables -t nat -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
-      ${pkgs.iptables}/bin/iptables -t nat -F XRAY 2>/dev/null || true
-      ${pkgs.iptables}/bin/iptables -t nat -X XRAY 2>/dev/null || true
+      # Удаление TPROXY правил
+      ${pkgs.iptables}/bin/iptables -t mangle -D PREROUTING -i ${wgInterface} -j XRAY 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -D OUTPUT -j XRAY_OUTPUT 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -F XRAY 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -X XRAY 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -F XRAY_OUTPUT 2>/dev/null || true
+      ${pkgs.iptables}/bin/iptables -t mangle -X XRAY_OUTPUT 2>/dev/null || true
+
+      # Удаление policy routing
+      ${pkgs.iproute2}/bin/ip rule del fwmark 2 lookup main pref 100 2>/dev/null || true
+      ${pkgs.iproute2}/bin/ip rule del fwmark 1 table 100 2>/dev/null || true
+      ${pkgs.iproute2}/bin/ip route del local default dev lo table 100 2>/dev/null || true
     '';
 
     peers = [
@@ -59,13 +103,21 @@ in
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
   services.xray.enable = true;
+  services.xray.settings.log = {
+    loglevel = "debug";
+  };
   services.xray.settings.inbounds = [
     {
       port = dokodemoPort;
       protocol = "dokodemo-door";
       settings = {
-        network = "tcp";
+        network = "tcp,udp";
         followRedirect = true;
+      };
+      streamSettings = {
+        sockopt = {
+          tproxy = "tproxy";
+        };
       };
       sniffing = {
         enabled = true;
@@ -74,6 +126,7 @@ in
         destOverride = [
           "http"
           "tls"
+          "quic"
         ];
       };
     }
@@ -104,7 +157,7 @@ in
               {
                 id = xtls.id;
                 encryption = "none";
-                flow = "xtls-rprx-vision";
+                flow = "xtls-rprx-vision-udp443";
               }
             ];
           }
@@ -117,6 +170,9 @@ in
           serverName = xtls.address;
           allowInsecure = false;
           fingerprint = "chrome";
+        };
+        sockopt = {
+          mark = 2;
         };
       };
     }
