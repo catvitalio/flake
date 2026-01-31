@@ -1,9 +1,6 @@
 [
   ".anytype.io"
   ".plane.so"
-  ".raycast.com"
-  ".raycast-releases.com"
-  ".medium.com"
   ".speedtest.net"
   ".discourse-cdn.com"
   ".localizeapi.com"
@@ -14,4 +11,6 @@
   ".tableplus.com"
   ".cap.so"
   ".insales-cdn.com"
+  ".digitaloceanspaces.com"
+  ".gofiber.io"
 ]

@@ -1,0 +1,9 @@
+[
+  ".anthropic.com"
+  ".claude.ai"
+  ".claude.com"
+  ".claudeusercontent.com"
+  ".intercomcdn.com"
+  ".intercom.help"
+  ".claudemcpclient.com"
+]
