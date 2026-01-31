@@ -1,0 +1,17 @@
+[
+  ".byspotify.com"
+  ".pscdn.co"
+  ".scdn.co"
+  ".spoti.fi"
+  ".spotify-everywhere.com"
+  ".spotify.com"
+  ".spotify.design"
+  ".spotifycdn.com"
+  ".spotifycdn.net"
+  ".spotifycharts.com"
+  ".spotifycodes.com"
+  ".spotifyforbrands.com"
+  ".spotifyjobs.com"
+  ".spotify.link"
+  ".tospotify.com"
+]

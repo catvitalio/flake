@@ -19,4 +19,5 @@ lib.flatten [
   (import ./instagram.nix)
   (import ./facebook.nix)
   (import ./oculus.nix)
+  (import ./spotify.nix)
 ]
