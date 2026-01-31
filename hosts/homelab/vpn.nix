@@ -8,7 +8,6 @@
 
 let
   wgInterface = "wg0";
-  allowedIp = "10.100.0.0/24";
   dokodemoPort = 12345;
   constants = import ./constants.nix;
   xtls = import "${secrets}/xtls.nix";
@@ -47,8 +46,8 @@ in
       ${ipt} -F XRAY
       ${ipt} -A XRAY -j CONNMARK --restore-mark
       ${ipt} -A XRAY -m mark ! --mark 0 -j RETURN
-      ${ipt} -A XRAY -s ${allowedIp} -d ${censoredIp} -p tcp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
-      ${ipt} -A XRAY -s ${allowedIp} -d ${censoredIp} -p udp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
+      ${ipt} -A XRAY -d ${censoredIp} -p tcp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
+      ${ipt} -A XRAY -d ${censoredIp} -p udp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
       ${ipt} -A XRAY -m mark --mark ${toString tproxyMark} -j CONNMARK --save-mark
       ${ipt} -D PREROUTING -i ${wgInterface} -j XRAY ${quiet}
       ${ipt} -I PREROUTING -i ${wgInterface} -j XRAY
@@ -71,7 +70,7 @@ in
     peers = [
       {
         publicKey = "mL2pYNjMdCjaW1CCFTVxeKUIbjlv3/Bg5vw0yfEO6H8=";
-        allowedIPs = [ "${allowedIp}" ];
+        allowedIPs = [ "10.100.0.0/24" ];
         endpoint = "192.168.1.1:51820";
         persistentKeepalive = 25;
       }
@@ -81,9 +80,6 @@ in
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
   services.xray.enable = true;
-  services.xray.settings.log = {
-    loglevel = "debug";
-  };
   services.xray.settings.inbounds = [
     {
       port = dokodemoPort;
