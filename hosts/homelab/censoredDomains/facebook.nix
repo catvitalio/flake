@@ -392,4 +392,8 @@
   ".redkix.com"
   ".workplace.com"
   ".workplaceusecases.com"
+  ".fbmessenger.com"
+  ".m.me"
+  ".messenger.com"
+  ".nbabot.net"
 ]

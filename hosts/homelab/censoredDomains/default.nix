@@ -17,4 +17,6 @@ lib.flatten [
   (import ./raycast.nix)
   (import ./medium.nix)
   (import ./instagram.nix)
+  (import ./facebook.nix)
+  (import ./oculus.nix)
 ]
