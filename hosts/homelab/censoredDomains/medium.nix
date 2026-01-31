@@ -1,3 +1,4 @@
 [
   ".medium.com"
+  ".medium.systems"
 ]
