@@ -11,7 +11,9 @@
   ".be"
   ".zone"
   ".wiki"
+  ".dev"
 
   # Other development tools
   ".gofiber.io"
+  ".digitaloceanspaces.com"
 ]
