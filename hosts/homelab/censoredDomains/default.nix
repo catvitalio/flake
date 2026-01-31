@@ -16,4 +16,5 @@ lib.flatten [
   (import ./nix.nix)
   (import ./raycast.nix)
   (import ./medium.nix)
+  (import ./instagram.nix)
 ]
