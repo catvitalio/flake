@@ -24,5 +24,6 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **Anytype** - Notion alternative
 - **VPN** - WireGuard with split tunneling for own domains/censored domains
 - **DNS** - dnsmasq DNS server for WireGuard split tunneling
+- **Xray** - VLESS proxy for censored domains
 - **Restic** - Automated backup solution
 - **Nginx** - Reverse proxy
