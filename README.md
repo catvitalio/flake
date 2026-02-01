@@ -10,6 +10,14 @@ This repository contains a complete NixOS system configuration using flakes, des
 
 <div align="center"><img src="assets/jonsbo-n5.png" width="300px"></div>
 
+### Hardware
+- Ryzen 9 5950x
+- B550 Aorus Elite V2
+- 48GB RAM
+- 1TB SSD
+- Intel Arc A380
+- Sipeed NanoKVM PCIe
+
 ### Services
 - **Nextcloud** - Self-hosted file sync and collaboration platform
 - **Vaultwarden** - Bitwarden-compatible password manager
