@@ -1,5 +1,3 @@
-![Logo](assets/logo.png)
-
 # Overview
 
 This repository contains a complete NixOS system configuration using flakes, designed for running self-hosted services and managing network infrastructure. The configuration is modular and organized for maintainability.
