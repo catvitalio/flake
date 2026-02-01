@@ -8,6 +8,8 @@ This repository contains a complete NixOS system configuration using flakes, des
 
 ## homelab
 
+<div align="center"><img src="assets/jonsbo-n5.png" width="300px"></div>
+
 ### Services
 - **Nextcloud** - Self-hosted file sync and collaboration platform
 - **Vaultwarden** - Bitwarden-compatible password manager
