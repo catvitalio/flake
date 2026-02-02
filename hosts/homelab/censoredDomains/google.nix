@@ -11,4 +11,6 @@
   ".gvt2.com"
   ".googleplay.com"
   ".ggpht.com"
+  ".withgoogle.com"
+  ".googleadservices.com"
 ]
