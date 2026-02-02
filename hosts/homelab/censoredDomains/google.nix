@@ -13,4 +13,5 @@
   ".ggpht.com"
   ".withgoogle.com"
   ".googleadservices.com"
+  ".doubleclick.net"
 ]
