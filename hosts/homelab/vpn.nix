@@ -96,7 +96,7 @@ in
       sniffing = {
         enabled = true;
         routeOnly = true;
-        metadataOnly = false;
+        metadataOnly = true;
         destOverride = [
           "http"
           "tls"
