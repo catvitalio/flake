@@ -95,7 +95,7 @@ in
       };
       sniffing = {
         enabled = true;
-        routeOnly = false;
+        routeOnly = true;
         metadataOnly = false;
         destOverride = [
           "http"
