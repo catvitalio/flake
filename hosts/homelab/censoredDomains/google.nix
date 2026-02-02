@@ -20,4 +20,5 @@
   ".withgoogle.com"
   ".googleadservices.com"
   ".doubleclick.net"
+  ".googlesyndication.com"
 ]
