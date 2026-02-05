@@ -1,0 +1,3 @@
+[
+  ".githubusercontent.com"
+]
