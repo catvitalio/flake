@@ -5,7 +5,7 @@ let
 in
 {
   virtualisation.oci-containers.containers.anytype = {
-    image = "ghcr.io/grishy/any-sync-bundle:1.2.1-2025-12-10";
+    image = "ghcr.io/grishy/any-sync-bundle:1.3.0-2026-01-31";
     ports = [
       "33010:33010"
       "33020:33020"
