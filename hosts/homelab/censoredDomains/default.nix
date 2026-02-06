@@ -20,4 +20,5 @@ lib.flatten [
   (import ./facebook.nix)
   (import ./oculus.nix)
   (import ./github.nix)
+  (import ./obdev.nix)
 ]
