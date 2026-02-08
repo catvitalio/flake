@@ -21,4 +21,5 @@ lib.flatten [
   (import ./oculus.nix)
   (import ./github.nix)
   (import ./obdev.nix)
+  (import ./bear.nix)
 ]
