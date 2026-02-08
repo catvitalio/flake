@@ -22,7 +22,6 @@ in
     ./dns.nix
     ./nextcloud.nix
     ./vaultwarden.nix
-    ./anytype.nix
     ./restic.nix
   ];
 
