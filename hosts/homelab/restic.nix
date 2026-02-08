@@ -6,7 +6,6 @@
     repository = "rclone:yandex-disk:/backup/restic";
     rcloneConfigFile = config.age.secrets.rcloneConf.path;
     paths = [
-      "/var/lib/anytype"
       "/var/lib/vaultwarden"
     ];
     passwordFile = config.age.secrets.resticPass.path;
