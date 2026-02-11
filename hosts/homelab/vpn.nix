@@ -79,6 +79,14 @@ in
 
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
+  users = {
+    users.xray = {
+      isSystemUser = true;
+      group = "xray";
+    };
+    groups.xray = { };
+  };
+
   services.xray.enable = true;
   services.xray.settings.inbounds = [
     {
