@@ -22,4 +22,5 @@ lib.flatten [
   (import ./github.nix)
   (import ./obdev.nix)
   (import ./bear.nix)
+  (import ./microsoft.nix)
 ]
