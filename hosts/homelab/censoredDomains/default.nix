@@ -23,4 +23,5 @@ lib.flatten [
   (import ./obdev.nix)
   (import ./bear.nix)
   (import ./microsoft.nix)
+  (import ./cloudflare.nix)
 ]
