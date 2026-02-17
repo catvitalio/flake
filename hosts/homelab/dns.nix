@@ -18,7 +18,6 @@ in
       server = [
         "${address}#${toString dnsPort}"
       ];
-      cache-size = 10000;
     };
   };
 
