@@ -1,0 +1,3 @@
+[
+  ".auroraoss.com"
+]
