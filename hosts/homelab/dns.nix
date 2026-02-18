@@ -10,7 +10,7 @@ in
 {
   services.dnsmasq = {
     enable = true;
-    resolveLocalQueries = false;
+    resolveLocalQueries = true;
     settings = {
       listen-address = constants.wireguard.address;
       bind-interfaces = true;
