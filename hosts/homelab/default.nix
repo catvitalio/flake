@@ -37,9 +37,6 @@ in
     docker.enable = true;
     oci-containers.backend = "docker";
   };
-  programs.fish.shellAliases = {
-    claude = "env https_proxy=http://${constants.wireguard.address}:${toString constants.xray.httpPort} claude";
-  };
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
