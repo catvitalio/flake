@@ -21,4 +21,5 @@
   ".googleadservices.com"
   ".doubleclick.net"
   ".googlesyndication.com"
+  ".xn--ngstr-lra8j.com"
 ]
