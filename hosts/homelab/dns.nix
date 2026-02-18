@@ -1,10 +1,10 @@
 { lib, config, ... }:
 
 let
-  domain = "adguard.catvitalio.com";
-  address = "127.0.0.1";
-  port = 5354;
-  dnsPort = 5353;
+  adguardDomain = "adguard.catvitalio.com";
+  adguardAddress = "127.0.0.1";
+  adguardPort = 5354;
+  adguardDnsPort = 5353;
   constants = import ./constants.nix;
 in
 {
@@ -16,23 +16,25 @@ in
       bind-interfaces = true;
       port = 53;
       server = [
-        "${address}#${toString dnsPort}"
+        "${adguardAddress}#${toString adguardDnsPort}"
       ];
     };
   };
 
   services.adguardhome = {
     enable = true;
-    host = address;
-    port = port;
+    host = adguardAddress;
+    port = adguardPort;
     settings = {
       dns = {
-        bind_hosts = [ address ];
-        port = dnsPort;
+        bind_hosts = [ adguardAddress ];
+        port = adguardDnsPort;
         upstream_dns = [
+          "https://common.dot.dns.yandex.net/dns-query"
           "https://dns.google/dns-query"
           "https://cloudflare-dns.com/dns-query"
         ];
+        upstream_mode = "parallel";
       };
       filtering = {
         protection_enabled = true;
@@ -43,22 +45,22 @@ in
     };
   };
 
-  services.nginx.virtualHosts.${domain} = {
-    useACMEHost = domain;
+  services.nginx.virtualHosts.${adguardDomain} = {
+    useACMEHost = adguardDomain;
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://${address}:${toString port}";
+      proxyPass = "http://${adguardAddress}:${toString adguardPort}";
     };
   };
 
-  security.acme.certs.${domain} = {
+  security.acme.certs.${adguardDomain} = {
     dnsProvider = "cloudflare";
     environmentFile = config.age.secrets.acmeEnv.path;
     reloadServices = [ "nginx" ];
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/${constants.wireguard.address}"
+    "/${adguardDomain}/${constants.wireguard.address}"
   ];
 
 }
