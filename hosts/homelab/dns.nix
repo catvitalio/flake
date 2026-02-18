@@ -12,7 +12,7 @@ in
     enable = true;
     resolveLocalQueries = true;
     settings = {
-      listen-address = constants.wireguard.address;
+      listen-address = "0.0.0.0";
       bind-interfaces = true;
       port = 53;
       server = [
