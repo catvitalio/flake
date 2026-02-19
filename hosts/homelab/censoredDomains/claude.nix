@@ -6,4 +6,5 @@
   ".intercomcdn.com"
   ".intercom.help"
   ".claudemcpclient.com"
+  ".intercom.io"
 ]
