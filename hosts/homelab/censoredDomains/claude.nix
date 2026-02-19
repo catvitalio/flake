@@ -7,4 +7,8 @@
   ".intercom.help"
   ".claudemcpclient.com"
   ".intercom.io"
+  ".intellimize.co"
+  ".intellimizeio.com"
+  ".amplitude.com"
+  ".b-cdn.net"
 ]
