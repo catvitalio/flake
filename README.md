@@ -21,7 +21,6 @@ This repository contains a complete NixOS system configuration using flakes, des
 ### Services
 - **Nextcloud** - Self-hosted file sync and collaboration platform
 - **Vaultwarden** - Bitwarden-compatible password manager
-- **Anytype** - Notion alternative
 - **VPN** - WireGuard with split tunneling for own domains/censored domains
 - **DNS** - dnsmasq DNS server for WireGuard split tunneling
 - **Xray** - VLESS proxy for censored domains
