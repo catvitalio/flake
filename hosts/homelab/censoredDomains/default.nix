@@ -7,7 +7,7 @@ lib.flatten [
   (import ./telegram.nix)
   (import ./whatsapp.nix)
   (import ./discord.nix)
-  (import ./torrents.nix)
+  (import ./rutracker.nix)
   (import ./zones.nix)
   (import ./misc.nix)
   (import ./kinopub.nix)
