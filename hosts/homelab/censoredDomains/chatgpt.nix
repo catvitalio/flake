@@ -5,4 +5,10 @@
   ".oaiusercontent.com"
   ".openai.com"
   ".sora.com"
+  ".openai.com.cdn.cloudflare.net"
+  ".openaiapi-site.azureedge.net"
+  ".openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net"
+  ".openaicom.imgix.net"
+  ".openaicomproductionae4b.blob.core.windows.net"
+  ".production-openaicom-storage.azureedge.net"
 ]
