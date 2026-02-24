@@ -37,6 +37,9 @@ in
     docker.enable = true;
     oci-containers.backend = "docker";
   };
+  programs.fish.shellAliases = {
+    codex = "env https_proxy=http://${constants.wireguard.address}:${toString constants.xray.httpPort} codex";
+  };
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
@@ -44,7 +47,7 @@ in
     pkgs.git
     pkgs.gcc
     pkgs.nodejs
-    pkgs.claude-code
+    pkgs.codex
     pkgs.just
     pkgs.nixfmt-rfc-style
     pkgs.nixd
