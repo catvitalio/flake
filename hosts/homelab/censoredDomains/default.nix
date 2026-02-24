@@ -26,4 +26,5 @@ lib.flatten [
   (import ./cloudflare.nix)
   (import ./aurora.nix)
   (import ./notion.nix)
+  (import ./paw.nix)
 ]
