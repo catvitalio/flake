@@ -10,7 +10,7 @@ in
 {
   services.dnsmasq = {
     enable = true;
-    resolveLocalQueries = true;
+    resolveLocalQueries = false;
     settings = {
       listen-address = "0.0.0.0";
       bind-interfaces = true;
