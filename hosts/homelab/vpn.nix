@@ -52,16 +52,12 @@ in
       ${ipt} -D PREROUTING -i ${wgInterface} -j SINGBOX ${quiet}
       ${ipt} -I PREROUTING -i ${wgInterface} -j SINGBOX
 
-      ${ipt} -D PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP ${quiet}
-      ${ipt} -I PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP
-
       ${ipt} -D OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark} ${quiet}
       ${ipt} -I OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark}
     '';
 
     postShutdown = ''
       ${ipt} -D PREROUTING -i ${wgInterface} -j SINGBOX ${quiet}
-      ${ipt} -D PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP ${quiet}
       ${ipt} -D OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark} ${quiet}
       ${ipt} -F SINGBOX ${quiet}
       ${ipt} -X SINGBOX ${quiet}
