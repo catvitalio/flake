@@ -2,7 +2,7 @@
   wireguard = {
     address = "10.100.0.2";
   };
-  xray = {
+  singBox = {
     socksPort = 1080;
     httpPort = 1081;
   };

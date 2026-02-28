@@ -105,13 +105,13 @@ in
           type = "socks";
           tag = "inbound:socks";
           listen = constants.wireguard.address;
-          listen_port = constants.xray.socksPort;
+          listen_port = constants.singBox.socksPort;
         }
         {
           type = "http";
           tag = "inbound:http";
           listen = constants.wireguard.address;
-          listen_port = constants.xray.httpPort;
+          listen_port = constants.singBox.httpPort;
         }
       ];
       outbounds = [

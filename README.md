@@ -23,6 +23,6 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **Vaultwarden** - Bitwarden-compatible password manager
 - **VPN** - WireGuard with split tunneling for own domains/censored domains
 - **DNS** - dnsmasq DNS server for WireGuard split tunneling
-- **Xray** - VLESS proxy for censored domains
+- **Sing-box** - Hysteria2 proxy for censored domains
 - **Restic** - Automated backup solution
 - **Nginx** - Reverse proxy
