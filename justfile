@@ -1,8 +1,8 @@
 rebuild host="homelab" *args:
     sudo nixos-rebuild switch --flake .#{{ host }} {{ args }}
 
-update-flake:
-    nix flake update
+update-flake *args:
+    nix flake update {{ args }}
 
 update host="homelab":
     just update-flake

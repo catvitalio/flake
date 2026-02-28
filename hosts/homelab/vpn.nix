@@ -8,14 +8,15 @@
 
 let
   wgInterface = "wg0";
-  dokodemoPort = 12345;
   constants = import ./constants.nix;
-  xtls = import "${secrets}/xtls.nix";
+
+  hysteria2 = import "${secrets}/hysteria2.nix";
 
   ip = "${pkgs.iproute2}/bin/ip";
   ipt = "${pkgs.iptables}/bin/iptables -t mangle";
+  tproxyPort = 12345;
   tproxyMark = 1;
-  xrayBypassMark = 2;
+  tproxyBypassMark = 2;
   quiet = "2>/dev/null || true";
 
   censoredIp = "10.100.0.100";
@@ -40,29 +41,32 @@ in
     postSetup = ''
       ${ip} route add local default dev lo table 100 ${quiet}
       ${ip} rule add fwmark ${toString tproxyMark} table 100 ${quiet}
-      ${ip} rule add fwmark ${toString xrayBypassMark} lookup main pref 100 ${quiet}
+      ${ip} rule add fwmark ${toString tproxyBypassMark} lookup main pref 100 ${quiet}
 
-      ${ipt} -N XRAY ${quiet}
-      ${ipt} -F XRAY
-      ${ipt} -A XRAY -j CONNMARK --restore-mark
-      ${ipt} -A XRAY -m mark ! --mark 0 -j RETURN
-      ${ipt} -A XRAY -d ${censoredIp} -p tcp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
-      ${ipt} -A XRAY -d ${censoredIp} -p udp -j TPROXY --on-port ${toString dokodemoPort} --tproxy-mark ${toString tproxyMark}
-      ${ipt} -A XRAY -m mark --mark ${toString tproxyMark} -j CONNMARK --save-mark
-      ${ipt} -D PREROUTING -i ${wgInterface} -j XRAY ${quiet}
-      ${ipt} -I PREROUTING -i ${wgInterface} -j XRAY
+      ${ipt} -N SINGBOX ${quiet}
+      ${ipt} -F SINGBOX
+      ${ipt} -A SINGBOX -j CONNMARK --restore-mark
+      ${ipt} -A SINGBOX -m mark ! --mark 0 -j RETURN
+      ${ipt} -A SINGBOX -d ${censoredIp} -p tcp -j TPROXY --on-port ${toString tproxyPort} --tproxy-mark ${toString tproxyMark}
+      ${ipt} -A SINGBOX -m mark --mark ${toString tproxyMark} -j CONNMARK --save-mark
+      ${ipt} -D PREROUTING -i ${wgInterface} -j SINGBOX ${quiet}
+      ${ipt} -I PREROUTING -i ${wgInterface} -j SINGBOX
 
-      ${ipt} -D OUTPUT -m owner --uid-owner xray -j MARK --set-mark ${toString xrayBypassMark} ${quiet}
-      ${ipt} -I OUTPUT -m owner --uid-owner xray -j MARK --set-mark ${toString xrayBypassMark}
+      ${ipt} -D PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP ${quiet}
+      ${ipt} -I PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP
+
+      ${ipt} -D OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark} ${quiet}
+      ${ipt} -I OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark}
     '';
 
     postShutdown = ''
-      ${ipt} -D PREROUTING -i ${wgInterface} -j XRAY ${quiet}
-      ${ipt} -D OUTPUT -m owner --uid-owner xray -j MARK --set-mark ${toString xrayBypassMark} ${quiet}
-      ${ipt} -F XRAY ${quiet}
-      ${ipt} -X XRAY ${quiet}
+      ${ipt} -D PREROUTING -i ${wgInterface} -j SINGBOX ${quiet}
+      ${ipt} -D PREROUTING -i ${wgInterface} -p udp --dport 443 -j DROP ${quiet}
+      ${ipt} -D OUTPUT -m owner --uid-owner sing-box -j MARK --set-mark ${toString tproxyBypassMark} ${quiet}
+      ${ipt} -F SINGBOX ${quiet}
+      ${ipt} -X SINGBOX ${quiet}
 
-      ${ip} rule del fwmark ${toString xrayBypassMark} lookup main pref 100 ${quiet}
+      ${ip} rule del fwmark ${toString tproxyBypassMark} lookup main pref 100 ${quiet}
       ${ip} rule del fwmark ${toString tproxyMark} table 100 ${quiet}
       ${ip} route del local default dev lo table 100 ${quiet}
     '';
@@ -79,84 +83,59 @@ in
 
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
-  users = {
-    users.xray = {
-      isSystemUser = true;
-      group = "xray";
-    };
-    groups.xray = { };
-  };
-
-  services.xray.enable = true;
-  services.xray.settings.inbounds = [
-    {
-      port = dokodemoPort;
-      protocol = "dokodemo-door";
-      settings = {
-        network = "tcp,udp";
-        followRedirect = true;
+  services.sing-box = {
+    enable = true;
+    settings = {
+      log = {
+        level = "debug";
       };
-      streamSettings = {
-        sockopt = {
-          tproxy = "tproxy";
-        };
-      };
-      sniffing = {
-        enabled = true;
-        routeOnly = true;
-        metadataOnly = true;
-        destOverride = [
-          "http"
-          "tls"
-          "quic"
-        ];
-      };
-    }
-    {
-      port = constants.xray.socksPort;
-      protocol = "socks";
-      listen = constants.wireguard.address;
-      settings = {
-        udp = true;
-      };
-    }
-    {
-      port = constants.xray.httpPort;
-      protocol = "http";
-      listen = constants.wireguard.address;
-    }
-  ];
-  services.xray.settings.outbounds = [
-    {
-      protocol = "vless";
-      settings = {
-        domainStrategy = "UseIP";
-        vnext = [
+      inbounds = [
+        {
+          type = "tproxy";
+          tag = "inbound:tproxy-tcp";
+          listen = constants.wireguard.address;
+          listen_port = tproxyPort;
+          network = "tcp";
+          sniff = true;
+          sniff_override_destination = true;
+          sniff_timeout = "2s";
+          domain_strategy = "prefer_ipv4";
+        }
+        {
+          type = "socks";
+          tag = "inbound:socks";
+          listen = constants.wireguard.address;
+          listen_port = constants.xray.socksPort;
+        }
+        {
+          type = "http";
+          tag = "inbound:http";
+          listen = constants.wireguard.address;
+          listen_port = constants.xray.httpPort;
+        }
+      ];
+      outbounds = [
+        {
+          type = "hysteria2";
+          tag = "outbound:hy2";
+          server = hysteria2.domain;
+          server_port = 443;
+          password = hysteria2.password;
+          tls = {
+            enabled = true;
+            server_name = hysteria2.domain;
+            alpn = [ "h3" ];
+          };
+        }
+      ];
+      route = {
+        final = "outbound:hy2";
+        rules = [
           {
-            address = xtls.address;
-            port = 443;
-            users = [
-              {
-                id = xtls.id;
-                encryption = "none";
-                flow = "xtls-rprx-vision-udp443";
-              }
-            ];
+            action = "sniff";
           }
         ];
       };
-      streamSettings = {
-        network = "tcp";
-        security = "tls";
-        tlsSettings = {
-          serverName = xtls.address;
-          allowInsecure = false;
-          fingerprint = "chrome";
-        };
-        sockopt = {
-          mark = xrayBypassMark;
-        };
-      };
-    }
-  ];
+    };
+  };
 }
