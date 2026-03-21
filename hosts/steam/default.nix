@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -13,42 +17,35 @@
     ./disko.nix
   ];
 
-  system.stateVersion = "25.11";
-
   networking = {
-    hostName = "steam-machine";
+    hostName = "steam";
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
-    firewall.enable = true;
+    firewall.enable = false;
   };
 
-  services.desktopManager.plasma6.enable = true;
+  services = {
+    desktopManager.plasma6.enable = true;
+  };
 
   jovian = {
-    steamos.useSteamOSConfig = true;
     hardware = {
       has.amd.gpu = true;
       amd.gpu.enableBacklightControl = false;
     };
     steam = {
-      updater.splash = "vendor";
       enable = true;
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
     };
+    steamos.useSteamOSConfig = true;
   };
 
-  programs.steam.enable = true;
-  programs.gamemode.enable = true;
-
   environment.systemPackages = with pkgs; [
-    pkgs.git
     pkgs.wget
-    pkgs.htop
-    pkgs.fastfetch
+    pkgs.hidapi
   ];
 
-  nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

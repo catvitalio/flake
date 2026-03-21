@@ -8,6 +8,10 @@
       "networkmanager"
       "wheel"
       "docker"
+      "video"
+      "audio"
+      "users"
+      "input"
     ];
     shell = pkgs.fish;
     hashedPasswordFile = config.age.secrets.vPass.path;

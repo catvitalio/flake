@@ -17,6 +17,7 @@ in
     ../../dots/ssh
     ../../dots/users
     ../../dots/common
+    ./age.nix
     ./hardware.nix
     ./vpn.nix
     ./dns.nix
@@ -43,22 +44,13 @@ in
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
-    pkgs.htop
-    pkgs.git
-    pkgs.gcc
     pkgs.nodejs
     pkgs.codex
-    pkgs.just
-    pkgs.nixfmt-rfc-style
-    pkgs.nixd
     pkgs.iproute2
-    pkgs.tree
     pkgs.dig
     pkgs.pciutils
     pkgs.intel-gpu-tools
-    pkgs.fastfetch
     pkgs.tcpdump
   ];
-  nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

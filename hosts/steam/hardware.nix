@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   boot = {
@@ -16,12 +16,16 @@
       "kvm-amd"
       "amdgpu"
     ];
+    kernelParams = [ "usbcore.autosuspend=-1" ];
   };
 
   hardware = {
     enableRedistributableFirmware = true;
     cpu.amd.updateMicrocode = true;
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
   };
 
   powerManagement.cpuFreqGovernor = "schedutil";

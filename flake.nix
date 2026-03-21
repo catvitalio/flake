@@ -3,25 +3,36 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     agenix.url = "github:ryantm/agenix";
-    disko.url = "github:nix-community/disko";
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-NixOS";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     secrets = {
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
     };
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    jovian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       agenix,
       disko,
       jovian,
       secrets,
+      ...
     }:
     {
       nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
@@ -35,7 +46,8 @@
           ./hosts/homelab
         ];
       };
-      nixosConfigurations.steam = nixpkgs.lib.nixosSystem {
+
+      nixosConfigurations.steam = nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           inherit self secrets;
