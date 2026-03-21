@@ -1,6 +1,8 @@
 {
   lib,
   pkgs,
+  config,
+  secrets,
   ...
 }:
 
@@ -13,6 +15,7 @@
     ../../dots/ssh
     ../../dots/users
     ../../dots/nvim
+    ../../dots/wireguard
     ./hardware.nix
     ./disko.nix
   ];
@@ -22,10 +25,22 @@
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
     firewall.enable = false;
+    nameservers = [ "10.100.0.2" ];
+    wireguard.interfaces.wg0 = {
+      ips = [ "10.100.0.5/24" ];
+      privateKeyFile = config.age.secrets.wireguardSteamKey.path;
+    };
   };
 
   services = {
     desktopManager.plasma6.enable = true;
+  };
+
+  age.secrets.wireguardSteamKey = {
+    file = "${secrets}/wireguardSteamKey.age";
+    mode = "400";
+    owner = "root";
+    group = "root";
   };
 
   jovian = {
@@ -44,7 +59,6 @@
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
-    pkgs.hidapi
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

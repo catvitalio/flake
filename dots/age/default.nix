@@ -20,12 +20,6 @@
         owner = "root";
         group = "root";
       };
-      wireguardKey = {
-        file = "${secrets}/wireguardKey.age";
-        mode = "400";
-        owner = "root";
-        group = "root";
-      };
     };
   };
 }

@@ -17,6 +17,7 @@ in
     ../../dots/ssh
     ../../dots/users
     ../../dots/common
+    ../../dots/wireguard
     ./age.nix
     ./hardware.nix
     ./vpn.nix
