@@ -23,11 +23,11 @@
   networking = {
     hostName = "steam";
     networkmanager.enable = true;
+    networkmanager.insertNameservers = [ "10.100.0.2" ];
     useDHCP = lib.mkDefault true;
     firewall.enable = false;
-    nameservers = [ "10.100.0.2" ];
     wireguard.interfaces.wg0 = {
-      ips = [ "10.100.0.5/24" ];
+      ips = [ "10.100.0.5/32" ];
       privateKeyFile = config.age.secrets.wireguardSteamKey.path;
     };
   };
