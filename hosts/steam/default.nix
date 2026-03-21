@@ -8,6 +8,7 @@
     ../../dots/locale
     ../../dots/ssh
     ../../dots/users
+    ../../dots/nvim
     ./hardware.nix
     ./disko.nix
   ];
