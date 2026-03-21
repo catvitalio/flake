@@ -37,6 +37,7 @@ sudo nix --extra-experimental-features "nix-command flakes" run github:nix-commu
 Add personal ssh keys for secrets:
 ```bash
 cp {ssh-key-name} /root/.ssh/{ssh-key-name}
+sudo chmod 500 /root/.ssh/{ssh-key-name}
 ```
 
 Installing the system:
