@@ -22,13 +22,16 @@
     firewall.enable = true;
   };
 
-  services.xserver.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   jovian = {
     steamos.useSteamOSConfig = true;
-    hardware.has.amd.gpu = true;
+    hardware = {
+      has.amd.gpu = true;
+      amd.gpu.enableBacklightControl = false;
+    };
     steam = {
+      updater.splash = "vendor";
       enable = true;
       autoStart = true;
       user = "v";
