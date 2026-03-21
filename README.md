@@ -26,3 +26,20 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **Sing-box** - Hysteria2 proxy for censored domains
 - **Restic** - Automated backup solution
 - **Nginx** - Reverse proxy
+
+### Installation
+
+Disk partitioning (example for steam machine):
+```bash
+sudo nix --extra-experimental-features "nix-command flakes" run github:nix-community/disko -- --mode zap_create_mount hosts/steam/disko.nix
+```
+
+Add personal ssh keys for secrets:
+```bash
+cp {ssh-key-name} /root/.ssh/{ssh-key-name}
+```
+
+Installing the system:
+```bash
+sudo nixos-install --flake .#steam
+```
