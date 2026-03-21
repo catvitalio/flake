@@ -37,7 +37,7 @@ This repository contains a complete NixOS system configuration using flakes, des
 - MSI PRO B650M-B
 - 32GB RAM
 - 2TB SSD
-- Radeon RX9700XT
+- Radeon RX9070XT
 - Lian Li A3 Case
 
 ## Installation
