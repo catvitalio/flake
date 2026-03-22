@@ -3,11 +3,16 @@
   pkgs,
   config,
   secrets,
+  nix-gaming-edge,
   ...
 }:
 
+let
+  protonCachyos = nix-gaming-edge.packages.${pkgs.system}.proton-cachyos;
+in
 {
   imports = [
+    nix-gaming-edge.nixosModules.mesa-git
     ../../dots/age
     ../../dots/common
     ../../dots/fish
@@ -32,6 +37,17 @@
     };
   };
 
+  nixpkgs.overlays = [ nix-gaming-edge.overlays.mesa-git ];
+
+  drivers.mesa-git = {
+    enable = true;
+    cacheCleanup = {
+      enable = true;
+      protonPackage = protonCachyos;
+    };
+    steamOrphanCleanup.enable = true;
+  };
+
   services = {
     desktopManager.plasma6.enable = true;
   };
@@ -54,13 +70,12 @@
       user = "v";
       desktopSession = "plasma";
       environment = {
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge-bin.steamcompattool}";
-        PROTON_FSR4_UPGRADE = "4.0.0";
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${protonCachyos.steamcompattool}";
+        PROTON_FSR4_UPGRADE = "1";
       };
     };
   };
 
-  # Create Steam CEF debugging file if it doesn't exist for Decky Loader.
   systemd.services.steam-cef-debug = lib.mkIf config.jovian.decky-loader.enable {
     description = "Create Steam CEF debugging file";
     serviceConfig = {
@@ -71,7 +86,7 @@
     wantedBy = [ "multi-user.target" ];
   };
 
-  programs.steam.extraCompatPackages = with pkgs; [ proton-ge-bin ];
+  programs.steam.extraCompatPackages = [ protonCachyos ];
 
   environment.systemPackages = with pkgs; [
     pkgs.wget

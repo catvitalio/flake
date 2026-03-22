@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    nix-gaming-edge = {
+      url = "github:powerofthe69/nix-gaming-edge";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     secrets = {
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
@@ -31,6 +36,7 @@
       agenix,
       disko,
       jovian,
+      nix-gaming-edge,
       secrets,
       ...
     }:
@@ -38,7 +44,7 @@
       nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit self secrets;
+          inherit self secrets nix-gaming-edge;
           agenix-cli = agenix.packages.x86_64-linux.default;
         };
         modules = [
@@ -50,7 +56,7 @@
       nixosConfigurations.steam = nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit self secrets;
+          inherit self secrets nix-gaming-edge;
           agenix-cli = agenix.packages.x86_64-linux.default;
         };
         modules = [
