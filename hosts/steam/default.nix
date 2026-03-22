@@ -44,18 +44,22 @@
   };
 
   jovian = {
-    hardware = {
-      has.amd.gpu = true;
-      amd.gpu.enableBacklightControl = false;
-    };
+    hardware.has.amd.gpu = true;
+    hardware.amd.gpu.enableBacklightControl = false;
+    steamos.useSteamOSConfig = true;
     steam = {
       enable = true;
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
+      environment = {
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge-bin.steamcompattool}";
+        PROTON_FSR4_UPGRADE = "1";
+      };
     };
-    steamos.useSteamOSConfig = true;
   };
+
+  programs.steam.extraCompatPackages = with pkgs; [ proton-ge-bin ];
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
