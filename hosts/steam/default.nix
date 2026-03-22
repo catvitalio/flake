@@ -12,7 +12,6 @@ let
 in
 {
   imports = [
-    nix-gaming-edge.nixosModules.mesa-git
     ../../dots/age
     ../../dots/common
     ../../dots/fish
@@ -38,15 +37,6 @@ in
   };
 
   nixpkgs.overlays = [ nix-gaming-edge.overlays.mesa-git ];
-
-  drivers.mesa-git = {
-    enable = true;
-    cacheCleanup = {
-      enable = true;
-      protonPackage = protonCachyos;
-    };
-    steamOrphanCleanup.enable = true;
-  };
 
   services = {
     desktopManager.plasma6.enable = true;
