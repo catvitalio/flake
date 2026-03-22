@@ -55,7 +55,7 @@
       desktopSession = "plasma";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge-bin.steamcompattool}";
-        PROTON_FSR4_UPGRADE = "1";
+        PROTON_FSR4_UPGRADE = "4.0.0";
       };
     };
   };
@@ -75,6 +75,7 @@
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
+    pkgs.codex
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
