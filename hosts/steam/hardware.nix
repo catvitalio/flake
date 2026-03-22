@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ pkgs, ... }:
 
 {
   boot = {
@@ -17,6 +17,7 @@
       "amdgpu"
     ];
     kernelParams = [ "usbcore.autosuspend=-1" ];
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   hardware = {
