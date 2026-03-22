@@ -27,4 +27,5 @@ lib.flatten [
   (import ./aurora.nix)
   (import ./notion.nix)
   (import ./paw.nix)
+  (import ./decky.nix)
 ]

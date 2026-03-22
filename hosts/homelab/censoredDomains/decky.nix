@@ -1,0 +1,4 @@
+[
+  ".deckbrew.xyz"
+  ".decky.xyz"
+]
