@@ -47,6 +47,7 @@
     hardware.has.amd.gpu = true;
     hardware.amd.gpu.enableBacklightControl = false;
     steamos.useSteamOSConfig = true;
+    decky-loader.enable = true;
     steam = {
       enable = true;
       autoStart = true;
