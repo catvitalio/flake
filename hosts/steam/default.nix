@@ -40,6 +40,7 @@ in
     hostName = "steam";
     networkmanager.enable = true;
     networkmanager.insertNameservers = [ "10.100.0.2" ];
+    interfaces.enp14s0.wakeOnLan.enable = true;
     useDHCP = lib.mkDefault true;
     firewall.enable = false;
     wireguard.interfaces.wg0 = {
