@@ -5,19 +5,29 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     loader.systemd-boot.configurationLimit = 3;
-    initrd.availableKernelModules = [
-      "nvme"
-      "xhci_pci"
-      "ahci"
-      "usbhid"
-      "usb_storage"
-      "sd_mod"
-    ];
+    loader.timeout = 0;
+    initrd = {
+      verbose = false;
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+      ];
+    };
+    consoleLogLevel = 3;
     kernelModules = [
       "kvm-amd"
       "amdgpu"
     ];
-    kernelParams = [ "usbcore.autosuspend=-1" ];
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=false"
+      "usbcore.autosuspend=-1"
+    ];
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
