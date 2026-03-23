@@ -4,6 +4,7 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    loader.systemd-boot.configurationLimit = 3;
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
