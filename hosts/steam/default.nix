@@ -13,11 +13,11 @@ let
     inherit lib pkgs protonCachyos;
   };
 
-  protonWoSteamDeck = mkWrappedProton {
+  protonWithFixes = mkWrappedProton {
     name = "proton-cachyos-steamdeck0";
     displayName = "Proton CachyOS";
     exports = {
-      SteamDeck = "0";
+      SteamDeck = "0"; # turn off steamdeck mode
       SDL_GAMECONTROLLER_IGNORE_DEVICES = "0x3537/0x1022"; # for ea app the original variable is too long, ignore only the gamepads i have
     };
   };
@@ -72,16 +72,14 @@ in
       desktopSession = "plasma";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.concatStringsSep ":" [
-          "${protonWoSteamDeck.steamcompattool}"
+          "${protonWithFixes.steamcompattool}"
         ];
         PROTON_FSR4_UPGRADE = "1";
       };
     };
   };
 
-  programs.steam.extraCompatPackages = [
-    protonWoSteamDeck
-  ];
+  programs.steam.extraCompatPackages = [ protonWithFixes ];
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
