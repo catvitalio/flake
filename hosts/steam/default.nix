@@ -9,6 +9,19 @@
 
 let
   protonCachyos = nix-gaming-edge.packages.${pkgs.system}.proton-cachyos;
+  mkWrappedProton = import ./mk-wrapped-proton.nix {
+    inherit lib pkgs protonCachyos;
+  };
+
+  protonWoSteamDeck = mkWrappedProton {
+    name = "proton-cachyos-steamdeck0";
+    displayName = "Proton CachyOS";
+    exports = {
+      SteamDeck = "0";
+      SDL_GAMECONTROLLER_IGNORE_DEVICES = "";
+      SteamGenericControllers = "";
+    };
+  };
 in
 {
   imports = [
@@ -53,30 +66,23 @@ in
     hardware.has.amd.gpu = true;
     hardware.amd.gpu.enableBacklightControl = false;
     steamos.useSteamOSConfig = true;
-    decky-loader.enable = true;
     steam = {
       enable = true;
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
       environment = {
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${protonCachyos.steamcompattool}";
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.concatStringsSep ":" [
+          "${protonWoSteamDeck.steamcompattool}"
+        ];
         PROTON_FSR4_UPGRADE = "1";
       };
     };
   };
 
-  systemd.services.steam-cef-debug = lib.mkIf config.jovian.decky-loader.enable {
-    description = "Create Steam CEF debugging file";
-    serviceConfig = {
-      Type = "oneshot";
-      User = config.jovian.steam.user;
-      ExecStart = "/bin/sh -c 'mkdir -p ~/.steam/steam && [ ! -f ~/.steam/steam/.cef-enable-remote-debugging ] && touch ~/.steam/steam/.cef-enable-remote-debugging || true'";
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
-
-  programs.steam.extraCompatPackages = [ protonCachyos ];
+  programs.steam.extraCompatPackages = [
+    protonWoSteamDeck
+  ];
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
