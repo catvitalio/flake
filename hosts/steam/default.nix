@@ -18,8 +18,7 @@ let
     displayName = "Proton CachyOS";
     exports = {
       SteamDeck = "0";
-      SDL_GAMECONTROLLER_IGNORE_DEVICES = "";
-      SteamGenericControllers = "";
+      SDL_GAMECONTROLLER_IGNORE_DEVICES = "0x3537/0x1022"; # for ea app the original variable is too long, ignore only the gamepads i have
     };
   };
 in
