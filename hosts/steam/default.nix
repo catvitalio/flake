@@ -74,7 +74,6 @@ in
           "${protonWithFixes.steamcompattool}"
         ];
         PROTON_FSR4_UPGRADE = "1";
-        PROTON_USE_NTSYNC = "1";
       };
     };
   };
