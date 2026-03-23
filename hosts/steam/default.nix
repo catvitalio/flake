@@ -49,8 +49,6 @@ in
     };
   };
 
-  nixpkgs.overlays = [ nix-gaming-edge.overlays.mesa-git ];
-
   services = {
     desktopManager.plasma6.enable = true;
   };

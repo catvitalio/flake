@@ -32,6 +32,12 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;
+  };
+
   hardware = {
     enableRedistributableFirmware = true;
     cpu.amd.updateMicrocode = true;
@@ -40,6 +46,4 @@
       enable32Bit = true;
     };
   };
-
-  powerManagement.cpuFreqGovernor = "schedutil";
 }
