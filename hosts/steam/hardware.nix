@@ -21,6 +21,7 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
+      "ntsync"
     ];
     kernelParams = [
       "quiet"
