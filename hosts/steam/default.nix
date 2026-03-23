@@ -4,6 +4,7 @@
   config,
   secrets,
   nix-gaming-edge,
+  nix-cachyos-kernel,
   ...
 }:
 
@@ -35,6 +36,8 @@ in
     ./hardware.nix
     ./disko.nix
   ];
+
+  nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
 
   networking = {
     hostName = "steam";
