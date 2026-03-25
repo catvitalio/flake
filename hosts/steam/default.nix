@@ -20,6 +20,7 @@ let
     exports = {
       SteamDeck = "0"; # turn off steamdeck mode
       SteamGenericControllers = ""; # cut unneccessary long env var (ea app fix)
+      PROTON_FSR4_UPGRADE = "1";
     };
   };
 in
@@ -76,7 +77,6 @@ in
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.concatStringsSep ":" [
           "${protonWithFixes.steamcompattool}"
         ];
-        PROTON_FSR4_UPGRADE = "1";
       };
     };
   };
