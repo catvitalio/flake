@@ -28,4 +28,5 @@ lib.flatten [
   (import ./notion.nix)
   (import ./paw.nix)
   (import ./decky.nix)
+  (import ./ea.nix)
 ]
