@@ -86,6 +86,7 @@ in
   environment.systemPackages = with pkgs; [
     pkgs.wget
     pkgs.codex
+    pkgs.firefox
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
