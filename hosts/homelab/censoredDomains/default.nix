@@ -29,4 +29,5 @@ lib.flatten [
   (import ./paw.nix)
   (import ./decky.nix)
   (import ./ea.nix)
+  (import ./rockstar.nix)
 ]

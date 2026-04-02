@@ -1,0 +1,4 @@
+[
+  ".rockstargames.com"
+  ".rsg.sc"
+]
