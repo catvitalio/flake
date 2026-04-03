@@ -180,6 +180,24 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1705309234,
+        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "fmt-src": {
       "flake": false,
       "locked": {
@@ -215,6 +233,27 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "hysteria": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs_2",
+        "options-nix": "options-nix",
+        "src": "src"
+      },
+      "locked": {
+        "lastModified": 1738653383,
+        "narHash": "sha256-QRqrBordK8OlVOCugAxh/IFcN1Q7nqB73Ymz1cnFHbk=",
+        "owner": "eum3l",
+        "repo": "hysteria-nix",
+        "rev": "1a3ef62e4d0b5403c2e06ed28ecd1dfd85604d4a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "eum3l",
+        "repo": "hysteria-nix",
         "type": "github"
       }
     },
@@ -437,7 +476,7 @@
         "cachyos-kernel-patches": "cachyos-kernel-patches",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1774290535,
@@ -546,6 +585,37 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1719506693,
+        "narHash": "sha256-C8e9S7RzshSdHB7L+v9I51af1gDM5unhJ2xO1ywxNH8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "b2852eb9365c6de48ffb0dc2c9562591f652242a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1717362081,
+        "narHash": "sha256-fcOjRJzqQ85wdNrh58hPf6PiAq+3/r6srwQubLVk/Vo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "23ca552c959a0cd04b0f880884c04e4293c87986",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
         "lastModified": 1774235121,
         "narHash": "sha256-CzpSER+YKq4yD+RPom6Su9c/4FutF+sD4rEnls+4MyM=",
         "owner": "NixOS",
@@ -560,7 +630,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1774244481,
         "narHash": "sha256-4XfMXU0DjN83o6HWZoKG9PegCvKvIhNUnRUI19vzTcQ=",
@@ -573,6 +643,24 @@
         "owner": "NixOS",
         "ref": "nixos-25.11",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "options-nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1728216799,
+        "narHash": "sha256-4lIR3MRWYiw6uMwgm3ALCjtIytyLJzCzwnT4jNAngyw=",
+        "owner": "eum3l",
+        "repo": "options.nix",
+        "rev": "6d4d8012be73c460d485ee7b807d7c0fd0b14188",
+        "type": "github"
+      },
+      "original": {
+        "owner": "eum3l",
+        "repo": "options.nix",
         "type": "github"
       }
     },
@@ -597,10 +685,11 @@
       "inputs": {
         "agenix": "agenix",
         "disko": "disko",
+        "hysteria": "hysteria",
         "jovian": "jovian",
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_5",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "secrets": "secrets"
       }
@@ -621,7 +710,39 @@
         "url": "ssh://git@github.com/catvitalio/secrets.git"
       }
     },
+    "src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1738634727,
+        "narHash": "sha256-0vd1cV2E07EntiOE0wHrSe4e/SRqbFrXhyBRFGxU7xY=",
+        "owner": "apernet",
+        "repo": "hysteria",
+        "rev": "401ed5245d9bdfe0a35d629a8d977f256da07a75",
+        "type": "github"
+      },
+      "original": {
+        "owner": "apernet",
+        "ref": "app/v2.6.1",
+        "repo": "hysteria",
+        "type": "github"
+      }
+    },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

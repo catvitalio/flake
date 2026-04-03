@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hysteria.url = "github:eum3l/hysteria-nix";
 
     agenix.url = "github:ryantm/agenix";
 
@@ -35,6 +36,7 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
+      hysteria,
       agenix,
       disko,
       jovian,
@@ -47,11 +49,12 @@
       nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit self secrets;
+          inherit self secrets hysteria;
           agenix-cli = agenix.packages.x86_64-linux.default;
         };
         modules = [
           agenix.nixosModules.default
+          hysteria.nixosModules.default
           ./hosts/homelab
         ];
       };
@@ -72,6 +75,14 @@
           disko.nixosModules.disko
           jovian.nixosModules.default
           ./hosts/steam
+        ];
+      };
+
+      nixosConfigurations.vps = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/vps
         ];
       };
     };

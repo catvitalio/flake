@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  hysteria,
   secrets,
   ...
 }:
@@ -25,6 +26,7 @@ let
     "/${domain}/${censoredIp}"
     "/${domain}/::"
   ]) censoredDomains;
+
 in
 {
   services.dnsmasq.settings.address = lib.mkAfter censoredAddresses;
@@ -89,12 +91,6 @@ in
           domain_strategy = "prefer_ipv4";
         }
         {
-          type = "socks";
-          tag = "inbound:socks";
-          listen = constants.wireguard.address;
-          listen_port = constants.singBox.socksPort;
-        }
-        {
           type = "http";
           tag = "inbound:http";
           listen = constants.wireguard.address;
@@ -122,6 +118,21 @@ in
             action = "sniff";
           }
         ];
+      };
+    };
+  };
+
+  services.hysteria.client = {
+    enable = true;
+    package = hysteria.packages.${pkgs.system}.default;
+    settings = {
+      server = "${hysteria2.domain}:443";
+      auth = hysteria2.password;
+      tls = {
+        sni = hysteria2.domain;
+      };
+      socks5 = {
+        listen = "${constants.wireguard.address}:${toString constants.singBox.socksPort}";
       };
     };
   };
