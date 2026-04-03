@@ -28,7 +28,6 @@ in
   imports = [
     ../../dots/age
     ../../dots/common
-    ../../dots/fish
     ../../dots/locale
     ../../dots/ssh
     ../../dots/users

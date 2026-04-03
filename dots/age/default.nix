@@ -12,7 +12,9 @@
   ];
 
   age = {
-    identityPaths = [ "/home/v/.ssh/id_ed25519" ];
+    identityPaths = [
+      "/persist/ssh/id_ed25519"
+    ];
     secrets = {
       vPass = {
         file = "${secrets}/vPass.age";

@@ -80,7 +80,12 @@
 
       nixosConfigurations.vps = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = {
+          inherit self secrets;
+          agenix-cli = agenix.packages.x86_64-linux.default;
+        };
         modules = [
+          agenix.nixosModules.default
           disko.nixosModules.disko
           ./hosts/vps
         ];

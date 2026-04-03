@@ -11,7 +11,6 @@ in
   imports = [
     ../../dots/age
     ../../dots/nginx
-    ../../dots/fish
     ../../dots/locale
     ../../dots/nvim
     ../../dots/ssh
