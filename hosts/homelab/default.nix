@@ -4,9 +4,6 @@
   ...
 }:
 
-let
-  constants = import ./constants.nix;
-in
 {
   imports = [
     ../../dots/age
