@@ -6,6 +6,7 @@
 
 let
   wgInterface = "wg0";
+  networkInterface = "eno1";
   constants = import ./constants.nix;
   hysteria2 = import "${secrets}/hysteria2.nix";
 in
@@ -20,10 +21,6 @@ in
   services.sing-box = {
     enable = true;
     settings = {
-      log = {
-        level = "debug";
-      };
-
       dns = {
         servers = [
           {
@@ -63,12 +60,12 @@ in
         {
           type = "direct";
           tag = "outbound:direct";
-          bind_interface = "eno1";
+          bind_interface = networkInterface;
         }
         {
           type = "hysteria2";
           tag = "outbound:hy2";
-          bind_interface = "eno1";
+          bind_interface = networkInterface;
           server = hysteria2.domain;
           server_port = 443;
           password = hysteria2.password;
@@ -82,7 +79,7 @@ in
 
       route = {
         final = "outbound:hy2";
-        default_interface = "eno1";
+        default_interface = networkInterface;
         rules = [
           {
             type = "logical";
