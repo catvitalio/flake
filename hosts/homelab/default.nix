@@ -53,14 +53,5 @@ in
     pkgs.tcpdump
   ];
 
-  nix.settings = {
-    trusted-public-keys = [
-      "hysteria.cachix.org-1:zAG2qV/akrj0TPOf28gxWTDj57f8SuYjqjHw2u38vZI="
-    ];
-    substituters = [
-      "https://hysteria.cachix.org"
-    ];
-  };
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
