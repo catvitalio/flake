@@ -1,4 +1,0 @@
-[
-  ".medium.com"
-  ".medium.systems"
-]

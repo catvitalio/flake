@@ -1,4 +1,0 @@
-[
-  "paw.cloud"
-  "rapidapi.com"
-]

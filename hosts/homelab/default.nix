@@ -38,9 +38,6 @@ in
     docker.enable = true;
     oci-containers.backend = "docker";
   };
-  programs.fish.shellAliases = {
-    codex = "env https_proxy=http://${constants.wireguard.address}:${toString constants.singBox.httpPort} codex";
-  };
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
