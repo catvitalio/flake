@@ -24,11 +24,14 @@ in
       dns = {
         servers = [
           {
-            type = "local";
-            tag = "dns-direct";
+            type = "udp";
+            tag = "dns-dnsmasq";
+            server = "127.0.0.1";
+            server_port = 53;
+            detour = "outbound:direct";
           }
         ];
-        final = "dns-direct";
+        final = "dns-dnsmasq";
       };
 
       inbounds = [
@@ -82,12 +85,7 @@ in
         default_interface = networkInterface;
         rules = [
           {
-            type = "logical";
-            mode = "or";
-            rules = [
-              { protocol = "dns"; }
-              { port = 53; }
-            ];
+            protocol = "dns";
             action = "hijack-dns";
           }
           {
