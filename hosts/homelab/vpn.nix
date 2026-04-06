@@ -19,7 +19,7 @@ in
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
   services.sing-box = {
-    enable = true;
+    enable = false;
     settings = {
       dns = {
         servers = [
