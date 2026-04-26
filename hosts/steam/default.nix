@@ -38,19 +38,6 @@
     desktopManager.plasma6.enable = true;
   };
 
-  systemd.user.services.enable-steam-cef-debugging = {
-    description = "Enable Steam CEF debugging for Decky Loader";
-    before = [ "gamescope-session.service" ];
-    wantedBy = [ "gamescope-session.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = pkgs.writeShellScript "enable-steam-cef-debugging" ''
-        mkdir -p "$HOME/.steam/steam"
-        touch "$HOME/.steam/steam/.cef-enable-remote-debugging"
-      '';
-    };
-  };
-
   age.secrets.wireguardSteamKey = {
     file = "${secrets}/wireguardSteamKey.age";
     mode = "400";
@@ -67,13 +54,6 @@
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
-    };
-    decky-loader = {
-      enable = true;
-      user = "v";
-      extraPackages = with pkgs; [
-        systemd
-      ];
     };
   };
 
