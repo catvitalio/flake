@@ -28,7 +28,7 @@
       "systemd.show_status=false"
       "usbcore.autosuspend=-1"
     ];
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   zramSwap = {

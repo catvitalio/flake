@@ -22,8 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-
     secrets = {
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
@@ -39,7 +37,6 @@
       disko,
       jovian,
       nix-gaming-edge,
-      nix-cachyos-kernel,
       secrets,
       ...
     }:
@@ -63,7 +60,6 @@
             self
             secrets
             nix-gaming-edge
-            nix-cachyos-kernel
             ;
           agenix-cli = agenix.packages.x86_64-linux.default;
         };
