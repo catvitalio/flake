@@ -39,6 +39,7 @@
       "pcspkr"
     ];
     kernelParams = [
+      "irqpool"
       "amd_pstate=guided"
 
       "pcie.aspm=force"
@@ -78,7 +79,7 @@
   powerManagement = {
     enable = true;
     powertop.enable = true;
-    cpuFreqGovernor = "schedutil";
+    cpuFreqGovernor = "powersave";
   };
 
   environment.sessionVariables = {
