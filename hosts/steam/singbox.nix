@@ -1,10 +1,12 @@
-{ config, secrets, ... }:
+{ secrets, ... }:
 
 let
   networkInterface = "enp11s0";
+  tunInterface = "singbox0";
   hysteria2 = import "${secrets}/hysteria2.nix";
 in
 {
+  networking.firewall.trustedInterfaces = [ tunInterface ];
   services.sing-box = {
     enable = true;
     settings = {
@@ -22,8 +24,11 @@ in
         {
           type = "tun";
           tag = "inbound:tun";
-          interface_name = "singbox0";
-          address = "172.19.0.1/30";
+          interface_name = tunInterface;
+          address = [
+            "172.19.0.1/30"
+            "fdfe:dcba:9876::1/126"
+          ];
           auto_route = true;
           strict_route = true;
           auto_redirect = true;
@@ -68,6 +73,9 @@ in
               "169.254.0.0/16"
               "172.16.0.0/12"
               "192.168.0.0/16"
+              "::1/128"
+              "fc00::/7"
+              "fe80::/10"
             ];
             outbound = "outbound:direct";
           }

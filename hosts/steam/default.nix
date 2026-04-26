@@ -3,26 +3,9 @@
   pkgs,
   config,
   secrets,
-  nix-gaming-edge,
   ...
 }:
 
-let
-  protonCachyos = nix-gaming-edge.packages.${pkgs.system}.proton-cachyos;
-  mkWrappedProton = import ./mk-wrapped-proton.nix {
-    inherit lib pkgs protonCachyos;
-  };
-
-  protonWithFixes = mkWrappedProton {
-    name = "proton-cachyos-steamdeck0";
-    displayName = "Proton CachyOS";
-    exports = {
-      SteamDeck = "0"; # turn off steamdeck mode
-      SteamGenericControllers = ""; # cut unneccessary long env var (ea app fix)
-      PROTON_FSR4_UPGRADE = "1";
-    };
-  };
-in
 {
   imports = [
     ../../dots/age
@@ -35,6 +18,7 @@ in
     ./hardware.nix
     ./disko.nix
     ./singbox.nix
+    ./proton.nix
   ];
 
   networking = {
@@ -54,6 +38,19 @@ in
     desktopManager.plasma6.enable = true;
   };
 
+  systemd.user.services.enable-steam-cef-debugging = {
+    description = "Enable Steam CEF debugging for Decky Loader";
+    before = [ "gamescope-session.service" ];
+    wantedBy = [ "gamescope-session.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "enable-steam-cef-debugging" ''
+        mkdir -p "$HOME/.steam/steam"
+        touch "$HOME/.steam/steam/.cef-enable-remote-debugging"
+      '';
+    };
+  };
+
   age.secrets.wireguardSteamKey = {
     file = "${secrets}/wireguardSteamKey.age";
     mode = "400";
@@ -70,15 +67,15 @@ in
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
-      environment = {
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.concatStringsSep ":" [
-          "${protonWithFixes.steamcompattool}"
-        ];
-      };
+    };
+    decky-loader = {
+      enable = true;
+      user = "v";
+      extraPackages = with pkgs; [
+        systemd
+      ];
     };
   };
-
-  programs.steam.extraCompatPackages = [ protonWithFixes ];
 
   environment.systemPackages = with pkgs; [
     pkgs.wget
