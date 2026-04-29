@@ -7,7 +7,6 @@
     rcloneConfigFile = config.age.secrets.rcloneConf.path;
     paths = [
       "/var/lib/vaultwarden"
-      "/var/lib/couchdb"
     ];
     passwordFile = config.age.secrets.resticPass.path;
     timerConfig = {
