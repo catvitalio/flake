@@ -487,11 +487,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1777485763,
-        "narHash": "sha256-2GGuEk8AP90jzHigxJrwCTQHVIA8rRLneY1Nf0pxRNE=",
+        "lastModified": 1777486444,
+        "narHash": "sha256-6hWtn7UYkxC+WXu/WGI6nF5u4e1m6WzR9VWuo/6eNco=",
         "ref": "refs/heads/main",
-        "rev": "f28684377056d0821d55af35c48871774bd92fb2",
-        "revCount": 15,
+        "rev": "f46d612ceaf5478657905f840f68010904eb7b16",
+        "revCount": 16,
         "type": "git",
         "url": "ssh://git@github.com/catvitalio/secrets.git"
       },
