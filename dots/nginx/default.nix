@@ -3,6 +3,7 @@
 {
   services.nginx = {
     enable = true;
+    clientMaxBodySize = "100m";
     group = "acme";
   };
   security.acme = {
