@@ -16,7 +16,7 @@
     ../../dots/wireguard
     ./age.nix
     ./hardware.nix
-    ./vpn.nix
+    ./wireguard.nix
     ./dns.nix
     ./nextcloud.nix
     ./couchdb.nix

@@ -8,6 +8,9 @@
   };
   security.acme = {
     acceptTerms = true;
-    defaults.email = "catvitalio@gmail.com";
+    defaults = {
+      email = "catvitalio@gmail.com";
+      dnsResolver = "77.88.8.8:53";
+    };
   };
 }

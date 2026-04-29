@@ -29,7 +29,7 @@ in
   };
 
   security.acme.certs.${domain} = {
-    dnsProvider = "cloudflare";
+    dnsProvider = "timewebcloud";
     environmentFile = config.age.secrets.acmeEnv.path;
     reloadServices = [ "nginx" ];
   };
