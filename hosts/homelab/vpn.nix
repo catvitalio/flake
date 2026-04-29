@@ -19,7 +19,7 @@ in
   networking.firewall.trustedInterfaces = [ wgInterface ];
 
   services.sing-box = {
-    enable = false;
+    enable = true;
     settings = {
       dns = {
         servers = [
@@ -41,6 +41,9 @@ in
           interface_name = "singbox0";
           address = "172.19.0.1/30";
           auto_route = true;
+          route_exclude_address = [
+            "${constants.wireguard.address}/24"
+          ];
           strict_route = true;
           auto_redirect = true;
           stack = "system";
