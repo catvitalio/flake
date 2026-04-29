@@ -19,6 +19,7 @@
     ./vpn.nix
     ./dns.nix
     ./nextcloud.nix
+    ./couchdb.nix
     ./vaultwarden.nix
     ./restic.nix
   ];

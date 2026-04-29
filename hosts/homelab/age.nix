@@ -14,6 +14,12 @@
       owner = "acme";
       group = "acme";
     };
+    couchdbPass = {
+      file = "${secrets}/couchdbPass.age";
+      mode = "400";
+      owner = "couchdb";
+      group = "couchdb";
+    };
     resticPass = {
       file = "${secrets}/resticPass.age";
       mode = "400";
