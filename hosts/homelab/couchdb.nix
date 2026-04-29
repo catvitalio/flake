@@ -9,7 +9,6 @@ in
 {
   services.couchdb = {
     enable = true;
-    adminUser = "obsidian";
     bindAddress = address;
     extraConfigFiles = [ config.age.secrets.couchdbPass.path ];
     inherit port;
