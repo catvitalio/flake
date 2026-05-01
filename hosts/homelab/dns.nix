@@ -1,11 +1,14 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  ...
+}:
 
 let
   adguardDomain = "adguard.catvitalio.com";
   adguardAddress = "127.0.0.1";
   adguardPort = 5354;
   adguardDnsPort = 5353;
-  constants = import ./constants.nix;
 in
 {
   services.dnsmasq = {
@@ -72,7 +75,7 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${adguardDomain}/${constants.wireguard.address}"
+    "/${adguardDomain}/${config.my.wireguard.ipv4Address}"
   ];
 
 }

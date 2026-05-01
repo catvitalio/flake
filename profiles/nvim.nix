@@ -9,9 +9,9 @@
 
   environment.systemPackages = with pkgs; [
     neovim-remote
-    pkgs.ripgrep
-    pkgs.gcc
-    pkgs.lazygit
-    pkgs.cmake
+    ripgrep
+    gcc
+    lazygit
+    cmake
   ];
 }

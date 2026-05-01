@@ -6,14 +6,13 @@
 
 {
   imports = [
-    ../../dots/age
-    ../../dots/nginx
-    ../../dots/locale
-    ../../dots/nvim
-    ../../dots/ssh
-    ../../dots/users
-    ../../dots/common
-    ../../dots/wireguard
+    ../../profiles/age.nix
+    ../../profiles/common.nix
+    ../../profiles/locale.nix
+    ../../profiles/ssh.nix
+    ../../profiles/nvim.nix
+    ../../profiles/users.nix
+    ../../profiles/nginx.nix
     ./age.nix
     ./hardware.nix
     ./wireguard.nix
@@ -29,7 +28,6 @@
   networking = {
     hostName = "homelab";
     networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
     firewall.enable = true;
   };
   virtualisation = {
@@ -38,15 +36,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pkgs.wget
-    pkgs.nodejs
-    pkgs.codex
-    pkgs.iproute2
-    pkgs.dig
-    pkgs.pciutils
-    pkgs.intel-gpu-tools
-    pkgs.tcpdump
+    wget
+    nodejs
+    codex
+    iproute2
+    dig
+    pciutils
+    intel-gpu-tools
+    tcpdump
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

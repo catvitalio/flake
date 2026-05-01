@@ -40,35 +40,37 @@
       secrets,
       ...
     }:
+    let
+      system = "x86_64-linux";
+      mkHost = import ./lib/mk-host.nix {
+        inherit
+          self
+          secrets
+          agenix
+          system
+          ;
+      };
+    in
     {
-      nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit self secrets;
-          agenix-cli = agenix.packages.x86_64-linux.default;
-        };
-        modules = [
-          agenix.nixosModules.default
-          ./hosts/homelab
-        ];
+      nixosModules = {
+        singbox = import ./modules/singbox.nix;
+        wrappedProton = import ./modules/wrapped-proton.nix;
+        wireguard = import ./modules/wireguard.nix;
       };
 
-      nixosConfigurations.steam = nixpkgs-unstable.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit
-            self
-            secrets
-            nix-gaming-edge
-            ;
-          agenix-cli = agenix.packages.x86_64-linux.default;
+      nixosConfigurations = {
+        homelab = mkHost nixpkgs {
+          modules = [ ./hosts/homelab ];
         };
-        modules = [
-          agenix.nixosModules.default
-          disko.nixosModules.disko
-          jovian.nixosModules.default
-          ./hosts/steam
-        ];
+
+        steam = mkHost nixpkgs-unstable {
+          specialArgs = { inherit nix-gaming-edge; };
+          modules = [
+            disko.nixosModules.disko
+            jovian.nixosModules.default
+            ./hosts/steam
+          ];
+        };
       };
     };
 }

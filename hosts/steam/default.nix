@@ -8,17 +8,17 @@
 
 {
   imports = [
-    ../../dots/age
-    ../../dots/common
-    ../../dots/locale
-    ../../dots/ssh
-    ../../dots/users
-    ../../dots/nvim
-    ../../dots/wireguard
+    ../../profiles/age.nix
+    ../../profiles/common.nix
+    ../../profiles/locale.nix
+    ../../profiles/ssh.nix
+    ../../profiles/nvim.nix
+    ../../profiles/users.nix
     ./hardware.nix
     ./disko.nix
     ./singbox.nix
     ./proton.nix
+    ./wireguard.nix
   ];
 
   networking = {
@@ -26,12 +26,7 @@
     networkmanager.enable = true;
     networkmanager.insertNameservers = [ "10.100.0.2" ];
     interfaces.enp11s0.wakeOnLan.enable = true;
-    useDHCP = lib.mkDefault true;
     firewall.enable = false;
-    wireguard.interfaces.wg0 = {
-      ips = [ "10.100.0.5/32" ];
-      privateKeyFile = config.age.secrets.wireguardSteamKey.path;
-    };
   };
 
   services = {
@@ -58,11 +53,10 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pkgs.wget
-    pkgs.codex
-    pkgs.firefox
+    wget
+    codex
+    firefox
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   system.stateVersion = "26.05";
 }

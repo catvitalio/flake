@@ -7,7 +7,6 @@
 
 let
   domain = "nextcloud.catvitalio.com";
-  constants = import ./constants.nix;
 in
 {
   services.nextcloud = {
@@ -35,6 +34,6 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/${constants.wireguard.address}"
+    "/${domain}/${config.my.wireguard.ipv4Address}"
   ];
 }

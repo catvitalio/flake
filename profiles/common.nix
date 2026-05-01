@@ -8,12 +8,12 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    pkgs.nixfmt
-    pkgs.nixd
-    pkgs.just
-    pkgs.tree
-    pkgs.git
-    pkgs.htop
-    pkgs.fastfetch
+    nixfmt
+    nixd
+    just
+    tree
+    git
+    htop
+    fastfetch
   ];
 }

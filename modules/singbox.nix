@@ -60,11 +60,8 @@ in
     routeExcludeAddress = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
-        "192.168.1.0/24"
         "10.100.0.0/24"
-        "127.0.0.0/8"
         "100.64.0.0/10"
-        "127.0.0.0/8"
         "169.254.0.0/16"
         "172.16.0.0/12"
         "192.168.0.0/16"

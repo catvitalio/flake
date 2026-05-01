@@ -1,7 +1,7 @@
-{ ... }:
+{ self, ... }:
 
 {
-  imports = [ ../../modules/singbox.nix ];
+  imports = [ self.nixosModules.singbox ];
 
   my.singbox = {
     enable = true;

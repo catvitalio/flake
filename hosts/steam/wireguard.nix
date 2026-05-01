@@ -9,8 +9,8 @@
 
   my.wireguard = {
     enable = true;
-    ipv4Address = "10.100.0.2";
-    ipv4PrefixLength = 24;
-    privateKeyFile = config.age.secrets.wireguardKey.path;
+    ipv4Address = "10.100.0.5";
+    ipv4PrefixLength = 32;
+    privateKeyFile = config.age.secrets.wireguardSteamKey.path;
   };
 }
