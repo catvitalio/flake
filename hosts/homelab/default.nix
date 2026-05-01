@@ -37,8 +37,6 @@
 
   environment.systemPackages = with pkgs; [
     wget
-    nodejs
-    codex
     iproute2
     dig
     pciutils

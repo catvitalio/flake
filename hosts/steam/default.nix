@@ -54,7 +54,6 @@
 
   environment.systemPackages = with pkgs; [
     wget
-    codex
     firefox
   ];
 
