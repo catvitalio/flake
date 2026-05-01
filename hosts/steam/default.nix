@@ -12,6 +12,7 @@
     ../../dots/common
     ../../dots/locale
     ../../dots/ssh
+    ../../dots/ssh/woSleep.nix
     ../../dots/users
     ../../dots/nvim
     ../../dots/wireguard
