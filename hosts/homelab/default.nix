@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   ...
 }:
@@ -18,6 +17,7 @@
     ./wireguard.nix
     ./singbox.nix
     ./dns.nix
+    ./homepage.nix
     ./nextcloud.nix
     ./vaultwarden.nix
     ./restic.nix

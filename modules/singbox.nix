@@ -11,11 +11,32 @@ let
 in
 {
   options.my.singbox = {
-    enable = lib.mkEnableOption "sing-box tun outbound via Hysteria2";
+    enable = lib.mkEnableOption "sing-box proxy via Hysteria2";
+
+    mode = lib.mkOption {
+      type = lib.types.enum [
+        "tun"
+        "socks"
+      ];
+      default = "tun";
+      description = "Inbound mode. `tun` creates a TUN interface; `socks` exposes a SOCKS5 proxy.";
+    };
 
     networkInterface = lib.mkOption {
       type = lib.types.str;
       description = "Interface to bind direct and hysteria2 outbounds to.";
+    };
+
+    socksListenAddress = lib.mkOption {
+      type = lib.types.str;
+      default = "127.0.0.1";
+      description = "Listen address for the SOCKS5 inbound (mode=socks).";
+    };
+
+    socksListenPort = lib.mkOption {
+      type = lib.types.port;
+      default = 1080;
+      description = "Listen port for the SOCKS5 inbound (mode=socks).";
     };
 
     tunInterface = lib.mkOption {
@@ -86,7 +107,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    networking.firewall.trustedInterfaces = [ cfg.tunInterface ];
+    networking.firewall.trustedInterfaces = lib.mkIf (cfg.mode == "tun") [ cfg.tunInterface ];
 
     services.sing-box = {
       enable = true;
@@ -101,23 +122,32 @@ in
           final = "dns-direct";
         };
 
-        inbounds = [
-          (
+        inbounds =
+          lib.optionals (cfg.mode == "tun") [
+            (
+              {
+                type = "tun";
+                tag = "inbound:tun";
+                interface_name = cfg.tunInterface;
+                inherit (cfg) address;
+                auto_route = cfg.autoRoute;
+                auto_redirect = cfg.autoRedirect;
+                strict_route = cfg.strictRoute;
+              }
+              // lib.optionalAttrs (cfg.stack != null) { stack = cfg.stack; }
+              // lib.optionalAttrs (cfg.routeExcludeAddress != [ ]) {
+                route_exclude_address = cfg.routeExcludeAddress;
+              }
+            )
+          ]
+          ++ lib.optionals (cfg.mode == "socks") [
             {
-              type = "tun";
-              tag = "inbound:tun";
-              interface_name = cfg.tunInterface;
-              inherit (cfg) address;
-              auto_route = cfg.autoRoute;
-              auto_redirect = cfg.autoRedirect;
-              strict_route = cfg.strictRoute;
+              type = "socks";
+              tag = "inbound:socks";
+              listen = cfg.socksListenAddress;
+              listen_port = cfg.socksListenPort;
             }
-            // lib.optionalAttrs (cfg.stack != null) { stack = cfg.stack; }
-            // lib.optionalAttrs (cfg.routeExcludeAddress != [ ]) {
-              route_exclude_address = cfg.routeExcludeAddress;
-            }
-          )
-        ];
+          ];
 
         outbounds = [
           {
@@ -143,24 +173,19 @@ in
         route = {
           final = "outbound:hy2";
           default_interface = cfg.networkInterface;
-          rules = [
-            {
-              protocol = "dns";
-              action = "hijack-dns";
-            }
-          ]
-          ++ lib.optionals (cfg.directIpCidrs != [ ]) [
-            {
-              ip_cidr = cfg.directIpCidrs;
-              outbound = "outbound:direct";
-            }
-          ]
-          ++ [
-            {
-              rule_set = "geoip-ru";
-              outbound = "outbound:direct";
-            }
-          ];
+          rules =
+            lib.optionals (cfg.directIpCidrs != [ ]) [
+              {
+                ip_cidr = cfg.directIpCidrs;
+                outbound = "outbound:direct";
+              }
+            ]
+            ++ [
+              {
+                rule_set = "geoip-ru";
+                outbound = "outbound:direct";
+              }
+            ];
 
           rule_set = [
             {
