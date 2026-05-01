@@ -5,6 +5,6 @@
 
   my.singbox = {
     enable = true;
-    networkInterface = "enp11s0";
+    networkInterface = "eno1";
   };
 }

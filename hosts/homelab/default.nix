@@ -17,6 +17,7 @@
     ./age.nix
     ./hardware.nix
     ./wireguard.nix
+    ./singbox.nix
     ./dns.nix
     ./nextcloud.nix
     ./vaultwarden.nix
