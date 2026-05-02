@@ -19,7 +19,6 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v7
 
       - name: Setup SSH for private inputs
-        if: ${{ inputs.include_secrets == true }}
         shell: bash
         run: |
           set -euo pipefail
@@ -30,7 +29,6 @@ jobs:
           ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
 
       - name: Update flake.lock (including private inputs)
-        if: ${{ inputs.include_secrets == true }}
         uses: DeterminateSystems/update-flake-lock@v25
         with:
           pr-title: "chore(flake): update flake.lock (including secrets)"
