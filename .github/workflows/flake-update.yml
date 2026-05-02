@@ -2,13 +2,8 @@ name: Update flake.lock
 
 on:
   workflow_dispatch:
-    inputs:
-      include_secrets:
-        type: boolean
-        default: false
-        description: "Also update the private `secrets` input (requires SSH key access)."
   schedule:
-    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+    - cron: "0 3 * * *"
 
 permissions:
   contents: write
@@ -23,22 +18,6 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v12
       - uses: DeterminateSystems/magic-nix-cache-action@v7
 
-      - name: Update flake.lock (public inputs only)
-        if: ${{ inputs.include_secrets != true }}
-        uses: DeterminateSystems/update-flake-lock@v25
-        with:
-          pr-title: "chore(flake): update flake.lock"
-          pr-labels: |
-            dependencies
-            nix
-          inputs: |
-            agenix
-            disko
-            jovian
-            nix-gaming-edge
-            nixpkgs
-            nixpkgs-unstable
-
       - name: Setup SSH for private inputs
         if: ${{ inputs.include_secrets == true }}
         shell: bash
@@ -46,9 +25,9 @@ jobs:
           set -euo pipefail
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          printf '%s' "${{ secrets.FLAKE_UPDATE_SSH_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s' "${{ secrets.SECRETS_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
 
       - name: Update flake.lock (including private inputs)
         if: ${{ inputs.include_secrets == true }}
@@ -58,5 +37,3 @@ jobs:
           pr-labels: |
             dependencies
             nix
-          # When include_secrets=true we let it update everything, including `secrets`.
-
