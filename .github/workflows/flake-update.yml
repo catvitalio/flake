@@ -19,17 +19,22 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v12
       - uses: DeterminateSystems/magic-nix-cache-action@v7
 
+      - name: Setup SSH for private inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s' "${{ secrets.SECRETS_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts
+          ssh-keygen -y -f ~/.ssh/id_ed25519 > /dev/null
+
       - name: Update flake.lock
         shell: bash
         run: |
           set -euo pipefail
-          nix flake update \
-            agenix \
-            disko \
-            jovian \
-            nix-gaming-edge \
-            nixpkgs \
-            nixpkgs-unstable
+          nix flake update
 
       - name: Commit and push flake.lock
         shell: bash
