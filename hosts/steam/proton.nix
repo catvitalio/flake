@@ -7,13 +7,23 @@
   imports = [ self.nixosModules.wrappedProton ];
 
   my.wrappedProton = {
-    displayName = "Proton CachyOS";
-    name = "proton-cachyos";
-    enable = true;
-    exports = {
-      SteamDeck = "0"; # turn off steamdeck mode
-      SteamGenericControllers = ""; # cut unneccessary long env var (ea app fix)
-      PROTON_FSR4_UPGRADE = "1";
+    proton-cachyos = {
+      displayName = "Proton CachyOS";
+      enable = true;
+      exports = {
+        SteamDeck = "0";
+        SteamGenericControllers = ""; # fix EA App
+      };
+    };
+
+    proton-cachyos-fsr4 = {
+      displayName = "Proton CachyOS FSR4";
+      enable = true;
+      exports = {
+        SteamDeck = "0";
+        SteamGenericControllers = "";
+        PROTON_FSR4_UPGRADE = "1";
+      };
     };
   };
 }

@@ -1,9 +1,9 @@
 {
   lib,
   pkgs,
-  protonCachyos,
 }:
 {
+  protonPackage,
   name,
   displayName,
   exports ? { },
@@ -17,11 +17,11 @@ pkgs.runCommand name
   }
   ''
     mkdir -p "$steamcompattool"
-    cp -r ${protonCachyos.steamcompattool}/. "$steamcompattool"/
+    cp -r ${protonPackage.steamcompattool}/. "$steamcompattool"/
     chmod -R u+w "$steamcompattool"
 
     if [ ! -f "$steamcompattool/proton" ]; then
-      echo "proton launcher not found in ${protonCachyos.steamcompattool}" >&2
+      echo "proton launcher not found in ${protonPackage.steamcompattool}" >&2
       exit 1
     fi
 
