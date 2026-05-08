@@ -5,7 +5,10 @@ deploy host:
         --target-host root@{{host}} \
         --build-host root@{{host}}
 
-update-input input:
+update input:
     nix flake update {{input}}
 
-update-secrets: (update-input "secrets")
+update-secrets: (update "secrets")
+
+clean host:
+    ssh root@{{host}} 'nix-collect-garbage -d'
