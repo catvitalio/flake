@@ -45,7 +45,7 @@
       enable = true;
       enable32Bit = true;
     };
-    bluetoth = {
+    bluetooth = {
       enable = true;
       powerOnBoot = true;
 
