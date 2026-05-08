@@ -5,6 +5,9 @@ deploy host:
         --target-host root@{{host}} \
         --build-host root@{{host}}
 
+deploy-steam: (deploy "steam")
+deploy-homelab: (deploy "homelab")
+
 update input:
     nix flake update {{input}}
 
