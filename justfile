@@ -1,16 +1,9 @@
-rebuild host *args:
-    sudo nixos-rebuild switch --flake .#{{ host }} {{ args }}
-
-update-flake *args:
-    nix flake update {{ args }}
-
-update host:
-    just update-flake
-    just rebuild {{ host }}
-
-update-secrets:
-    nix flake lock --update-input secrets
-
-backup *args:
-    restic-important {{ args }}
+deploy host:
+    nix run nixpkgs#nixos-rebuild -- \
+        switch \
+        --flake .#{{host}} \
+        --target-host v@{{ host }} \
+        --build-host v@{{ host }} \
+        --sudo \
+        --ask-sudo-password
 
