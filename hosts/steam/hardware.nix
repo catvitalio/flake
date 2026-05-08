@@ -27,7 +27,6 @@
       "udev.log_level=3"
       "systemd.show_status=false"
       "usbcore.autosuspend=-1"
-      "btusb.enable_autosuspend=0"
     ];
     kernelPackages = pkgs.linuxPackages_latest;
   };
@@ -44,22 +43,6 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-    };
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-
-      settings = {
-        General = {
-          Experimental = true;
-          FastConnectable = true;
-          AutoEnable = true;
-        };
-
-        Policy = {
-          AutoEnable = true;
-        };
-      };
     };
   };
 }
