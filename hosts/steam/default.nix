@@ -32,7 +32,7 @@
     desktopManager.plasma6.enable = true;
   };
 
-  steam.cachyosKernel = {
+  my.cachyosKernel = {
     enable = true;
     package = "linuxPackages-cachyos-latest-zen4";
   };

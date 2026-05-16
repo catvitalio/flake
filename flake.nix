@@ -63,6 +63,7 @@
     in
     {
       nixosModules = {
+        cachyosKernel = import ./modules/cachyos-kernel.nix;
         singbox = import ./modules/singbox.nix;
         wrappedProton = import ./modules/wrapped-proton.nix;
         wireguard = import ./modules/wireguard.nix;
@@ -80,7 +81,7 @@
           modules = [
             disko.nixosModules.disko
             jovian.nixosModules.default
-            ./hosts/steam/cachyos-kernel.nix
+            self.nixosModules.cachyosKernel
             ./hosts/steam
           ];
         };

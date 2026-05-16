@@ -7,11 +7,11 @@
 }:
 
 let
-  cfg = config.steam.cachyosKernel;
+  cfg = config.my.cachyosKernel;
 in
 {
-  options.steam.cachyosKernel = {
-    enable = lib.mkEnableOption "CachyOS kernel for the steam host";
+  options.my.cachyosKernel = {
+    enable = lib.mkEnableOption "CachyOS kernel";
 
     package = lib.mkOption {
       type = lib.types.str;
