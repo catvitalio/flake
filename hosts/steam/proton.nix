@@ -7,8 +7,8 @@
   imports = [ self.nixosModules.wrappedProton ];
 
   my.wrappedProton = {
-    proton-cachyos = {
-      displayName = "Proton CachyOS";
+    cachyos = {
+      displayName = "CachyOS";
       enable = true;
       exports = {
         SteamDeck = "0";
@@ -16,8 +16,8 @@
       };
     };
 
-    proton-cachyos-fsr4 = {
-      displayName = "Proton CachyOS FSR4";
+    cachyos-fsr4 = {
+      displayName = "CachyOS FSR4";
       enable = true;
       exports = {
         SteamDeck = "0";
@@ -25,5 +25,6 @@
         PROTON_FSR4_UPGRADE = "1";
       };
     };
+
   };
 }
