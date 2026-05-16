@@ -1,7 +1,5 @@
 {
-  lib,
   pkgs,
-  config,
   secrets,
   ...
 }:
@@ -19,6 +17,7 @@
     ./singbox.nix
     ./proton.nix
     ./wireguard.nix
+    ./lact.nix
   ];
 
   networking = {
@@ -31,6 +30,11 @@
 
   services = {
     desktopManager.plasma6.enable = true;
+  };
+
+  steam.cachyosKernel = {
+    enable = true;
+    package = "linuxPackages-cachyos-latest-zen4";
   };
 
   age.secrets.wireguardSteamKey = {

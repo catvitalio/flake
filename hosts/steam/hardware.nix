@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   boot = {
@@ -28,7 +28,7 @@
       "systemd.show_status=false"
       "usbcore.autosuspend=-1"
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   };
 
   zramSwap = {
