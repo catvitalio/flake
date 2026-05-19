@@ -34,6 +34,6 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/${config.my.wireguard.ipv4Address}"
+    "/${domain}/10.100.0.2"
   ];
 }

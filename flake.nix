@@ -64,9 +64,7 @@
     {
       nixosModules = {
         cachyosKernel = import ./modules/cachyos-kernel.nix;
-        singbox = import ./modules/singbox.nix;
         wrappedProton = import ./modules/wrapped-proton.nix;
-        wireguard = import ./modules/wireguard.nix;
       };
 
       nixosConfigurations = {

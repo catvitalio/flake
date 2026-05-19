@@ -14,9 +14,7 @@
     ../../profiles/users.nix
     ./hardware.nix
     ./disko.nix
-    ./singbox.nix
     ./proton.nix
-    ./wireguard.nix
     ./lact.nix
   ];
 

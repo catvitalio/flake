@@ -33,7 +33,6 @@ in
         bind_hosts = [ adguardAddress ];
         port = adguardDnsPort;
         upstream_dns = [
-          "https://common.dot.dns.yandex.net/dns-query"
           "https://dns.google/dns-query"
           "https://cloudflare-dns.com/dns-query"
         ];
@@ -75,7 +74,7 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${adguardDomain}/${config.my.wireguard.ipv4Address}"
+    "/${adguardDomain}/10.100.0.2"
   ];
 
 }
