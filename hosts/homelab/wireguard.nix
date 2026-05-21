@@ -13,6 +13,7 @@ in
   networking.wireguard.interfaces = {
     ${homeInterface} = {
       ips = [ "10.100.0.2/24" "fd00:100::2/64" ];
+      mtu = 1410;
       privateKeyFile = config.age.secrets.wireguardKey.path;
       peers = [
         {
@@ -25,6 +26,7 @@ in
     };
     ${workInterface} = {
       ips = [ work.address ];
+      mtu = 1410;
       privateKeyFile = config.age.secrets.wireguardWorkKey.path;
       peers = work.peers;
     };
