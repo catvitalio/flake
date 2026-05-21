@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   secrets,
   ...
 }:
@@ -9,7 +8,6 @@ let
   homeInterface = "wg0";
   workInterface = "wg1";
   work = import "${secrets}/work.nix";
-  iptables = "${pkgs.iptables}/bin/iptables";
 in
 {
   networking.wireguard.interfaces = {
@@ -29,8 +27,6 @@ in
       ips = [ work.address ];
       privateKeyFile = config.age.secrets.wireguardWorkKey.path;
       peers = work.peers;
-      postSetup = "${iptables} -t nat -A POSTROUTING -o wg1 -j MASQUERADE";
-      postShutdown = "${iptables} -t nat -D POSTROUTING -o wg1 -j MASQUERADE 2>/dev/null || true";
     };
   };
 
@@ -38,6 +34,12 @@ in
     homeInterface
     workInterface
   ];
+
+  networking.firewall.extraCommands = ''
+    iptables -t nat -A POSTROUTING -o ${workInterface} -j MASQUERADE
+    iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+    ip6tables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+  '';
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
