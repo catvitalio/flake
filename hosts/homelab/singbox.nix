@@ -41,6 +41,7 @@ in
             "169.254.0.0/16"
             "172.16.0.0/12"
             "192.168.0.0/16"
+            "77.88.8.8/32"
             "::1/128"
             "fc00::/7"
             "fe80::/10"
@@ -76,6 +77,12 @@ in
           {
             protocol = "dns";
             action = "hijack-dns";
+          }
+          {
+            domain = [
+              "common.dot.dns.yandex.net"
+            ];
+            outbound = "outbound:direct";
           }
           {
             rule_set = "geoip-ru";

@@ -1,4 +1,9 @@
-{ lib, config, secrets, ... }:
+{
+  lib,
+  config,
+  secrets,
+  ...
+}:
 
 let
   work = import "${secrets}/work.nix";
@@ -34,6 +39,7 @@ in
         bind_hosts = [ adguardAddress ];
         port = adguardDnsPort;
         upstream_dns = [
+          "https://common.dot.dns.yandex.net/dns-query"
           "https://dns.google/dns-query"
           "https://cloudflare-dns.com/dns-query"
         ];
