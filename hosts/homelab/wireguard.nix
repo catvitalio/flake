@@ -15,13 +15,18 @@ in
 {
   networking.wireguard.interfaces = {
     ${homeInterface} = {
-      ips = [ "10.100.0.2/24" "fd00:100::2/64" ];
-      mtu = 1410;
+      ips = [
+        "10.100.0.2/24"
+        "fd00:100::2/64"
+      ];
       privateKeyFile = config.age.secrets.wireguardKey.path;
       peers = [
         {
           publicKey = "mL2pYNjMdCjaW1CCFTVxeKUIbjlv3/Bg5vw0yfEO6H8=";
-          allowedIPs = [ "10.100.0.0/24" "fd00:100::/64" ];
+          allowedIPs = [
+            "10.100.0.0/24"
+            "fd00:100::/64"
+          ];
           endpoint = "192.168.1.1:51820";
           persistentKeepalive = 25;
         }
@@ -37,7 +42,6 @@ in
     };
     ${workInterface} = {
       ips = [ work.address ];
-      mtu = 1410;
       privateKeyFile = config.age.secrets.wireguardWorkKey.path;
       peers = work.peers;
       postSetup = "${iptables} -t nat -A POSTROUTING -o ${workInterface} -j MASQUERADE";
