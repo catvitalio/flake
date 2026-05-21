@@ -32,5 +32,11 @@
       owner = "root";
       group = "root";
     };
+    wireguardWorkKey = {
+      file = "${secrets}/wireguardWorkKey.age";
+      mode = "400";
+      owner = "root";
+      group = "root";
+    };
   };
 }

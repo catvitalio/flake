@@ -1,8 +1,8 @@
-{
-  lib,
-  config,
-  ...
-}:
+{ lib, config, secrets, ... }:
+
+let
+  work = import "${secrets}/work.nix";
+in
 
 let
   adguardDomain = "adguard.catvitalio.com";
@@ -20,6 +20,7 @@ in
       port = 53;
       server = [
         "${adguardAddress}#${toString adguardDnsPort}"
+        "/${work.domain_suffix}/${work.dns_server}"
       ];
     };
   };

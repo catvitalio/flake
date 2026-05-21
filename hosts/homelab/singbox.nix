@@ -2,6 +2,7 @@
 
 let
   hysteria2 = import "${secrets}/hysteria2.nix";
+  work = import "${secrets}/work.nix";
 in
 {
   networking.firewall.trustedInterfaces = [ "singbox0" ];
@@ -34,6 +35,7 @@ in
           strict_route = false;
           sniff = true;
           route_exclude_address = [
+            work.subnet
             "10.100.0.0/24"
             "100.64.0.0/10"
             "169.254.0.0/16"
