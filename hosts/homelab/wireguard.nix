@@ -1,12 +1,19 @@
-{ config, pkgs, secrets, ... }:
+{
+  config,
+  pkgs,
+  secrets,
+  ...
+}:
 
 let
+  homeInterface = "wg0";
+  workInterface = "wg1";
   work = import "${secrets}/work.nix";
   iptables = "${pkgs.iptables}/bin/iptables";
 in
 {
   networking.wireguard.interfaces = {
-    wg0 = {
+    ${homeInterface} = {
       ips = [ "10.100.0.2/24" ];
       privateKeyFile = config.age.secrets.wireguardKey.path;
       peers = [
@@ -18,7 +25,7 @@ in
         }
       ];
     };
-    wg1 = {
+    ${workInterface} = {
       ips = [ work.address ];
       privateKeyFile = config.age.secrets.wireguardWorkKey.path;
       peers = work.peers;
@@ -28,8 +35,8 @@ in
   };
 
   networking.firewall.trustedInterfaces = [
-    "wg0"
-    "wg1"
+    homeInterface
+    workInterface
   ];
 
   boot.kernel.sysctl = {
