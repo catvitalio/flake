@@ -21,7 +21,6 @@
   networking = {
     hostName = "steam";
     networkmanager.enable = true;
-    networkmanager.insertNameservers = [ "10.100.0.2" ];
     interfaces.enp11s0.wakeOnLan.enable = true;
     firewall.enable = false;
   };
