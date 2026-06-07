@@ -26,5 +26,15 @@
       };
     };
 
+    cachyos-forza = {
+      displayName = "CachyOS Forza";
+      enable = true;
+      exports = {
+        SteamDeck = "0";
+        VKD3D_CONFIG = "enable_experimental_features,descriptor_heap";
+        PROTON_VKD3D_HEAP = "1";
+      };
+    };
+
   };
 }
