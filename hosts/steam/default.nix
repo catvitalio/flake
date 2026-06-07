@@ -16,6 +16,7 @@
     ./disko.nix
     ./proton.nix
     ./lact.nix
+    ./wireguard.nix
   ];
 
   networking = {
