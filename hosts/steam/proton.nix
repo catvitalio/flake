@@ -31,8 +31,9 @@
       enable = true;
       exports = {
         SteamDeck = "0";
-        VKD3D_CONFIG = "enable_experimental_features,descriptor_heap";
-        PROTON_VKD3D_HEAP = "1";
+        RADV_EXPERIMENTAL = "heap";
+        MESA_SHADER_CACHE_MAX_SIZE = "10G";
+        radv_wait_for_vm_map_updates = "true";
       };
     };
 
