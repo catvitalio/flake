@@ -30,10 +30,6 @@
     networkmanager.enable = true;
     firewall.enable = true;
   };
-  virtualisation = {
-    docker.enable = true;
-    oci-containers.backend = "docker";
-  };
 
   environment.systemPackages = with pkgs; [
     wget
