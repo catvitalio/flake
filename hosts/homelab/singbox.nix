@@ -85,6 +85,10 @@ in
             outbound = "outbound:direct";
           }
           {
+            rule_set = "geosite-microsoft";
+            outbound = "outbound:hy2";
+          }
+          {
             rule_set = "geoip-ru";
             outbound = "outbound:direct";
           }
@@ -94,6 +98,13 @@ in
             type = "remote";
             tag = "geoip-ru";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-microsoft";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-microsoft.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
