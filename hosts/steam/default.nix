@@ -30,11 +30,6 @@
     desktopManager.plasma6.enable = true;
   };
 
-  my.cachyosKernel = {
-    enable = true;
-    package = "linuxPackages-cachyos-latest-zen4";
-  };
-
   age.secrets.wireguardSteamKey = {
     file = "${secrets}/wireguardSteamKey.age";
     mode = "400";

@@ -1,13 +1,6 @@
 {
   description = "NixOS configuration flake";
 
-  nixConfig = {
-    extra-substituters = [ "https://attic.xuyh0120.win/lantian" ];
-    extra-trusted-public-keys = [
-      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-    ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -23,8 +16,6 @@
       url = "github:Jovian-Experiments/Jovian-NixOS";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     nix-gaming-edge = {
       url = "github:powerofthe69/nix-gaming-edge";
@@ -45,7 +36,6 @@
       agenix,
       disko,
       jovian,
-      nix-cachyos-kernel,
       nix-gaming-edge,
       secrets,
       ...
@@ -63,7 +53,6 @@
     in
     {
       nixosModules = {
-        cachyosKernel = import ./modules/cachyos-kernel.nix;
         wrappedProton = import ./modules/wrapped-proton.nix;
       };
 
@@ -74,12 +63,11 @@
 
         steam = mkHost nixpkgs-unstable {
           specialArgs = {
-            inherit nix-cachyos-kernel nix-gaming-edge;
+            inherit nix-gaming-edge;
           };
           modules = [
             disko.nixosModules.disko
             jovian.nixosModules.default
-            self.nixosModules.cachyosKernel
             ./hosts/steam
           ];
         };
