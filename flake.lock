@@ -92,11 +92,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781344759,
-        "narHash": "sha256-S6UBeQM7NLaQX6RZYS65fMypWfRQL/F4iRu0y8sTLPc=",
+        "lastModified": 1781714346,
+        "narHash": "sha256-eSkLPid3Pb7ki5OivCp0UQIVSZHgs35lR93IBbS06oY=",
         "owner": "Jovian-Experiments",
         "repo": "Jovian-NixOS",
-        "rev": "ffac737e4117f7e9f070d38078801a5433f19d5b",
+        "rev": "928678675f4093383a0503b0e6c2f9965fe37309",
         "type": "github"
       },
       "original": {
@@ -112,11 +112,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781484277,
-        "narHash": "sha256-7PjIuTfn4s1LcOmU+5CWCmjJ/yPHCnN2EI5aW+gWLJA=",
+        "lastModified": 1781671719,
+        "narHash": "sha256-SRwbEpIDKnZhatoUs92tjGzJQ8mCy251UtJ98RL1cpk=",
         "owner": "powerofthe69",
         "repo": "nix-gaming-edge",
-        "rev": "f30b99e7d761b20469e175310be796aa47fba6af",
+        "rev": "491c29d0490f8eb29ab7391a902eee0c035553bd",
         "type": "github"
       },
       "original": {
