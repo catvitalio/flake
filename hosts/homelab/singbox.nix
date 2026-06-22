@@ -85,8 +85,20 @@ in
             outbound = "outbound:direct";
           }
           {
-            rule_set = "geosite-microsoft";
+            rule_set = [
+              "geosite-microsoft"
+              "geosite-openai"
+              "geosite-anthropic"
+            ];
             outbound = "outbound:hy2";
+          }
+          {
+            rule_set = [
+              "geosite-ea"
+              "geosite-origin"
+              "geosite-steam"
+            ];
+            outbound = "outbound:direct";
           }
           {
             rule_set = "geoip-ru";
@@ -105,6 +117,41 @@ in
             type = "remote";
             tag = "geosite-microsoft";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-microsoft.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-openai";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-anthropic";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-anthropic.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-ea";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ea.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-origin";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-steam";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
