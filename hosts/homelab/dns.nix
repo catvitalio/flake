@@ -81,7 +81,7 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${adguardDomain}/10.100.0.2"
+    "/${adguardDomain}/127.0.0.1"
   ];
 
 }

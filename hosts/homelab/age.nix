@@ -38,11 +38,5 @@
       owner = "root";
       group = "root";
     };
-    amneziawgKey = {
-      file = "${secrets}/amneziawgKey.age";
-      mode = "400";
-      owner = "root";
-      group = "root";
-    };
   };
 }

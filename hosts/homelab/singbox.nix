@@ -1,12 +1,21 @@
-{ secrets, ... }:
+{ config, secrets, ... }:
 
 let
   hysteria2 = import "${secrets}/hysteria2.nix";
   work = import "${secrets}/work.nix";
+  hy2Inbound = import "${secrets}/hy2Inbound.nix";
 in
 {
   networking.firewall.trustedInterfaces = [ "singbox0" ];
   networking.firewall.checkReversePath = "loose";
+  networking.firewall.allowedUDPPorts = [ 443 ];
+
+  security.acme.certs.${hy2Inbound.domain} = {
+    dnsProvider = "timewebcloud";
+    environmentFile = config.age.secrets.acmeEnv.path;
+    reloadServices = [ "sing-box" ];
+    group = "sing-box";
+  };
 
   services.sing-box = {
     enable = true;
@@ -36,7 +45,6 @@ in
           sniff = true;
           route_exclude_address = [
             work.subnet
-            "10.100.0.0/24"
             "100.64.0.0/10"
             "169.254.0.0/16"
             "172.16.0.0/12"
@@ -47,6 +55,19 @@ in
             "fe80::/10"
           ];
         }
+        {
+          type = "hysteria2";
+          tag = "inbound:hy2-mobile";
+          listen = "::";
+          listen_port = 443;
+          users = [ { password = hy2Inbound.password; } ];
+          tls = {
+            enabled = true;
+            alpn = [ "h3" ];
+            certificate_path = "/var/lib/acme/${hy2Inbound.domain}/fullchain.pem";
+            key_path = "/var/lib/acme/${hy2Inbound.domain}/key.pem";
+          };
+        }
       ];
 
       outbounds = [
@@ -54,6 +75,10 @@ in
           type = "direct";
           tag = "outbound:direct";
           bind_interface = "eno1";
+        }
+        {
+          type = "direct";
+          tag = "outbound:local";
         }
         {
           type = "hysteria2";
@@ -79,8 +104,20 @@ in
             action = "hijack-dns";
           }
           {
+            domain_suffix = [ ".catvitalio.com" ];
+            outbound = "outbound:local";
+          }
+          {
             domain = [
               "common.dot.dns.yandex.net"
+            ];
+            outbound = "outbound:direct";
+          }
+          {
+            domain_suffix = [
+              "avito.ru"
+              "avito.st"
+              "uxfeedback.ru"
             ];
             outbound = "outbound:direct";
           }
@@ -96,7 +133,6 @@ in
             rule_set = [
               "geosite-ea"
               "geosite-origin"
-              "geosite-steam"
             ];
             outbound = "outbound:direct";
           }
@@ -112,6 +148,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
+            lazy = true;
           }
           {
             type = "remote";
@@ -119,6 +156,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-microsoft.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
+            lazy = true;
           }
           {
             type = "remote";
@@ -126,6 +164,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
+            lazy = true;
           }
           {
             type = "remote";
@@ -133,6 +172,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-anthropic.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
+            lazy = true;
           }
           {
             type = "remote";
@@ -140,6 +180,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ea.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
+            lazy = true;
           }
           {
             type = "remote";
@@ -147,13 +188,7 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
-          }
-          {
-            type = "remote";
-            tag = "geosite-steam";
-            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam.srs";
-            download_detour = "outbound:hy2";
-            update_interval = "24h0m0s";
+            lazy = true;
           }
         ];
       };
