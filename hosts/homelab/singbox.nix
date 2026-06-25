@@ -1,21 +1,12 @@
-{ config, secrets, ... }:
+{ secrets, ... }:
 
 let
   hysteria2 = import "${secrets}/hysteria2.nix";
   work = import "${secrets}/work.nix";
-  hy2Inbound = import "${secrets}/hy2Inbound.nix";
 in
 {
   networking.firewall.trustedInterfaces = [ "singbox0" ];
   networking.firewall.checkReversePath = "loose";
-  networking.firewall.allowedUDPPorts = [ 443 ];
-
-  security.acme.certs.${hy2Inbound.domain} = {
-    dnsProvider = "timewebcloud";
-    environmentFile = config.age.secrets.acmeEnv.path;
-    reloadServices = [ "sing-box" ];
-    group = "sing-box";
-  };
 
   services.sing-box = {
     enable = true;
@@ -54,19 +45,6 @@ in
             "fc00::/7"
             "fe80::/10"
           ];
-        }
-        {
-          type = "hysteria2";
-          tag = "inbound:hy2-mobile";
-          listen = "::";
-          listen_port = 443;
-          users = [ { password = hy2Inbound.password; } ];
-          tls = {
-            enabled = true;
-            alpn = [ "h3" ];
-            certificate_path = "/var/lib/acme/${hy2Inbound.domain}/fullchain.pem";
-            key_path = "/var/lib/acme/${hy2Inbound.domain}/key.pem";
-          };
         }
       ];
 
