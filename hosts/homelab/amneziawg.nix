@@ -16,11 +16,24 @@ let
   ipt = "${pkgs.iptables}/bin/iptables";
   socat = "${pkgs.socat}/bin/socat";
 
-  configureScript = pkgs.writeShellScript "awg-configure" ''
+  startScript = pkgs.writeShellScript "awg-start" ''
+    # Wait for age secret
+    i=0
+    while [ ! -f "${config.age.secrets.amneziawgKey.path}" ] && [ "$i" -lt 10 ]; do
+      sleep 1; i=$((i + 1))
+    done
+    [ -f "${config.age.secrets.amneziawgKey.path}" ] || { echo "secret not found"; exit 1; }
+
+    # Remove stale interface if any
+    ${ip} link delete ${interface} 2>/dev/null || true
+
+    # Create interface (exits immediately when kernel module is available)
+    ${pkgs.amneziawg-go}/bin/amneziawg-go ${interface}
+
+    # Wait for UAPI socket (kernel module keeps it alive)
     i=0
     while [ ! -S "${sock}" ] && [ "$i" -lt 15 ]; do
-      sleep 1
-      i=$((i + 1))
+      sleep 1; i=$((i + 1))
     done
     [ -S "${sock}" ] || { echo "awg socket not ready"; exit 1; }
 
@@ -31,14 +44,14 @@ let
       "$PRIV_HEX" | ${socat} - UNIX-CONNECT:${sock}
 
     ${ip} addr add ${serverIp}/24 dev ${interface}
-    ${ip} route replace ${mobileIp}/32 dev ${interface}
     ${ip} link set ${interface} up
+    ${ip} route replace ${mobileIp}/32 dev ${interface}
 
     ${ipt} -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
     ${ipt} -t nat -A POSTROUTING -s ${subnet} ! -o ${interface} -j MASQUERADE
   '';
 
-  cleanupScript = pkgs.writeShellScript "awg-cleanup" ''
+  stopScript = pkgs.writeShellScript "awg-stop" ''
     ${ipt} -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu 2>/dev/null || true
     ${ipt} -t nat -D POSTROUTING -s ${subnet} ! -o ${interface} -j MASQUERADE 2>/dev/null || true
     ${ip} link delete ${interface} 2>/dev/null || true
@@ -51,15 +64,12 @@ in
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      Type = "simple";
-      Restart = "on-failure";
-      RestartSec = "5s";
+      Type = "oneshot";
+      RemainAfterExit = true;
       RuntimeDirectory = "amneziawg";
       RuntimeDirectoryMode = "0700";
-      ExecStartPre = "-${ip} link delete ${interface}";
-      ExecStart = "${pkgs.amneziawg-go}/bin/amneziawg-go ${interface}";
-      ExecStartPost = "${configureScript}";
-      ExecStopPost = "${cleanupScript}";
+      ExecStart = startScript;
+      ExecStop = stopScript;
     };
   };
 
