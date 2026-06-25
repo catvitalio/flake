@@ -8,7 +8,7 @@ in
 {
   networking.firewall.trustedInterfaces = [ "singbox0" ];
   networking.firewall.checkReversePath = "loose";
-  networking.firewall.allowedUDPPorts = [ 443 ];
+  networking.firewall.allowedUDPPorts = [ 47891 ];
 
   security.acme.certs.${hy2Inbound.domain} = {
     dnsProvider = "timewebcloud";
@@ -59,7 +59,7 @@ in
           type = "hysteria2";
           tag = "inbound:hy2-mobile";
           listen = "::";
-          listen_port = 443;
+          listen_port = 47891;
           users = [ { password = hy2Inbound.password; } ];
           tls = {
             enabled = true;
@@ -85,7 +85,7 @@ in
           tag = "outbound:hy2";
           bind_interface = "eno1";
           server = hysteria2.domain;
-          server_port = 443;
+          server_port = 47891;
           password = hysteria2.password;
           tls = {
             enabled = true;
