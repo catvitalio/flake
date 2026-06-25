@@ -15,6 +15,7 @@
     ./age.nix
     ./hardware.nix
     ./wireguard.nix
+    ./amneziawg.nix
     ./singbox.nix
     ./dns.nix
     ./homepage.nix
