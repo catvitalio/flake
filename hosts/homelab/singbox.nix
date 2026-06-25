@@ -146,49 +146,43 @@ in
             type = "remote";
             tag = "geoip-ru";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
             tag = "geosite-microsoft";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-microsoft.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
             tag = "geosite-openai";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
             tag = "geosite-anthropic";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-anthropic.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
             tag = "geosite-ea";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ea.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
             tag = "geosite-origin";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
-            download_detour = "outbound:hy2";
+            download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
         ];
       };
