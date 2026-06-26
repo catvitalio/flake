@@ -52,6 +52,10 @@ in
         publicKey = "b1/FwJYCTsUN5d/fV4fKHh9K44Am6u+4HbxKbT1ApgI=";
         allowedIPs = [ "10.100.0.10/32" ];
       }
+      {
+        publicKey = "+h6TarsS2HU3lf6ZG9gv60qChyO40tuW1rn+iqLIYSo=";
+        allowedIPs = [ "10.100.0.11/32" ];
+      }
     ];
   };
 
