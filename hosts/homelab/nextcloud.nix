@@ -34,6 +34,6 @@ in
   };
 
   services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/127.0.0.1"
+    "/${domain}/10.100.0.1"
   ];
 }

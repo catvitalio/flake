@@ -36,6 +36,7 @@ in
           sniff = true;
           route_exclude_address = [
             work.subnet
+            "10.100.0.0/24"
             "100.64.0.0/10"
             "169.254.0.0/16"
             "172.16.0.0/12"
@@ -76,6 +77,7 @@ in
       route = {
         final = "outbound:hy2";
         default_interface = "eno1";
+        default_mark = 200;
         rules = [
           {
             protocol = "dns";
