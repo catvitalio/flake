@@ -10,6 +10,7 @@ let
   iptables = "${pkgs.iptables}/bin/iptables";
 in
 {
+  boot.extraModulePackages = with config.boot.kernelPackages; [ amneziawg ];
   environment.systemPackages = with pkgs; [ amneziawg-tools ];
 
   networking.wireguard.interfaces.wg1 = {
@@ -20,18 +21,31 @@ in
     postShutdown = "${iptables} -t nat -D POSTROUTING -o wg1 -j MASQUERADE 2>/dev/null || true";
   };
 
-  networking.wireguard.interfaces.awg0 = {
-    ips = [ "10.100.0.1/24" ];
+  networking.wg-quick.interfaces.awg0 = {
+    type = "amneziawg";
+    address = [ "10.100.0.1/24" ];
     listenPort = 47891;
     privateKeyFile = config.age.secrets.wireguardKey.path;
     mtu = 1280;
 
-    postSetup = ''
+    postUp = ''
       ${iptables} -t nat -A POSTROUTING -s 10.100.0.0/24 ! -o awg0 -j MASQUERADE
     '';
-    postShutdown = ''
+    preDown = ''
       ${iptables} -t nat -D POSTROUTING -s 10.100.0.0/24 ! -o awg0 -j MASQUERADE 2>/dev/null || true
     '';
+
+    extraOptions = {
+      Jc = 4;
+      Jmin = 40;
+      Jmax = 70;
+      S1 = 0;
+      S2 = 0;
+      H1 = 1;
+      H2 = 2;
+      H3 = 3;
+      H4 = 4;
+    };
 
     peers = [
       {
