@@ -54,7 +54,6 @@
     {
       nixosModules = {
         wrappedProton = import ./modules/wrapped-proton.nix;
-        amneziawgServer = import ./modules/amneziawg-server.nix;
       };
 
       nixosConfigurations = {
