@@ -28,7 +28,6 @@
       "systemd.show_status=false"
       "usbcore.autosuspend=-1"
     ];
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   };
 
   zramSwap = {
