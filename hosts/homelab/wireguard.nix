@@ -60,6 +60,10 @@ in
         publicKey = "sTvH3WJ8OHwBynHwdBmhuiaLT7bOniFFu0MowpOk2Vk=";
         allowedIPs = [ "10.100.0.12/32" ];
       }
+      {
+        publicKey = "aevcJc31KAERcLYbJJVIAosRppFTyKsBv0aH71wAIS8=";
+        allowedIPs = [ "10.100.0.13/32" ];
+      }
     ];
   };
 

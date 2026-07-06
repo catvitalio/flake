@@ -1,23 +1,40 @@
 {
   config,
+  pkgs,
   ...
 }:
 
 {
-  networking.wireguard.interfaces.wg0 = {
-    ips = [
-      "10.100.0.5/24"
-      "fd00:100::5/64"
-    ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ amneziawg ];
+  environment.systemPackages = with pkgs; [ amneziawg-tools ];
+
+  networking.wg-quick.interfaces.awg0 = {
+    type = "amneziawg";
+    address = [ "10.100.0.13/32" ];
+    dns = [ "10.100.0.1" ];
+    mtu = 1280;
     privateKeyFile = config.age.secrets.wireguardSteamKey.path;
+
+    extraOptions = {
+      Jc = 4;
+      Jmin = 40;
+      Jmax = 70;
+      S1 = 0;
+      S2 = 0;
+      H1 = 1;
+      H2 = 2;
+      H3 = 3;
+      H4 = 4;
+    };
+
     peers = [
       {
-        publicKey = "mL2pYNjMdCjaW1CCFTVxeKUIbjlv3/Bg5vw0yfEO6H8=";
+        publicKey = "TkdsA32GzAWl2GTESZgJeoTwIodaDvSzYTCuvy9oRRk=";
         allowedIPs = [
-          "10.100.0.0/24"
-          "fd00:100::/64"
+          "0.0.0.0/0"
+          "::/0"
         ];
-        endpoint = "192.168.1.1:51820";
+        endpoint = "192.168.1.118:47891";
         persistentKeepalive = 25;
       }
     ];
