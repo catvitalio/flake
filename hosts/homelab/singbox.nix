@@ -1,8 +1,14 @@
-{ pkgs, secrets, config, ... }:
+{
+  pkgs,
+  secrets,
+  config,
+  ...
+}:
 
 let
   hysteria2 = import "${secrets}/hysteria2.nix";
   work = import "${secrets}/work.nix";
+  dns = import ../../profiles/dns.nix;
   domain = "clash.catvitalio.com";
 in
 {
@@ -18,6 +24,12 @@ in
             type = "udp";
             tag = "dns-dnsmasq";
             server = "127.0.0.1";
+          }
+          {
+            type = "udp";
+            tag = "dns-bootstrap";
+            server = dns.bootstrap;
+            detour = "outbound:direct";
           }
         ];
         final = "dns-dnsmasq";
@@ -38,12 +50,12 @@ in
           sniff = true;
           route_exclude_address = [
             work.subnet
+            "${dns.bootstrap}/32"
             "10.100.0.0/24"
             "100.64.0.0/10"
             "169.254.0.0/16"
             "172.16.0.0/12"
             "192.168.0.0/16"
-            "77.88.8.8/32"
             "::1/128"
             "fc00::/7"
             "fe80::/10"
@@ -56,6 +68,7 @@ in
           type = "direct";
           tag = "outbound:direct";
           bind_interface = "eno1";
+          domain_resolver = "dns-bootstrap";
         }
         {
           type = "direct";
@@ -65,6 +78,7 @@ in
           type = "hysteria2";
           tag = "outbound:hy2";
           bind_interface = "eno1";
+          domain_resolver = "dns-bootstrap";
           server = hysteria2.domain;
           server_port = 443;
           password = hysteria2.password;
@@ -87,6 +101,7 @@ in
         final = "outbound:hy2";
         default_interface = "eno1";
         default_mark = 200;
+        default_domain_resolver = "dns-dnsmasq";
         rules = [
           {
             protocol = "dns";
@@ -95,12 +110,6 @@ in
           {
             domain_suffix = [ ".catvitalio.com" ];
             outbound = "outbound:local";
-          }
-          {
-            domain = [
-              "common.dot.dns.yandex.net"
-            ];
-            outbound = "outbound:direct";
           }
           {
             domain_suffix = [

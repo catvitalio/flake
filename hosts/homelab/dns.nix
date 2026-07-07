@@ -7,6 +7,7 @@
 
 let
   work = import "${secrets}/work.nix";
+  dns = import ../../profiles/dns.nix;
 in
 
 let
@@ -43,6 +44,7 @@ in
           "https://dns.google/dns-query"
           "https://cloudflare-dns.com/dns-query"
         ];
+        bootstrap_dns = [ dns.bootstrap ];
         upstream_mode = "parallel";
       };
       filtering = {
