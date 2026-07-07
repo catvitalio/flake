@@ -115,6 +115,7 @@ in
               "geosite-ea"
               "geosite-origin"
               "geosite-steam"
+              "geosite-apple"
             ];
             outbound = "outbound:direct";
           }
@@ -170,6 +171,13 @@ in
             type = "remote";
             tag = "geosite-steam";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam.srs";
+            download_detour = "outbound:direct";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-apple";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
           }
