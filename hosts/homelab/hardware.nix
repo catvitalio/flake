@@ -15,10 +15,9 @@
     kernelModules = [
       "i915"
       "kvm-amd"
-      "amd-pstate"
     ];
     kernelParams = [
-      "acpi=noirq"
+      "amd_pstate=active"
     ];
     blacklistedKernelModules = [ "pcspkr" ];
   };
