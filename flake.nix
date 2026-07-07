@@ -58,7 +58,10 @@
 
       nixosConfigurations = {
         homelab = mkHost nixpkgs {
-          modules = [ ./hosts/homelab ];
+          modules = [
+            disko.nixosModules.disko
+            ./hosts/homelab
+          ];
         };
 
         steam = mkHost nixpkgs-unstable {

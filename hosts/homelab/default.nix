@@ -13,6 +13,7 @@
     ../../profiles/users.nix
     ../../profiles/nginx.nix
     ./age.nix
+    ./disko.nix
     ./hardware.nix
     ./wireguard.nix
     ./singbox.nix
