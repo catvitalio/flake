@@ -60,6 +60,14 @@ in
         publicKey = "sTvH3WJ8OHwBynHwdBmhuiaLT7bOniFFu0MowpOk2Vk=";
         allowedIPs = [ "10.100.0.12/32" ];
       }
+    ];
+  };
+
+  networking.wireguard.interfaces.wg0 = {
+    ips = [ "10.100.0.1/32" ];
+    listenPort = 51820;
+    privateKeyFile = config.age.secrets.wireguardKey.path;
+    peers = [
       {
         publicKey = "aevcJc31KAERcLYbJJVIAosRppFTyKsBv0aH71wAIS8=";
         allowedIPs = [ "10.100.0.13/32" ];
@@ -67,7 +75,7 @@ in
     ];
   };
 
-  networking.firewall.allowedUDPPorts = [ 47891 ];
-  networking.firewall.trustedInterfaces = [ "wg1" "awg0" ];
+  networking.firewall.allowedUDPPorts = [ 47891 51820 ];
+  networking.firewall.trustedInterfaces = [ "wg1" "awg0" "wg0" ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 }

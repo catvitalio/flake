@@ -22,6 +22,7 @@
       "kvm-amd"
       "amdgpu"
     ];
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
       "quiet"
       "udev.log_level=3"
@@ -39,6 +40,7 @@
   hardware = {
     enableRedistributableFirmware = true;
     cpu.amd.updateMicrocode = true;
+    xpadneo.enable = true;
     graphics = {
       enable = true;
       enable32Bit = true;
