@@ -27,6 +27,7 @@ in
           type = "tun";
           tag = "inbound:tun";
           interface_name = "singbox0";
+          stack = "system";
           address = [
             "172.19.0.1/30"
             "fdfe:dcba:9876::1/126"
