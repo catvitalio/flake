@@ -18,7 +18,7 @@
       "amd-pstate"
     ];
     kernelParams = [
-      "irqpoll"
+      "acpi=noirq"
     ];
     blacklistedKernelModules = [ "pcspkr" ];
   };
