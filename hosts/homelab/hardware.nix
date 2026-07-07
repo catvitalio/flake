@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 {
   boot = {
     loader.systemd-boot.enable = true;
@@ -46,7 +45,6 @@
 
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
-    INTEL_MEDIA_RUNTIME_DEFAULT_PROFILE = "low-power";
     GST_VAAPI_ALL_DRIVERS = "1";
   };
 }
