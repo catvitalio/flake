@@ -1,8 +1,9 @@
-{ secrets, ... }:
+{ pkgs, secrets, config, ... }:
 
 let
   hysteria2 = import "${secrets}/hysteria2.nix";
   work = import "${secrets}/work.nix";
+  domain = "clash.catvitalio.com";
 in
 {
   networking.firewall.trustedInterfaces = [ "singbox0" ];
@@ -74,6 +75,13 @@ in
           };
         }
       ];
+
+      experimental = {
+        clash_api = {
+          external_controller = "127.0.0.1:9090";
+          external_ui = "${pkgs.metacubexd}";
+        };
+      };
 
       route = {
         final = "outbound:hy2";
@@ -185,4 +193,24 @@ in
       };
     };
   };
+
+  services.nginx.virtualHosts.${domain} = {
+    useACMEHost = domain;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:9090";
+      proxyWebsockets = true;
+    };
+    locations."= /" = {
+      return = "301 /ui/";
+    };
+  };
+
+  security.acme.certs.${domain} = {
+    dnsProvider = "timewebcloud";
+    environmentFile = config.age.secrets.acmeEnv.path;
+    reloadServices = [ "nginx" ];
+  };
+
+  services.dnsmasq.settings.address = [ "/${domain}/10.100.0.1" ];
 }
