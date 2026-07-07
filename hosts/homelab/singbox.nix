@@ -128,7 +128,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
@@ -136,7 +135,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-microsoft.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
@@ -144,7 +142,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
@@ -152,7 +149,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-anthropic.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
@@ -160,7 +156,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ea.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
           {
             type = "remote";
@@ -168,7 +163,6 @@ in
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
-            lazy = true;
           }
         ];
       };
