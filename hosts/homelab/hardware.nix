@@ -17,6 +17,9 @@
       "kvm-amd"
       "amd-pstate"
     ];
+    kernelParams = [
+      "irqpoll"
+    ];
     blacklistedKernelModules = [ "pcspkr" ];
   };
 
