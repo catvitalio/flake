@@ -114,6 +114,7 @@ in
             rule_set = [
               "geosite-ea"
               "geosite-origin"
+              "geosite-steam"
             ];
             outbound = "outbound:direct";
           }
@@ -162,6 +163,13 @@ in
             type = "remote";
             tag = "geosite-origin";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
+            download_detour = "outbound:direct";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-steam";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
           }
