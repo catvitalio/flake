@@ -39,7 +39,7 @@
 
   powerManagement = {
     enable = true;
-    powertop.enable = true;
+    powerUpCommands = "echo on > /sys/bus/pci/devices/0000:04:00.0/power/control";
     cpuFreqGovernor = "powersave";
   };
 
