@@ -10,8 +10,11 @@
     peers = [
       {
         publicKey = "TkdsA32GzAWl2GTESZgJeoTwIodaDvSzYTCuvy9oRRk=";
-        allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        endpoint = "192.168.1.118:51820";
+        allowedIPs = [
+          "0.0.0.0/0"
+          "::/0"
+        ];
+        endpoint = "192.168.1.2:51820";
         persistentKeepalive = 25;
       }
     ];
