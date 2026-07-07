@@ -45,6 +45,7 @@ in
           "https://cloudflare-dns.com/dns-query"
         ];
         bootstrap_dns = [ dns.bootstrap ];
+        fallback_dns = [ dns.bootstrap ];
         upstream_mode = "parallel";
       };
       filtering = {
