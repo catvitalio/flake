@@ -108,18 +108,6 @@ in
             action = "hijack-dns";
           }
           {
-            domain_suffix = [ ".catvitalio.com" ];
-            outbound = "outbound:local";
-          }
-          {
-            domain_suffix = [
-              "avito.ru"
-              "avito.st"
-              "uxfeedback.ru"
-            ];
-            outbound = "outbound:direct";
-          }
-          {
             rule_set = [
               "geosite-microsoft"
               "geosite-openai"
@@ -128,16 +116,18 @@ in
             outbound = "outbound:hy2";
           }
           {
+            domain_suffix = [
+              "avito.ru"
+              "avito.st"
+              "uxfeedback.ru"
+            ];
             rule_set = [
               "geosite-ea"
               "geosite-origin"
               "geosite-steam"
               "geosite-apple"
+              "geoip-ru"
             ];
-            outbound = "outbound:direct";
-          }
-          {
-            rule_set = "geoip-ru";
             outbound = "outbound:direct";
           }
         ];
