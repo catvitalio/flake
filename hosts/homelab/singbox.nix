@@ -41,10 +41,7 @@ in
           tag = "inbound:tun";
           interface_name = "singbox0";
           stack = "system";
-          address = [
-            "172.19.0.1/30"
-            "fdfe:dcba:9876::1/126"
-          ];
+          address = [ "172.19.0.1/30" ];
           auto_route = true;
           strict_route = false;
           sniff = true;
@@ -56,9 +53,6 @@ in
             "169.254.0.0/16"
             "172.16.0.0/12"
             "192.168.0.0/16"
-            "::1/128"
-            "fc00::/7"
-            "fe80::/10"
           ];
         }
       ];
