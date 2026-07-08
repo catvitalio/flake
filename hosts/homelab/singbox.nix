@@ -110,20 +110,14 @@ in
             outbound = "outbound:hy2";
           }
           {
-            domain_suffix = [
-              "avito.ru"
-              "avito.st"
-              "uxfeedback.ru"
-              "ozon.ru"
-              "ozon.com"
-              "ozonusercontent.com"
-            ];
             rule_set = [
+              "geoip-ru"
               "geosite-ea"
               "geosite-origin"
               "geosite-steam"
               "geosite-apple"
-              "geoip-ru"
+              "geosite-avito"
+              "geosite-ozon"
             ];
             outbound = "outbound:direct";
           }
@@ -182,6 +176,20 @@ in
             type = "remote";
             tag = "geosite-apple";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple.srs";
+            download_detour = "outbound:direct";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-avito";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-avito.srs";
+            download_detour = "outbound:direct";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-ozon";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ozon.srs";
             download_detour = "outbound:direct";
             update_interval = "24h0m0s";
           }
