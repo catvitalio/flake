@@ -120,6 +120,9 @@ in
               "avito.ru"
               "avito.st"
               "uxfeedback.ru"
+              "ozon.ru"
+              "ozon.com"
+              "ozonusercontent.com"
             ];
             rule_set = [
               "geosite-ea"
