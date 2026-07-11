@@ -8,7 +8,7 @@ deploy host:
 deploy-steam: (deploy "steam")
 deploy-homelab: (deploy "homelab")
 
-update input:
+update input="":
     nix flake update {{input}}
 
 update-secrets: (update "secrets")
