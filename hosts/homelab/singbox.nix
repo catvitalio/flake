@@ -19,6 +19,7 @@ in
     enable = true;
     settings = {
       dns = {
+        strategy = "ipv4_only";
         servers = [
           {
             type = "udp";
@@ -40,7 +41,8 @@ in
           type = "tun";
           tag = "inbound:tun";
           interface_name = "singbox0";
-          stack = "system";
+          mtu = 1280;
+          stack = "gvisor";
           address = [ "172.19.0.1/30" ];
           auto_route = true;
           strict_route = false;
@@ -98,13 +100,6 @@ in
         default_domain_resolver = "dns-dnsmasq";
         rules = [
           {
-            domain_suffix = [
-              ".ozon.ru"
-              ".ozone.ru"
-              ".ozonru.me"
-              ".ozonusercontent.com"
-              ".ru"
-            ];
             rule_set = [
               "geoip-ru"
               "geosite-ea"
@@ -120,35 +115,35 @@ in
             type = "remote";
             tag = "geoip-ru";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs";
-            download_detour = "outbound:direct";
+            download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
           {
             type = "remote";
             tag = "geosite-ea";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-ea.srs";
-            download_detour = "outbound:direct";
+            download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
           {
             type = "remote";
             tag = "geosite-origin";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-origin.srs";
-            download_detour = "outbound:direct";
+            download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
           {
             type = "remote";
             tag = "geosite-steam";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-steam.srs";
-            download_detour = "outbound:direct";
+            download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
           {
             type = "remote";
             tag = "geosite-apple";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple.srs";
-            download_detour = "outbound:direct";
+            download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
         ];
