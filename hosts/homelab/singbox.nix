@@ -98,6 +98,13 @@ in
         default_domain_resolver = "dns-dnsmasq";
         rules = [
           {
+            domain_suffix = [
+              ".ozon.ru"
+              ".ozone.ru"
+              ".ozonru.me"
+              ".ozonusercontent.com"
+              ".ru"
+            ];
             rule_set = [
               "geoip-ru"
               "geosite-ea"
