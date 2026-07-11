@@ -106,6 +106,7 @@ in
               "geosite-origin"
               "geosite-steam"
               "geosite-apple"
+              "geosite-alibaba"
             ];
             outbound = "outbound:direct";
           }
@@ -143,6 +144,13 @@ in
             type = "remote";
             tag = "geosite-apple";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-apple.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-alibaba";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-alibaba.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
