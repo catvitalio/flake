@@ -67,6 +67,8 @@ in
     ips = [ "10.100.0.1/32" ];
     listenPort = 51820;
     privateKeyFile = config.age.secrets.wireguardKey.path;
+    mtu = 1280;
+
     peers = [
       {
         publicKey = "aevcJc31KAERcLYbJJVIAosRppFTyKsBv0aH71wAIS8=";
@@ -79,7 +81,14 @@ in
     ];
   };
 
-  networking.firewall.allowedUDPPorts = [ 47891 51820 ];
-  networking.firewall.trustedInterfaces = [ "wg1" "awg0" "wg0" ];
+  networking.firewall.allowedUDPPorts = [
+    47891
+    51820
+  ];
+  networking.firewall.trustedInterfaces = [
+    "wg1"
+    "awg0"
+    "wg0"
+  ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 }
