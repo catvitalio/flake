@@ -107,6 +107,7 @@ in
               "geosite-steam"
               "geosite-apple"
               "geosite-alibaba"
+              "geosite-epicgames"
             ];
             outbound = "outbound:direct";
           }
@@ -151,6 +152,13 @@ in
             type = "remote";
             tag = "geosite-alibaba";
             url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-alibaba.srs";
+            download_detour = "outbound:hy2";
+            update_interval = "24h0m0s";
+          }
+          {
+            type = "remote";
+            tag = "geosite-epicgames";
+            url = "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-epicgames.srs";
             download_detour = "outbound:hy2";
             update_interval = "24h0m0s";
           }
