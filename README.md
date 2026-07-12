@@ -28,18 +28,6 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **Restic** - Automated backup solution
 - **Nginx** - Reverse proxy
 
-## Steam Machine
-
-<div align="center"><img src="assets/steam-machine.png" width="300px"></div>
-
-### Hardware
-- Ryzen 5 7500f
-- MSI PRO B650M-B
-- 32GB RAM
-- 2TB SSD
-- Radeon RX9070XT
-- Lian Li A3 Case
-
 ## Installation
 
 Disk partitioning (example for steam machine):

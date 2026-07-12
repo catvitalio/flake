@@ -3,24 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     agenix.url = "github:ryantm/agenix";
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    jovian = {
-      url = "github:Jovian-Experiments/Jovian-NixOS";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    nix-gaming-edge = {
-      url = "github:powerofthe69/nix-gaming-edge";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    disko.url = "github:nix-community/disko";
 
     secrets = {
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
@@ -32,11 +16,8 @@
     {
       self,
       nixpkgs,
-      nixpkgs-unstable,
       agenix,
       disko,
-      jovian,
-      nix-gaming-edge,
       secrets,
       ...
     }:
@@ -52,10 +33,6 @@
       };
     in
     {
-      nixosModules = {
-        wrappedProton = import ./modules/wrapped-proton.nix;
-      };
-
       nixosConfigurations = {
         homelab = mkHost nixpkgs {
           modules = [
@@ -64,16 +41,6 @@
           ];
         };
 
-        steam = mkHost nixpkgs-unstable {
-          specialArgs = {
-            inherit nix-gaming-edge;
-          };
-          modules = [
-            disko.nixosModules.disko
-            jovian.nixosModules.default
-            ./hosts/steam
-          ];
-        };
       };
     };
 }
