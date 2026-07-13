@@ -17,6 +17,7 @@ in
     ips = [ work.address ];
     privateKeyFile = config.age.secrets.wireguardWorkKey.path;
     peers = work.peers;
+    mtu = 1412;
     postSetup = "${iptables} -t nat -A POSTROUTING -o wg1 -j MASQUERADE";
     postShutdown = "${iptables} -t nat -D POSTROUTING -o wg1 -j MASQUERADE 2>/dev/null || true";
   };
@@ -71,7 +72,7 @@ in
 
     peers = [
       {
-        publicKey = "aevcJc31KAERcLYbJJVIAosRppFTyKsBv0aH71wAIS8=";
+        publicKey = "qjpE7kN417Pb+aPozERnhs2F01jaOc9PPZx+NPhQYns=";
         allowedIPs = [ "10.100.0.13/32" ];
       }
       {
