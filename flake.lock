@@ -100,11 +100,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1783791668,
-        "narHash": "sha256-zbcZ1dmBTPfJ7Mlqh/yLEPGpgJnwuv4Xr1xucy2WqMA=",
+        "lastModified": 1780930886,
+        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "716c7a2664ca8325617b8a7fbb609273f2c4cae7",
+        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
         "type": "github"
       },
       "original": {
@@ -141,11 +141,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1782410167,
-        "narHash": "sha256-E24orVIGQ84ZLaV1lhVApHYRKOn0u3TwfHuGUk2J30o=",
+        "lastModified": 1783818131,
+        "narHash": "sha256-Sb/MpJSaE710jqVbrwvxOdVy5PqCBWuNxaLxfN91zSM=",
         "ref": "refs/heads/main",
-        "rev": "2408c267e33d6dbc2ed765209777e097e1c56254",
-        "revCount": 24,
+        "rev": "9b731efed25aeba652e377bd569e18b87c255d63",
+        "revCount": 27,
         "type": "git",
         "url": "ssh://git@github.com/catvitalio/secrets.git"
       },
