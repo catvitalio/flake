@@ -41,7 +41,6 @@ in
           address = [ "172.19.0.1/30" ];
           auto_route = true;
           strict_route = false;
-          sniff = true;
           route_exclude_address = [
             work.subnet
             "${dns.bootstrap}/32"
@@ -94,6 +93,9 @@ in
         default_mark = 200;
         default_domain_resolver = "dns-dnsmasq";
         rules = [
+          {
+            action = "sniff";
+          }
           {
             rule_set = [
               "geoip-ru"
