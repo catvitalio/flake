@@ -37,7 +37,7 @@
         homelab = mkHost nixpkgs {
           modules = [
             disko.nixosModules.disko
-            ./modules/reverse-proxy.nix
+            ./lib/reverse-proxy.nix
             ./hosts/homelab
           ];
         };
