@@ -1,9 +1,4 @@
-{
-  lib,
-  config,
-  secrets,
-  ...
-}:
+{ config, secrets, ... }:
 
 let
   work = import "${secrets}/work.nix";
@@ -66,22 +61,6 @@ in
     };
   };
 
-  services.nginx.virtualHosts.${adguardDomain} = {
-    useACMEHost = adguardDomain;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://${adguardAddress}:${toString adguardPort}";
-    };
-  };
-
-  security.acme.certs.${adguardDomain} = {
-    dnsProvider = "timewebcloud";
-    environmentFile = config.age.secrets.acmeEnv.path;
-    reloadServices = [ "nginx" ];
-  };
-
-  services.dnsmasq.settings.address = lib.mkAfter [
-    "/${adguardDomain}/10.100.0.1"
-  ];
+  my.reverseProxy.${adguardDomain}.proxyPass = "http://${adguardAddress}:${toString adguardPort}";
 
 }

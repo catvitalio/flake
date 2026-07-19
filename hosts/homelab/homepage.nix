@@ -1,8 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}:
+{ config, ... }:
 
 let
   domain = "dash.catvitalio.com";
@@ -64,22 +60,8 @@ in
     ];
   };
 
-  services.nginx.virtualHosts.${domain} = {
-    useACMEHost = domain;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
-      proxyWebsockets = true;
-    };
+  my.reverseProxy.${domain} = {
+    proxyPass = "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
+    proxyWebsockets = true;
   };
-
-  security.acme.certs.${domain} = {
-    dnsProvider = "timewebcloud";
-    environmentFile = config.age.secrets.acmeEnv.path;
-    reloadServices = [ "nginx" ];
-  };
-
-  services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/10.100.0.1"
-  ];
 }

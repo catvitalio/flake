@@ -24,6 +24,8 @@
     ./restic.nix
   ];
 
+  my.reverseProxy.ip = "10.100.0.1";
+
   system.stateVersion = "26.05";
 
   networking = {

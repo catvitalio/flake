@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ ... }:
 
 let
   domain = "bitwarden.catvitalio.com";
@@ -16,21 +16,5 @@ in
     };
   };
 
-  services.nginx.virtualHosts.${domain} = {
-    useACMEHost = domain;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://${address}:${toString port}";
-    };
-  };
-
-  security.acme.certs.${domain} = {
-    dnsProvider = "timewebcloud";
-    environmentFile = config.age.secrets.acmeEnv.path;
-    reloadServices = [ "nginx" ];
-  };
-
-  services.dnsmasq.settings.address = lib.mkAfter [
-    "/${domain}/10.100.0.1"
-  ];
+  my.reverseProxy.${domain}.proxyPass = "http://${address}:${toString port}";
 }
