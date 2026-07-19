@@ -55,6 +55,12 @@ in
               description = "Passwords";
             };
           }
+          {
+            "SingBox" = {
+              href = "https://clash.catvitalio.com";
+              description = "SingBox";
+            };
+          }
         ];
       }
     ];
