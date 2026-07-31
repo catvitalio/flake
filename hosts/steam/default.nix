@@ -49,6 +49,10 @@
     };
   };
 
+  fonts.packages = with pkgs; [
+    noto-fonts-cjk-sans
+  ];
+
   environment.systemPackages = with pkgs; [
     wget
     firefox
