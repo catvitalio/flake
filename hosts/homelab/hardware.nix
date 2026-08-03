@@ -11,6 +11,7 @@
       "usb_storage"
       "sd_mod"
     ];
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
       "i915"
       "kvm-amd"
