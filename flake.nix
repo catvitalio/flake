@@ -47,10 +47,6 @@
       };
     in
     {
-      nixosModules = {
-        wrappedProton = import ./modules/wrapped-proton.nix;
-      };
-
       nixosConfigurations = {
         homelab = mkHost nixpkgs {
           modules = [
