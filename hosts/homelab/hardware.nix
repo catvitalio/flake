@@ -11,13 +11,13 @@
       "usb_storage"
       "sd_mod"
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
       "i915"
       "kvm-amd"
     ];
     kernelParams = [
       "amd_pstate=active"
+      "nvme_core.default_ps_max_latency_us=0"
     ];
     blacklistedKernelModules = [ "pcspkr" ];
   };
