@@ -3,6 +3,7 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    initrd.systemd.enable = false;
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
@@ -17,7 +18,6 @@
     ];
     kernelParams = [
       "amd_pstate=active"
-      "nvme_core.default_ps_max_latency_us=0"
     ];
     blacklistedKernelModules = [ "pcspkr" ];
   };
