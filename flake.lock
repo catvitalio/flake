@@ -110,11 +110,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786231929,
-        "narHash": "sha256-krfP/J4xUFDr/T6o5oMiCy7IGqvaRLokstSDmQFRlbw=",
+        "lastModified": 1786428119,
+        "narHash": "sha256-sCAjVSiYtBpKtT/Q9JFK5T8B4CLIeFr4rruAwrcQFAU=",
         "owner": "powerofthe69",
         "repo": "nix-gaming-edge",
-        "rev": "6ae0fee80ff098ed0fdba7fc82f3ba14b6b51947",
+        "rev": "af50bffbedd61bd5414627e08c4c9158ca08f2b2",
         "type": "github"
       },
       "original": {
@@ -163,11 +163,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1786106723,
-        "narHash": "sha256-zDSUbpoeo/9ZmD2+wXnzxoo1+uhL8vxc0b8yuYMKYq0=",
+        "lastModified": 1786384358,
+        "narHash": "sha256-RzPPiWeUtuvymnpuEWsdtzli5w4kjZs49FqEs3/1u+I=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
+        "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
         "type": "github"
       },
       "original": {
