@@ -44,6 +44,7 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **CachyOS kernel** - custom kernel with HDMI-DP dongle support
 - **LACT** - AMD GPU overclocking
 - **ADB/WOL wake up** - for waking up TV from sleep
+- **lanzaboote** - secure boot
 
 ## Installation
 
