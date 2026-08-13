@@ -12,7 +12,7 @@
     ../../profiles/ssh.nix
     ../../profiles/nvim.nix
     ../../profiles/users.nix
-    ./wake/gamepad.nix
+    ./wake/tv.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
