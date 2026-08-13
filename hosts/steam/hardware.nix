@@ -1,10 +1,8 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   boot = {
-    loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    loader.systemd-boot.configurationLimit = 3;
     loader.timeout = 0;
     initrd = {
       verbose = false;
@@ -22,7 +20,7 @@
       "kvm-amd"
       "amdgpu"
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_cachyos;
     kernelParams = [
       "quiet"
       "udev.log_level=3"

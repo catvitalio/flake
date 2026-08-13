@@ -21,6 +21,13 @@
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
     };
+
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -32,6 +39,8 @@
       disko,
       jovian,
       nix-gaming-edge,
+      chaotic,
+      lanzaboote,
       secrets,
       ...
     }:
@@ -63,6 +72,8 @@
           modules = [
             disko.nixosModules.disko
             jovian.nixosModules.default
+            chaotic.nixosModules.default
+            lanzaboote.nixosModules.lanzaboote
             ./hosts/steam
           ];
         };
