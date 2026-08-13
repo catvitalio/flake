@@ -8,25 +8,42 @@ This repository contains a complete NixOS system configuration using flakes, des
 
 ## homelab
 
-<div align="center"><img src="assets/jonsbo-n5.png" width="300px"></div>
-
 ### Hardware
 - Ryzen 9 5950x
 - B550 Aorus Elite V2
 - 48GB RAM
-- 1TB SSD
+- 256GB SSD
 - Intel Arc A380
 - Sipeed NanoKVM PCIe
 - Jonsbo N5 Case
 
-### Services
+### Solutions
 - **Nextcloud** - Self-hosted file sync and collaboration platform
 - **Vaultwarden** - Bitwarden-compatible password manager
-- **VPN** - WireGuard with split tunneling for own domains/censored domains
-- **DNS** - dnsmasq DNS server for WireGuard split tunneling
-- **Sing-box** - Hysteria2 proxy for censored domains
-- **Restic** - Automated backup solution
-- **Nginx** - Reverse proxy
+- **Wireguard** - VPN with split tunneling for work/home/censored services
+- **singbox** - Hysteria2 proxy for censored domains/ip
+- **dnsmasq** - dnsmasq DNS server for custom local domains
+- **Adguard Home** - DNS server for ad-blocking / DoH
+- **restic** - Automated backup solution
+- **nginx** - Reverse proxy
+
+## steam
+
+### Hardware
+- Ryzen 5 7500f
+- Sapphire NITRO+ B850M WIFI
+- 32GB RAM
+- 2TB SSD for NixOS / 1TB SSD for Windows 11
+- Radeon 9070XT
+- Lian Li A3 Case
+
+### Solutions
+- **Jovian** - SteamOS-like config for NixOS
+- **Wireguard** - VPN for connecting to homelab
+- **CachyOS Proton** - custom Proton with FSR4 support
+- **CachyOS kernel** - custom kernel with HDMI-DP dongle support
+- **LACT** - AMD GPU overclocking
+- **ADB/WOL wake up** - for waking up TV from sleep
 
 ## Installation
 
