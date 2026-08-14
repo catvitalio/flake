@@ -35,7 +35,7 @@ in
         allowedIPs = [ "10.100.0.13/32" ];
       }
       {
-        publicKey = "BflxpMi1y0Y11FnkiHZ7ZRbs1Ysgu8uItquW8ELL+WM=";
+        publicKey = "C6Yss+rI1HV5mLNSPSDuUU80chrI3rvqL0JmUpcRsQI=";
         allowedIPs = [ "10.100.0.14/32" ];
       }
     ];
