@@ -2,12 +2,6 @@
 
 {
   age.secrets = {
-    nextcloudPass = {
-      file = "${secrets}/nextcloudPass.age";
-      mode = "400";
-      owner = "nextcloud";
-      group = "nextcloud";
-    };
     acmeEnv = {
       file = "${secrets}/acmeEnv.age";
       mode = "400";

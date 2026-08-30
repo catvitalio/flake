@@ -13,7 +13,6 @@
       "sd_mod"
     ];
     kernelModules = [
-      "i915"
       "kvm-amd"
     ];
     kernelParams = [
@@ -24,14 +23,7 @@
 
   hardware = {
     enableRedistributableFirmware = true;
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-compute-runtime
-        vpl-gpu-rt
-      ];
-    };
+    graphics.enable = true;
     cpu.amd = {
       updateMicrocode = true;
       ryzen-smu.enable = true;
@@ -41,7 +33,6 @@
   powerManagement = {
     enable = true;
     powerUpCommands = "echo on > /sys/bus/pci/devices/0000:04:00.0/power/control";
-    cpuFreqGovernor = "powersave";
   };
 
   environment.sessionVariables = {

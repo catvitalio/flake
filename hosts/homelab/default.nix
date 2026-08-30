@@ -4,6 +4,7 @@
 }:
 
 {
+
   imports = [
     ../../profiles/age.nix
     ../../profiles/common.nix
@@ -19,7 +20,6 @@
     ./singbox.nix
     ./dns.nix
     ./homepage.nix
-    ./nextcloud.nix
     ./vaultwarden.nix
     ./restic.nix
   ];
