@@ -9,11 +9,10 @@ This repository contains a complete NixOS system configuration using flakes, des
 ## homelab
 
 ### Hardware
-- Ryzen 9 5950x
+- Ryzen 9 4650G
 - B550 Aorus Elite V2
 - 48GB RAM
 - 256GB SSD
-- Intel Arc A380
 - Sipeed NanoKVM PCIe
 - Jonsbo N5 Case
 
