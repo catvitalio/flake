@@ -32,6 +32,7 @@
 
   powerManagement = {
     enable = true;
+    cpuFreqGovernor = "schedutil";
     powerUpCommands = "echo on > /sys/bus/pci/devices/0000:04:00.0/power/control";
   };
 
