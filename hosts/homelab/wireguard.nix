@@ -15,7 +15,7 @@ in
     ips = [ "10.100.0.1/32" ];
     listenPort = port;
     privateKeyFile = config.age.secrets.wireguardKey.path;
-    mtu = 1280;
+    mtu = 1420;
 
     peers = [
       {
