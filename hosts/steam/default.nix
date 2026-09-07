@@ -13,6 +13,8 @@
     ../../profiles/nvim.nix
     ../../profiles/users.nix
     ./wake/tv.nix
+    ./wakeup.nix
+    ./updater.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
@@ -24,7 +26,6 @@
   networking = {
     hostName = "steam";
     networkmanager.enable = true;
-    interfaces.enp11s0.wakeOnLan.enable = true;
     firewall.enable = false;
   };
 
@@ -43,6 +44,7 @@
     hardware.has.amd.gpu = true;
     hardware.amd.gpu.enableBacklightControl = false;
     steamos.useSteamOSConfig = true;
+    steamos.enableHdmiCecIntegration = false;
     steam = {
       enable = true;
       autoStart = true;

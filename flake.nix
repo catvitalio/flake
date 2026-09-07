@@ -61,6 +61,7 @@
           modules = [
             disko.nixosModules.disko
             ./modules/reverse-proxy.nix
+            ./modules/nightly-build.nix
             ./hosts/homelab
           ];
         };

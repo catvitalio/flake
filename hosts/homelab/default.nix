@@ -26,6 +26,8 @@
 
   my.reverseProxy.ip = "10.100.0.1";
 
+  my.nightlyBuild.steam = { };
+
   system.stateVersion = "26.05";
 
   networking = {
