@@ -39,7 +39,14 @@ let
         pkgs.openssh
       ]
     }:$PATH
-    latest=$(cat ${stateDir}/latest)
+    # Always resolve the current build over SSH instead of trusting the file
+    # from the last check: the nightly GC on the build host deletes old builds,
+    # so a stale pointer would fail to download.
+    latest=$(${ssh} readlink ${resultLink})
+    case "$latest" in
+      /nix/store/*) ;;
+      *) echo "unexpected result path: $latest" >&2; exit 1 ;;
+    esac
     echo "fetching $latest from ${buildHost}"
     NIX_SSHOPTS="-o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
       nix --extra-experimental-features 'nix-command' \
