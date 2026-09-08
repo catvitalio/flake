@@ -52,8 +52,11 @@ let
   # Runs as the session user; delegates to the root units above.
   updateScript = pkgs.writeShellScript "steamos-update" ''
     export PATH=/run/current-system/sw/bin:$PATH
+    echo "steamos-update called with: $*" | systemd-cat -t nixos-updater
 
-    if [ "''${1:-}" = "check" ]; then
+    # Steam passes extra flags (e.g. --supports-duplicate-detection), so look
+    # for "check" anywhere in the arguments, not just in $1.
+    if case " $* " in *" check "*) true ;; *) false ;; esac then
       systemctl start nixos-remote-update-check.service || exit 1
       latest=$(cat ${stateDir}/latest 2>/dev/null) || exit 1
       [ -n "$latest" ] || exit 1

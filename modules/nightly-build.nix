@@ -34,6 +34,16 @@ let
           default = "*-*-* 05:00:00 Asia/Krasnoyarsk";
           description = "systemd calendar expression for the build.";
         };
+        substituters = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Extra binary caches the target configuration relies on.";
+        };
+        trustedPublicKeys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Public keys for the extra binary caches.";
+        };
       };
     }
   );
@@ -66,6 +76,12 @@ let
 
       nix build \
         --out-link ${dir}/result \
+        ${lib.optionalString (host.substituters != [ ])
+          "--option extra-substituters '${lib.concatStringsSep " " host.substituters}'"
+        } \
+        ${lib.optionalString (host.trustedPublicKeys != [ ])
+          "--option extra-trusted-public-keys '${lib.concatStringsSep " " host.trustedPublicKeys}'"
+        } \
         "${checkout}#nixosConfigurations.${host.configuration}.config.system.build.toplevel"
       echo "built $(readlink ${dir}/result)"
 
@@ -92,7 +108,7 @@ in
         serviceConfig = {
           Type = "oneshot";
           ExecStart = mkScript name host;
-          TimeoutStartSec = "120min";
+          TimeoutStartSec = "180min";
         };
       }
     ) cfg;
