@@ -46,6 +46,15 @@ let
     ${adb} -s ${tvIp}:5555 shell am start \
       -a android.intent.action.VIEW \
       -d 'content://android.media.tv/passthrough/com.tcl.tvinput%2F.TvPassThroughService%2FHW15' || true
+
+    # The TV locks its picture profile to whatever signal is present at tune
+    # time; right after wake the HDMI link is often still negotiating (no
+    # ALLM/HDR/VRR yet), which picks the wrong profile. Re-tune once the
+    # signal has settled — re-tuning on a stable signal keeps the profile.
+    ${coreutils}/bin/sleep 10
+    ${adb} -s ${tvIp}:5555 shell am start \
+      -a android.intent.action.VIEW \
+      -d 'content://android.media.tv/passthrough/com.tcl.tvinput%2F.TvPassThroughService%2FHW15' || true
   '';
 in
 {
