@@ -22,6 +22,7 @@
     ./homepage.nix
     ./vaultwarden.nix
     ./restic.nix
+    ./sidestore.nix
   ];
 
   my.reverseProxy.ip = "10.100.0.1";
