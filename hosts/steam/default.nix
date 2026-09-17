@@ -19,6 +19,7 @@
     ./disko.nix
     ./proton.nix
     ./lact.nix
+    ./fans.nix
     ./wireguard.nix
   ];
 
