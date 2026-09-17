@@ -17,7 +17,6 @@ This repository contains a complete NixOS system configuration using flakes, des
 - Jonsbo N5 Case
 
 ### Solutions
-- **Nextcloud** - Self-hosted file sync and collaboration platform
 - **Vaultwarden** - Bitwarden-compatible password manager
 - **Wireguard** - VPN with split tunneling for work/home/censored services
 - **singbox** - Hysteria2 proxy for censored domains/ip
@@ -25,6 +24,9 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **Adguard Home** - DNS server for ad-blocking / DoH
 - **restic** - Automated backup solution
 - **nginx** - Reverse proxy
+- **Homepage** - Dashboard for all self-hosted services
+- **Nightly build** - Pre-builds the steam configuration from `main` every night at 5:00; the SteamOS update button on the steam machine pulls and applies it
+- **SideStore reflector** - NAT loopback reflector so the iPhone re-signs sideloaded apps through the always-on WireGuard tunnel instead of StosVPN
 
 ## steam
 
