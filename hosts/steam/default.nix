@@ -14,6 +14,7 @@
     ../../profiles/users.nix
     ./wake/tv.nix
     ./wakeup.nix
+    ./updater.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix

@@ -65,22 +65,34 @@ let
         ]
       }:$PATH
 
-      if [ -d ${checkout}/.git ]; then
-        git -C ${checkout} fetch origin main
-        git -C ${checkout} reset --hard origin/main
-      else
-        mkdir -p ${checkout}
-        git clone --branch main ${host.repo} ${checkout}
-      fi
+      # Retry the fetch: a transient DNS/network hiccup at 5:00 used to kill
+      # the whole night's build (2026-09-17..19 all failed on resolution).
+      fetched=0
+      for i in 1 2 3; do
+        if [ -d ${checkout}/.git ]; then
+          git -C ${checkout} fetch origin main && fetched=1 && break
+        else
+          mkdir -p ${checkout}
+          git clone --branch main ${host.repo} ${checkout} && fetched=1 && break
+        fi
+        echo "fetch attempt $i failed, retrying in 60s"
+        sleep 60
+      done
+      [ "$fetched" = 1 ] || exit 1
+      git -C ${checkout} reset --hard origin/main
       echo "flake at $(git -C ${checkout} rev-parse --short HEAD)"
 
       nix build \
         --out-link ${dir}/result \
-        ${lib.optionalString (host.substituters != [ ])
-          "--option extra-substituters '${lib.concatStringsSep " " host.substituters}'"
+        ${
+          lib.optionalString (
+            host.substituters != [ ]
+          ) "--option extra-substituters '${lib.concatStringsSep " " host.substituters}'"
         } \
-        ${lib.optionalString (host.trustedPublicKeys != [ ])
-          "--option extra-trusted-public-keys '${lib.concatStringsSep " " host.trustedPublicKeys}'"
+        ${
+          lib.optionalString (
+            host.trustedPublicKeys != [ ]
+          ) "--option extra-trusted-public-keys '${lib.concatStringsSep " " host.trustedPublicKeys}'"
         } \
         "${checkout}#nixosConfigurations.${host.configuration}.config.system.build.toplevel"
       echo "built $(readlink ${dir}/result)"
