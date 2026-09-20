@@ -45,6 +45,7 @@ in
             work.subnet
             "${dns.bootstrap}/32"
             "10.100.0.0/24"
+            "10.101.0.0/24"
             "100.64.0.0/10"
             "169.254.0.0/16"
             "172.16.0.0/12"
@@ -167,6 +168,8 @@ in
   my.reverseProxy.${domain} = {
     proxyPass = "http://127.0.0.1:9090";
     proxyWebsockets = true;
-    locations."= /" = { return = "301 /ui/"; };
+    locations."= /" = {
+      return = "301 /ui/";
+    };
   };
 }

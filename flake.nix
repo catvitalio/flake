@@ -62,6 +62,8 @@
             disko.nixosModules.disko
             ./modules/reverse-proxy.nix
             ./modules/nightly-build.nix
+            ./modules/sidestore-ike-reflector.nix
+            ./modules/ike-vpn.nix
             ./hosts/homelab
           ];
         };

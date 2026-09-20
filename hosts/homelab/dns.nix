@@ -12,6 +12,11 @@ let
   adguardDnsPort = 5353;
 in
 {
+  networking.firewall = {
+    allowedUDPPorts = [ 53 ];
+    allowedTCPPorts = [ 53 ];
+  };
+
   services.dnsmasq = {
     enable = true;
     resolveLocalQueries = true;
