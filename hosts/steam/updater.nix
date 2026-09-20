@@ -30,7 +30,10 @@ let
     echo "latest build on ${buildHost}: $latest"
   '';
 
-  applyScript = pkgs.writeShellScript "nixos-remote-update-apply" ''
+  # Always resolve the current build over SSH instead of trusting the file
+  # from the last check: the nightly GC on the build host deletes old builds,
+  # so a stale pointer would fail to download.
+  fetchLatest = ''
     set -eu
     PATH=${
       lib.makeBinPath [
@@ -40,9 +43,6 @@ let
         pkgs.systemd
       ]
     }:$PATH
-    # Always resolve the current build over SSH instead of trusting the file
-    # from the last check: the nightly GC on the build host deletes old builds,
-    # so a stale pointer would fail to download.
     latest=$(${ssh} readlink ${resultLink})
     case "$latest" in
       /nix/store/*) ;;
@@ -52,6 +52,15 @@ let
     NIX_SSHOPTS="-o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
       nix --extra-experimental-features 'nix-command' \
       copy --no-check-sigs --from ssh://root@${buildHost} "$latest"
+  '';
+
+  # Background prefetch only: Steam's update loop calls the apply-style
+  # command on its own (it expects SteamOS staging semantics), so this just
+  # warms the store without touching the profile or switching.
+  prefetchScript = pkgs.writeShellScript "nixos-remote-update-prefetch" fetchLatest;
+
+  applyScript = pkgs.writeShellScript "nixos-remote-update-apply" ''
+    ${fetchLatest}
     nix-env -p /nix/var/nix/profiles/system --set "$latest"
     # Run switch in a transient unit: if the new generation changes this very
     # service, switch would otherwise restart it and kill itself mid-activation
@@ -81,10 +90,20 @@ let
       exit 0
     fi
 
-    systemctl start nixos-remote-update.service || exit 1
-    if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /nix/var/nix/profiles/system/kernel)" ]; then
-      exit 8
+    # Only an explicit press of the Update button passes
+    # --enable-duplicate-detection; Steam's background update loop calls the
+    # same command with --supports-duplicate-detection alone and expects
+    # SteamOS staging semantics — for those, just prefetch the closure so the
+    # real Update is instant, but never switch on our own.
+    if case " $* " in *" --enable-duplicate-detection "*) true ;; *) false ;; esac then
+      systemctl start nixos-remote-update.service || exit 1
+      if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /nix/var/nix/profiles/system/kernel)" ]; then
+        exit 8
+      fi
+      exit 0
     fi
+
+    systemctl start nixos-remote-update-prefetch.service || exit 1
     exit 0
   '';
 in
@@ -117,12 +136,22 @@ in
     };
   };
 
+  systemd.services.nixos-remote-update-prefetch = {
+    description = "Prefetch the latest nightly build from the build host";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = prefetchScript;
+      TimeoutStartSec = "60min";
+    };
+  };
+
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
       if (action.id == "org.freedesktop.systemd1.manage-units" &&
           subject.user == "v" &&
           action.lookup("verb") == "start" &&
           (action.lookup("unit") == "nixos-remote-update-check.service" ||
+           action.lookup("unit") == "nixos-remote-update-prefetch.service" ||
            action.lookup("unit") == "nixos-remote-update.service")) {
         return polkit.Result.YES;
       }
