@@ -32,7 +32,7 @@
             80: 1.0
           spindown_delay_ms: 5000
           change_threshold: 2
-        power_cap: 240.0
+        power_cap: 260.0
         performance_level: auto
         voltage_offset: -55
     current_profile: null
