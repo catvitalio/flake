@@ -4,11 +4,11 @@ let
   connector = "DP-2";
   cecClient = "${pkgs.libcec}/bin/cec-client";
   coreutils = pkgs.coreutils;
-  grep = "${pkgs.gnugrep}/bin/grep";
   systemctl = "${pkgs.systemd}/bin/systemctl";
   runtimeDir = "/run/tv-cec";
   fifo = "${runtimeDir}/cmd";
   selfStandby = "${runtimeDir}/self-standby";
+  readyFlag = "${runtimeDir}/ready";
 
   waitForDevice = ''
     for _ in $(${coreutils}/bin/seq 1 40); do
@@ -16,7 +16,6 @@ let
       ${coreutils}/bin/sleep 0.25
     done
     if [ ! -e /dev/cec0 ]; then
-      # The CEC tunnel rides on DP AUX and occasionally needs a nudge.
       echo 1 > /sys/kernel/debug/dri/1/${connector}/trigger_hotplug 2>/dev/null || true
       ${coreutils}/bin/sleep 2
     fi
@@ -29,12 +28,20 @@ let
     ${coreutils}/bin/mkdir -p ${runtimeDir}
     ${coreutils}/bin/rm -f ${fifo}
     ${coreutils}/bin/mkfifo -m 0600 ${fifo}
-    # Keep a writer of our own so cec-client never sees EOF and exits.
     exec 3<> ${fifo}
 
+    ${coreutils}/bin/rm -f ${readyFlag}
+
     ${cecClient} -d 8 -t p -o steam < ${fifo} 2>&1 \
-      | ${grep} --line-buffered -E ">> 0[0-9a-f]:36" \
-      | while read -r _; do
+      | while IFS= read -r line; do
+          case "$line" in
+            *"waiting for input"*)
+              ${coreutils}/bin/touch ${readyFlag}
+              continue
+              ;;
+            *">> 0"?":36"*) ;;
+            *) continue ;;
+          esac
           if [ -f ${selfStandby} ] \
             && [ $(( $(${coreutils}/bin/date +%s) \
                      - $(${coreutils}/bin/stat -c %Y ${selfStandby}) )) -lt 90 ]; then
@@ -48,11 +55,7 @@ let
   '';
 
   wakeScript = pkgs.writeShellScript "tv-cec-wake" ''
-    # Resume hands us a freshly rebuilt CEC tunnel, so the running client is
-    # talking to a stale device: restart it before sending anything. Drop the
-    # fifo first — otherwise we could pick the old one, whose reader is gone,
-    # and block on the write forever.
-    ${coreutils}/bin/rm -f ${fifo}
+    ${coreutils}/bin/rm -f ${fifo} ${readyFlag}
     ${systemctl} restart tv-cec.service
 
     for _ in $(${coreutils}/bin/seq 1 40); do
@@ -63,11 +66,14 @@ let
 
     ${coreutils}/bin/rm -f ${selfStandby}
 
-    # Let libcec claim its logical address before talking to the TV.
-    ${coreutils}/bin/sleep 1
-    for _ in 1 2 3; do
+    for _ in $(${coreutils}/bin/seq 1 100); do
+      [ -f ${readyFlag} ] && break
+      ${coreutils}/bin/sleep 0.1
+    done
+
+    for _ in $(${coreutils}/bin/seq 1 7); do
       ${coreutils}/bin/timeout 5 ${pkgs.runtimeShell} -c "printf 'on 0\nas\n' > ${fifo}" || true
-      ${coreutils}/bin/sleep 3
+      ${coreutils}/bin/sleep 0.5
     done
   '';
 
@@ -75,8 +81,6 @@ let
     [ -p ${fifo} ] || exit 0
     ${coreutils}/bin/touch ${selfStandby}
     ${coreutils}/bin/timeout 5 ${pkgs.runtimeShell} -c "printf 'standby 0\n' > ${fifo}" || true
-    # Give libcec a moment to put the message on the wire before the kernel
-    # freezes everything.
     ${coreutils}/bin/sleep 2
   '';
 in
