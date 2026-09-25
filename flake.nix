@@ -12,11 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    nix-gaming-edge = {
-      url = "github:powerofthe69/nix-gaming-edge";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     secrets = {
       url = "git+ssh://git@github.com/catvitalio/secrets.git";
       flake = false;
@@ -38,7 +33,6 @@
       agenix,
       disko,
       jovian,
-      nix-gaming-edge,
       chaotic,
       lanzaboote,
       secrets,
@@ -69,9 +63,6 @@
         };
 
         steam = mkHost nixpkgs-unstable {
-          specialArgs = {
-            inherit nix-gaming-edge;
-          };
           modules = [
             disko.nixosModules.disko
             jovian.nixosModules.default

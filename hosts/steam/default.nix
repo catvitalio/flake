@@ -13,7 +13,7 @@
     ../../profiles/nvim.nix
     ../../profiles/users.nix
     ./wake/tv.nix
-    ./wakeup.nix
+    ./wake/controller.nix
     ./updater.nix
     ./hardware.nix
     ./secureboot.nix

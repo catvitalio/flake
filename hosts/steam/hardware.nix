@@ -20,7 +20,7 @@
       "kvm-amd"
       "amdgpu"
     ];
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    kernelPackages = pkgs.linuxPackages_cachyos-lto-znver4;
     kernelParams = [
       "quiet"
       "udev.log_level=3"

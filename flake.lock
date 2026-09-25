@@ -213,26 +213,6 @@
         "type": "github"
       }
     },
-    "nix-gaming-edge": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1790229137,
-        "narHash": "sha256-12wS6j93fJnHx1dvD22LzdelHJKdfv0FX089loJ2DxY=",
-        "owner": "powerofthe69",
-        "repo": "nix-gaming-edge",
-        "rev": "666fab982126eac305603e6f3aaa61d806b7d566",
-        "type": "github"
-      },
-      "original": {
-        "owner": "powerofthe69",
-        "repo": "nix-gaming-edge",
-        "type": "github"
-      }
-    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -361,7 +341,6 @@
         "disko": "disko",
         "jovian": "jovian",
         "lanzaboote": "lanzaboote",
-        "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "secrets": "secrets"
