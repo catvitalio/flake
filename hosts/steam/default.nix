@@ -18,7 +18,6 @@
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
-    ./proton.nix
     ./gamescope.nix
     ./lact.nix
     ./fans.nix
