@@ -19,6 +19,7 @@
     ./secureboot.nix
     ./disko.nix
     ./proton.nix
+    ./gamescope.nix
     ./lact.nix
     ./fans.nix
     ./wireguard.nix
@@ -51,6 +52,10 @@
       autoStart = true;
       user = "v";
       desktopSession = "plasma";
+      environment = {
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-cachyos_x86_64_v3}";
+        ENABLE_LAYER_MESA_ANTI_LAG = "1";
+      };
     };
   };
 
