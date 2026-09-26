@@ -19,7 +19,6 @@
     ./secureboot.nix
     ./disko.nix
     ./gamescope.nix
-    ./fixes/dp-hdmi-artifacts.nix
     ./lact.nix
     ./fans.nix
     ./wireguard.nix
