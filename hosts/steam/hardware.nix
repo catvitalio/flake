@@ -38,7 +38,6 @@
   hardware = {
     enableRedistributableFirmware = true;
     cpu.amd.updateMicrocode = true;
-    xpadneo.enable = true;
     graphics = {
       enable = true;
       enable32Bit = true;
