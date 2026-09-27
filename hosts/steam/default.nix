@@ -31,7 +31,7 @@
   };
 
   services = {
-    desktopManager.plasma6.enable = true;
+    desktopManager.gnome.enable = true;
   };
 
   age.secrets.wireguardSteamKey = {
@@ -50,7 +50,7 @@
       enable = true;
       autoStart = true;
       user = "v";
-      desktopSession = "plasma";
+      desktopSession = "gnome";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-cachyos_x86_64_v3}";
         ENABLE_LAYER_MESA_ANTI_LAG = "1";
