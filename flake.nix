@@ -19,6 +19,11 @@
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
+    steam-config-nix = {
+      url = "github:different-name/steam-config-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -35,6 +40,7 @@
       jovian,
       chaotic,
       lanzaboote,
+      steam-config-nix,
       secrets,
       ...
     }:
@@ -68,6 +74,7 @@
             jovian.nixosModules.default
             chaotic.nixosModules.default
             lanzaboote.nixosModules.lanzaboote
+            steam-config-nix.nixosModules.default
             ./hosts/steam
           ];
         };

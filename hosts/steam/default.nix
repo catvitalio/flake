@@ -19,6 +19,7 @@
     ./secureboot.nix
     ./disko.nix
     ./gamescope.nix
+    ./windows.nix
     ./lact.nix
     ./fans.nix
     ./wireguard.nix
