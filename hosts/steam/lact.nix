@@ -21,9 +21,9 @@ in
     apply_settings_timer = 5;
     gpus."1002:7550-1043:061A-0000:03:00.0" = {
       fan_control_enabled = false;
-      power_cap = 260.0;
+      power_cap = 280.0;
       performance_level = "auto";
-      voltage_offset = -55;
+      voltage_offset = -30;
     };
     current_profile = null;
     auto_switch_profiles = false;

@@ -15,6 +15,7 @@
     ./wake/tv.nix
     ./wake/controller.nix
     ./updater.nix
+    ./lact.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
