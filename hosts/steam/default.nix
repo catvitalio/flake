@@ -53,10 +53,12 @@
       desktopSession = "gnome";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-cachyos_x86_64_v3}";
-        ENABLE_LAYER_MESA_ANTI_LAG = "1";
+        LOW_LATENCY_LAYER = "1";
       };
     };
   };
+
+  hardware.graphics.extraPackages = [ pkgs.low-latency-layer ];
 
   environment.systemPackages = with pkgs; [
     wget
