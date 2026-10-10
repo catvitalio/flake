@@ -27,7 +27,8 @@
 
   my.reverseProxy.ip = "10.100.0.1";
 
-  my.nightlyBuild.steam = {
+  my.nightlyBuild.steam.builder = {
+    enable = true;
     substituters = [ "https://nyx-cache.chaotic.cx/" ];
     trustedPublicKeys = [ "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk=" ];
   };

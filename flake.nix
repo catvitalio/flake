@@ -75,6 +75,7 @@
             chaotic.nixosModules.default
             lanzaboote.nixosModules.lanzaboote
             steam-config-nix.nixosModules.default
+            ./modules/nightly-build.nix
             ./hosts/steam
           ];
         };

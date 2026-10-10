@@ -14,7 +14,6 @@
     ../../profiles/users.nix
     ./wake/tv.nix
     ./wake/controller.nix
-    ./updater.nix
     ./lact.nix
     ./hardware.nix
     ./secureboot.nix
@@ -56,6 +55,13 @@
         LOW_LATENCY_LAYER = "1";
       };
     };
+  };
+
+  my.nightlyBuild.steam.updater = {
+    enable = true;
+    builderHost = "192.168.1.2";
+    user = "v";
+    steamosButton = true;
   };
 
   hardware.graphics.extraPackages = [ pkgs.low-latency-layer ];
