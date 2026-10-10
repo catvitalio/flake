@@ -19,5 +19,9 @@ nixpkgsInput.lib.nixosSystem {
     inherit self secrets agenix-cli;
   }
   // specialArgs;
-  modules = [ agenix.nixosModules.default ] ++ modules;
+  modules = [
+    agenix.nixosModules.default
+    ({ pkgs, ... }: { _module.args.helpers = import ./helpers.nix pkgs; })
+  ]
+  ++ modules;
 }

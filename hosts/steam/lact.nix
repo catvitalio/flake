@@ -1,17 +1,14 @@
 {
   config,
-  pkgs,
+  helpers,
   ...
 }:
 
-let
-  yamlFormat = import ../../lib/yaml-format.nix pkgs;
-in
 {
   services.lact.enable = true;
   hardware.amdgpu.overdrive.enable = true;
 
-  environment.etc."lact/config.yaml".source = yamlFormat.generate {
+  environment.etc."lact/config.yaml".source = helpers.toYAML {
     version = 7;
     daemon = {
       log_level = "info";

@@ -1,5 +1,5 @@
 pkgs: {
-  generate =
+  toYAML =
     value:
     pkgs.runCommand "config.yaml" { } ''
       sed -E 's/^([[:space:]]*)"([0-9]+)":/\1\2:/' \
