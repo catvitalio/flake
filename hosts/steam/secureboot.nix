@@ -1,11 +1,17 @@
-{ config, lib, pkgs, secrets, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  secrets,
+  ...
+}:
 
 {
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/var/lib/sbctl";
-    configurationLimit = 3;
+    configurationLimit = config.my.generationLimit;
   };
 
   environment.systemPackages = [ pkgs.sbctl ];

@@ -13,6 +13,7 @@
     ../../profiles/ssh.nix
     ../../profiles/nvim.nix
     ../../profiles/users.nix
+    ../../profiles/generations.nix
     ./wake/tv.nix
     ./wake/controller.nix
     ./lact.nix

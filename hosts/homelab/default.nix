@@ -13,6 +13,7 @@
     ../../profiles/ssh.nix
     ../../profiles/nvim.nix
     ../../profiles/users.nix
+    ../../profiles/generations.nix
     ../../profiles/nginx.nix
     ./age.nix
     ./disko.nix
