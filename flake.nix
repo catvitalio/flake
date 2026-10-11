@@ -56,6 +56,10 @@
       };
     in
     {
+      packages = nixpkgs.lib.genAttrs [ system "aarch64-darwin" ] (packageSystem: {
+        unifideck = nixpkgs-unstable.legacyPackages.${packageSystem}.callPackage ./pkgs/unifideck.nix { };
+      });
+
       nixosConfigurations = {
         homelab = mkHost nixpkgs {
           modules = [

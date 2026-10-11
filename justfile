@@ -15,3 +15,6 @@ update-secrets: (update "secrets")
 
 clean host:
     ssh root@{{host}} 'nix-collect-garbage -d'
+
+update-unifideck:
+    nix run nixpkgs#nix-update -- --flake unifideck --version-regex 'Release-(.*)'

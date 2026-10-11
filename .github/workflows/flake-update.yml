@@ -36,19 +36,36 @@ jobs:
           set -euo pipefail
           nix flake update
 
-      - name: Commit and push flake.lock
+      - name: Update pinned Unifideck release
+        shell: bash
+        run: |
+          set -euo pipefail
+          nix run nixpkgs#just -- update-unifideck
+
+      - name: Commit and push
         shell: bash
         run: |
           set -euo pipefail
 
-          if git diff --quiet -- flake.lock; then
-            echo "flake.lock is already up to date"
+          plugin=pkgs/unifideck.nix
+
+          if git diff --quiet -- flake.lock "$plugin"; then
+            echo "nothing to update"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add flake.lock
-          git commit -m "chore(flake): update flake.lock"
+          if ! git diff --quiet -- flake.lock; then
+            git add flake.lock
+            git commit -m "chore(flake): update flake.lock"
+          fi
+
+          if ! git diff --quiet -- "$plugin"; then
+            version=$(sed -n 's/^ *version = "\(.*\)";$/\1/p' "$plugin")
+            git add "$plugin"
+            git commit -m "chore(unifideck): update to $version"
+          fi
+
           git push origin HEAD:main

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   rebootScript = pkgs.writeShellScript "reboot-to-windows" ''
@@ -32,7 +32,7 @@ in
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
       if (action.id == "org.freedesktop.systemd1.manage-units" &&
-          subject.user == "v" &&
+          subject.user == "${config.my.user}" &&
           action.lookup("verb") == "start" &&
           action.lookup("unit") == "reboot-to-windows.service") {
         return polkit.Result.YES;

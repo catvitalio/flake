@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   secrets,
   ...
@@ -15,6 +16,7 @@
     ./wake/tv.nix
     ./wake/controller.nix
     ./lact.nix
+    ./decky
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
@@ -29,9 +31,7 @@
     firewall.enable = false;
   };
 
-  services = {
-    desktopManager.gnome.enable = true;
-  };
+  services.desktopManager.gnome.enable = true;
 
   age.secrets.wireguardSteamKey = {
     file = "${secrets}/wireguardSteamKey.age";
@@ -48,7 +48,7 @@
     steam = {
       enable = true;
       autoStart = true;
-      user = "v";
+      user = config.my.user;
       desktopSession = "gnome";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-cachyos_x86_64_v3}";
@@ -60,7 +60,7 @@
   my.nightlyBuild.steam.updater = {
     enable = true;
     builderHost = "192.168.1.2";
-    user = "v";
+    user = config.my.user;
     steamosButton = true;
   };
 
