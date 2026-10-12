@@ -28,7 +28,10 @@ let
   deckyStateDir = "${home}/homebrew";
 in
 {
-  imports = [ ./unifideck.nix ];
+  imports = [
+    ./shoehorn.nix
+    ./unifideck.nix
+  ];
 
   jovian.decky-loader = {
     enable = true;

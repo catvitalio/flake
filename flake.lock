@@ -319,6 +319,7 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "secrets": "secrets",
+        "shoehorn": "shoehorn",
         "steam-config-nix": "steam-config-nix"
       }
     },
@@ -357,6 +358,26 @@
       "original": {
         "type": "git",
         "url": "ssh://git@github.com/catvitalio/secrets.git"
+      }
+    },
+    "shoehorn": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791824638,
+        "narHash": "sha256-haWsrcMiT/76EXg8K22J5/nmv8DLxG1wLLN60bjopM4=",
+        "owner": "catvitalio",
+        "repo": "shoehorn",
+        "rev": "57b43fd227185062392727b98b4a3b28f5f4a49b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catvitalio",
+        "repo": "shoehorn",
+        "type": "github"
       }
     },
     "steam-config-nix": {

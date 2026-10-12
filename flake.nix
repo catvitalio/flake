@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    shoehorn = {
+      url = "github:catvitalio/shoehorn";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -41,6 +46,7 @@
       chaotic,
       lanzaboote,
       steam-config-nix,
+      shoehorn,
       secrets,
       ...
     }:
@@ -82,6 +88,9 @@
             ./modules/nightly-build.nix
             ./hosts/steam
           ];
+          specialArgs = {
+            inherit shoehorn;
+          };
         };
       };
     };
