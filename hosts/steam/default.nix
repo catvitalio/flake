@@ -18,6 +18,7 @@
     ./wake/controller.nix
     ./lact.nix
     ./decky
+    ./display-link.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
