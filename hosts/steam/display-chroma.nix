@@ -2,7 +2,7 @@
 
 let
   connector = "DP-2";
-  chromaFormat = "yuv422";
+  chromaFormat = "yuv420";
 
   formats = [
     "yuv420"
