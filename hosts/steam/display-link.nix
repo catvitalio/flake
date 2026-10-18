@@ -1,11 +1,32 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   connector = "DP-2";
   sampleInterval = 5;
 
+  gamescopeProps = [
+    "GAMESCOPE_VRR_ENABLED"
+    "GAMESCOPE_VRR_FEEDBACK"
+    "GAMESCOPE_DISPLAY_HDR_ENABLED"
+    "GAMESCOPE_HDR_OUTPUT_FEEDBACK"
+    "GAMESCOPE_DISPLAY_REFRESH_RATE_FEEDBACK"
+  ];
+
   snapshot = pkgs.writeShellScript "display-link-snapshot" ''
-    PATH=${lib.makeBinPath [ pkgs.coreutils ]}
+    PATH=${
+      lib.makeBinPath [
+        pkgs.coreutils
+        pkgs.gnugrep
+        pkgs.gnused
+        pkgs.util-linux
+        pkgs.xorg.xprop
+      ]
+    }
     mode=$1
 
     linkDir=""
@@ -36,6 +57,13 @@ let
       state="$state$attr:''${value% } | "
     done
     state="$state"lane_status:$(dpcd $((0x202)) 3)"| errors:$(dpcd $((0x210)) 8)"
+
+    pipeline=$(setpriv --reuid=${config.my.user} --regid=${
+      config.users.users.${config.my.user}.group
+    } --clear-groups env DISPLAY=:0 \
+      xprop -root ${lib.concatStringsSep " " gamescopeProps} 2>/dev/null \
+      | sed -E 's/GAMESCOPE_([A-Z_]+)\(CARDINAL\) = /\1:/' | tr '\n' ' ')
+    state="$state| ''${pipeline:-pipeline unavailable}"
 
     printf '%s: %s\n' "$mode" "$state"
   '';
