@@ -2,7 +2,7 @@
 
 let
   connector = "DP-2";
-  previousState = "/run/display-link.state";
+  sampleInterval = 5;
 
   snapshot = pkgs.writeShellScript "display-link-snapshot" ''
     PATH=${lib.makeBinPath [ pkgs.coreutils ]}
@@ -37,12 +37,20 @@ let
     done
     state="$state"lane_status:$(dpcd $((0x202)) 3)"| errors:$(dpcd $((0x210)) 8)"
 
-    if [ "$mode" = watch ] && [ -f ${previousState} ] \
-       && [ "$state" = "$(cat ${previousState})" ]; then
-      exit 0
-    fi
-    printf '%s\n' "$state" > ${previousState}
     printf '%s: %s\n' "$mode" "$state"
+  '';
+
+  watch = pkgs.writeShellScript "display-link-watch" ''
+    PATH=${lib.makeBinPath [ pkgs.coreutils ]}
+    previous=""
+    while :; do
+      current=$(${snapshot} sample)
+      if [ "$current" != "$previous" ]; then
+        printf '%s\n' "$current"
+        previous=$current
+      fi
+      sleep ${toString sampleInterval}
+    done
   '';
 in
 {
@@ -66,18 +74,12 @@ in
   };
 
   systemd.services.display-link-watch = {
-    description = "Record the ${connector} link state when it changes";
+    description = "Record every change of the ${connector} link state";
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${snapshot} watch";
-    };
-  };
-
-  systemd.timers.display-link-watch = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "2min";
-      OnUnitActiveSec = "30s";
+      ExecStart = watch;
+      Restart = "always";
+      RestartSec = "10s";
     };
   };
 }
