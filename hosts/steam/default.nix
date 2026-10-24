@@ -18,6 +18,7 @@
     ./wake/controller.nix
     ./lact.nix
     ./decky
+    ./cursor.nix
     ./display-link.nix
     ./display-chroma.nix
     ./hardware.nix
