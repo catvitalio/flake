@@ -62,7 +62,11 @@ in
 
   nixpkgs.overlays = [
     (_: prev: {
-      steam = prev.steam.override { extraPkgs = p: [ p.flatpak ]; };
+      jovianPackages = prev.jovianPackages // {
+        steam = prev.jovianPackages.steam.override (old: {
+          extraPkgs = p: (old.extraPkgs or (_: [ ])) p ++ [ p.flatpak ];
+        });
+      };
     })
   ];
 }
