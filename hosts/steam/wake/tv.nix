@@ -1,14 +1,24 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   connector = "DP-2";
-  cecClient = "${pkgs.libcec}/bin/cec-client";
+  cecClient = lib.getExe' pkgs.libcec "cec-client";
   coreutils = pkgs.coreutils;
   systemctl = "${pkgs.systemd}/bin/systemctl";
+  loginctl = "${pkgs.systemd}/bin/loginctl";
   runtimeDir = "/run/tv-cec";
   fifo = "${runtimeDir}/cmd";
   selfStandby = "${runtimeDir}/self-standby";
   readyFlag = "${runtimeDir}/ready";
+
+  cecAllowed = pkgs.writeShellScript "tv-cec-allowed" ''
+    session=$(${loginctl} show-seat seat0 -p ActiveSession --value 2>/dev/null)
+    [ -n "$session" ] || exit 0
+    case "$(${loginctl} show-session "$session" -p Desktop --value 2>/dev/null)" in
+      [Gg][Nn][Oo][Mm][Ee]*) exit 1 ;;
+    esac
+    exit 0
+  '';
 
   waitForDevice = ''
     for _ in $(${coreutils}/bin/seq 1 40); do
@@ -42,6 +52,10 @@ let
             *">> 0"?":36"*) ;;
             *) continue ;;
           esac
+          if ! ${cecAllowed}; then
+            echo "tv-cec: desktop session active, ignoring TV standby"
+            continue
+          fi
           if [ -f ${selfStandby} ] \
             && [ $(( $(${coreutils}/bin/date +%s) \
                      - $(${coreutils}/bin/stat -c %Y ${selfStandby}) )) -lt 90 ]; then
@@ -101,6 +115,7 @@ in
     wantedBy = [ "sleep.target" ];
     serviceConfig = {
       Type = "oneshot";
+      ExecCondition = cecAllowed;
       ExecStart = sleepScript;
     };
   };
@@ -119,6 +134,7 @@ in
     ];
     serviceConfig = {
       Type = "oneshot";
+      ExecCondition = cecAllowed;
       ExecStart = wakeScript;
     };
   };
