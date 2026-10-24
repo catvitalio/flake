@@ -30,6 +30,7 @@ in
 {
   imports = [
     ./shoehorn.nix
+    ./steamcord.nix
     ./unifideck.nix
   ];
 

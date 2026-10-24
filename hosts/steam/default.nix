@@ -70,6 +70,7 @@
   hardware.graphics.extraPackages = [ pkgs.low-latency-layer ];
 
   environment.systemPackages = with pkgs; [
+    discord
     wget
     firefox
   ];
