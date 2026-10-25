@@ -17,6 +17,7 @@ nixpkgsInput.lib.nixosSystem {
   inherit system;
   specialArgs = {
     inherit self secrets agenix-cli;
+    devices = import ./devices.nix;
   }
   // specialArgs;
   modules = [

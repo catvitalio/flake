@@ -1,16 +1,17 @@
 {
   config,
+  devices,
   ...
 }:
 
 {
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "10.100.0.13/32" ];
+    ips = [ "${devices.steam.ip}/32" ];
     privateKeyFile = config.age.secrets.wireguardSteamKey.path;
     mtu = 1420;
     peers = [
       {
-        publicKey = "TkdsA32GzAWl2GTESZgJeoTwIodaDvSzYTCuvy9oRRk=";
+        inherit (devices.homelab) publicKey;
         allowedIPs = [ "0.0.0.0/0" ];
         endpoint = "192.168.1.2:51820";
         persistentKeepalive = 25;

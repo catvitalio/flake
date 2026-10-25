@@ -1,40 +1,29 @@
 {
   config,
+  lib,
   pkgs,
   secrets,
+  devices,
   ...
 }:
 
 let
+  clients = removeAttrs devices [ "homelab" ];
   work = import "${secrets}/work.nix";
   iptables = "${pkgs.iptables}/bin/iptables";
   port = 51820;
 in
 {
   networking.wireguard.interfaces.wg0 = {
-    ips = [ "10.100.0.1/32" ];
+    ips = [ "${devices.homelab.ip}/32" ];
     listenPort = port;
     privateKeyFile = config.age.secrets.wireguardKey.path;
     mtu = 1420;
 
-    peers = [
-      {
-        publicKey = "b1/FwJYCTsUN5d/fV4fKHh9K44Am6u+4HbxKbT1ApgI=";
-        allowedIPs = [ "10.100.0.10/32" ];
-      }
-      {
-        publicKey = "sTvH3WJ8OHwBynHwdBmhuiaLT7bOniFFu0MowpOk2Vk=";
-        allowedIPs = [ "10.100.0.12/32" ];
-      }
-      {
-        publicKey = "aevcJc31KAERcLYbJJVIAosRppFTyKsBv0aH71wAIS8=";
-        allowedIPs = [ "10.100.0.13/32" ];
-      }
-      {
-        publicKey = "My6sL9VAgCY+kcw96KUxkIfqEH2e1C1hrHJsUrk3yhc=";
-        allowedIPs = [ "10.100.0.14/32" ];
-      }
-    ];
+    peers = lib.mapAttrsToList (_: device: {
+      inherit (device) publicKey;
+      allowedIPs = [ "${device.ip}/32" ];
+    }) clients;
   };
 
   networking.wireguard.interfaces.wg1 = {

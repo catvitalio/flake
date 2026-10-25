@@ -1,6 +1,7 @@
 {
   pkgs,
   secrets,
+  devices,
   ...
 }:
 
@@ -27,7 +28,7 @@
     ./restic.nix
   ];
 
-  my.reverseProxy.ip = "10.100.0.1";
+  my.reverseProxy.ip = devices.homelab.ip;
 
   my.nightlyBuild.steam.builder = {
     enable = true;
@@ -37,7 +38,7 @@
 
   my.sidestoreReflector = {
     enable = true;
-    phoneIp = "10.100.0.11";
+    phoneIp = devices.iphone.ip;
   };
 
   system.stateVersion = "26.05";
