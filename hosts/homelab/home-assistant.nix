@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  domain = "home.catvitalio.com";
+  domain = "assistant.catvitalio.com";
   address = "127.0.0.1";
   port = 8123;
 in
