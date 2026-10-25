@@ -22,6 +22,7 @@
     ./secureboot.nix
     ./disko.nix
     ./fix
+    ./gnome
     ./windows.nix
     ./wireguard.nix
   ];
@@ -31,8 +32,6 @@
     networkmanager.enable = true;
     firewall.enable = false;
   };
-
-  services.desktopManager.gnome.enable = true;
 
   age.secrets.wireguardSteamKey = {
     file = "${secrets}/wireguardSteamKey.age";
@@ -68,9 +67,10 @@
   hardware.graphics.extraPackages = [ pkgs.low-latency-layer ];
 
   environment.systemPackages = with pkgs; [
-    discord
     wget
     firefox
+    telegram-desktop
+    bitwarden-desktop
   ];
 
   system.stateVersion = "26.05";
