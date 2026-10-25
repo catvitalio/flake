@@ -6,6 +6,10 @@ let
         type = lib.types.nullOr lib.types.str;
         default = null;
       };
+      proxyPort = lib.mkOption {
+        type = lib.types.nullOr lib.types.port;
+        default = null;
+      };
       proxyWebsockets = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -32,16 +36,24 @@ in
     let
       svcs = removeAttrs config.my.reverseProxy [ "ip" ];
       ip = config.my.reverseProxy.ip;
+      upstream =
+        svc: if svc.proxyPort != null then "http://127.0.0.1:${toString svc.proxyPort}" else svc.proxyPass;
     in
     {
+      assertions = lib.mapAttrsToList (domain: svc: {
+        assertion = svc.proxyPass == null || svc.proxyPort == null;
+        message = "my.reverseProxy.${domain}: proxyPass and proxyPort are mutually exclusive.";
+      }) svcs;
+
       services.nginx.virtualHosts = lib.mapAttrs (domain: svc: {
         useACMEHost = domain;
         forceSSL = true;
         locations = lib.mkMerge [
-          (lib.optionalAttrs (svc.proxyPass != null) {
-            "/" =
-              { proxyPass = svc.proxyPass; }
-              // lib.optionalAttrs svc.proxyWebsockets { proxyWebsockets = true; };
+          (lib.optionalAttrs (upstream svc != null) {
+            "/" = {
+              proxyPass = upstream svc;
+            }
+            // lib.optionalAttrs svc.proxyWebsockets { proxyWebsockets = true; };
           })
           svc.locations
         ];

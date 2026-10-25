@@ -66,6 +66,6 @@ in
     };
   };
 
-  my.reverseProxy.${adguardDomain}.proxyPass = "http://${adguardAddress}:${toString adguardPort}";
+  my.reverseProxy.${adguardDomain}.proxyPort = adguardPort;
 
 }

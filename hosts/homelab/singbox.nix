@@ -166,7 +166,7 @@ in
   };
 
   my.reverseProxy.${domain} = {
-    proxyPass = "http://127.0.0.1:9090";
+    proxyPort = 9090;
     proxyWebsockets = true;
     locations."= /" = {
       return = "301 /ui/";

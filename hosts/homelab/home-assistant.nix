@@ -39,7 +39,7 @@ in
   };
 
   my.reverseProxy.${domain} = {
-    proxyPass = "http://${address}:${toString port}";
+    proxyPort = port;
     proxyWebsockets = true;
   };
 }

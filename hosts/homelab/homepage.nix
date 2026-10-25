@@ -73,7 +73,7 @@ in
   };
 
   my.reverseProxy.${domain} = {
-    proxyPass = "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
+    proxyPort = config.services.homepage-dashboard.listenPort;
     proxyWebsockets = true;
   };
 }

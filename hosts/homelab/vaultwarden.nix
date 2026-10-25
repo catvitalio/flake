@@ -16,5 +16,5 @@ in
     };
   };
 
-  my.reverseProxy.${domain}.proxyPass = "http://${address}:${toString port}";
+  my.reverseProxy.${domain}.proxyPort = port;
 }
