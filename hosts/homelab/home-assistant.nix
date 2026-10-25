@@ -15,10 +15,8 @@ in
       "radio_browser"
     ];
 
-    # The integration carries no python requirements and brings its own config
-    # flow, so everything else about it is set up from the web interface.
     customComponents = [
-      (pkgs.callPackage ../../pkgs/yandex-smart-home.nix { })
+      (pkgs.callPackage ../../pkgs/yandex-station.nix { })
     ];
 
     config = {
@@ -29,7 +27,6 @@ in
         external_url = "https://${domain}";
       };
 
-      # Everything reaches it through nginx on the same host.
       http = {
         server_host = address;
         server_port = port;

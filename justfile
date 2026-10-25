@@ -18,3 +18,9 @@ clean host:
 
 update-unifideck:
     nix run nixpkgs#nix-update -- --flake unifideck --version-regex 'Release-(.*)'
+
+update-yandex-station:
+    nix run nixpkgs#nix-update -- \
+        --flake yandex-station \
+        --version-regex 'v(.*)' \
+        --override-filename pkgs/yandex-station.nix
