@@ -19,8 +19,6 @@
     ./lact.nix
     ./decky
     ./cursor.nix
-    ./display-link.nix
-    ./display-chroma.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
