@@ -18,7 +18,6 @@
     ./wake/controller.nix
     ./lact.nix
     ./decky
-    ./cursor.nix
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
