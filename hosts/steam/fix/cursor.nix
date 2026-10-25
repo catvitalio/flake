@@ -1,5 +1,10 @@
+{ lib, ... }:
+
 {
-  nixpkgs.overlays = [
+  # Steam's cursor stays 16px under GNOME at scale 2, because the FHS env has no
+  # cursor theme and Xcursor never learns the scale. Preloading libXcursor makes
+  # it read the theme, and Adwaita has to be inside the env to be found.
+  nixpkgs.overlays = lib.mkAfter [
     (_: prev: {
       jovianPackages = prev.jovianPackages // {
         steam = prev.jovianPackages.steam.override (old: {
