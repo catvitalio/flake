@@ -22,7 +22,7 @@
     ./hardware.nix
     ./secureboot.nix
     ./disko.nix
-    ./gamescope.nix
+    ./fix
     ./windows.nix
     ./wireguard.nix
   ];

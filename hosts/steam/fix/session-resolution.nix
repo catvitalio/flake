@@ -5,6 +5,8 @@ let
   height = 2160;
 in
 {
+  # The upstream session script hardcodes the Steam Deck's internal panel size,
+  # so gamescope comes up at 1280x800 and everything is upscaled from there.
   nixpkgs.overlays = [
     (final: prev: {
       gamescope-session = prev.gamescope-session.overrideAttrs (old: {
