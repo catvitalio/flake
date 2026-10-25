@@ -61,6 +61,12 @@ in
               description = "SingBox";
             };
           }
+          {
+            "Home Assistant" = {
+              href = "https://assistant.catvitalio.com";
+              description = "Smart home";
+            };
+          }
         ];
       }
     ];
