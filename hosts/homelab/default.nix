@@ -22,6 +22,7 @@
     ./singbox.nix
     ./dns.nix
     ./homepage.nix
+    ./home-assistant.nix
     ./vaultwarden.nix
     ./restic.nix
   ];
@@ -34,18 +35,9 @@
     trustedPublicKeys = [ "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk=" ];
   };
 
-  my.ikeVpn = import "${secrets}/ike.nix" // {
+  my.sidestoreReflector = {
     enable = true;
-    caCert = "${secrets}/ike-ca.pem";
-    lanIp = "192.168.1.2";
-    wanInterface = "eno1";
-    pool = "10.101.0.0/24";
-    sharedPoolRange = "10.101.0.1-10.101.0.10";
-  };
-
-  my.sidestoreIkeReflector = {
-    enable = true;
-    phoneIp = "10.101.0.11";
+    phoneIp = "10.100.0.11";
   };
 
   system.stateVersion = "26.05";
