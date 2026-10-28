@@ -5,7 +5,6 @@
     loader.efi.canTouchEfiVariables = true;
     loader.timeout = 0;
     initrd = {
-      verbose = false;
       availableKernelModules = [
         "nvme"
         "xhci_pci"
