@@ -71,6 +71,7 @@
     firefox
     telegram-desktop
     bitwarden-desktop
+    transmission_4-gtk
   ];
 
   system.stateVersion = "26.05";
