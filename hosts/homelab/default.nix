@@ -52,7 +52,7 @@
     firewall.enable = true;
     interfaces.eno1.ipv4.addresses = [
       {
-        address = "192.168.1.2";
+        address = devices.homelab.lanIp;
         prefixLength = 24;
       }
     ];

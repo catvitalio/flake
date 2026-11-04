@@ -11,7 +11,7 @@ let
   clients = removeAttrs devices [ "homelab" ];
   work = import "${secrets}/work.nix";
   iptables = "${pkgs.iptables}/bin/iptables";
-  port = 51820;
+  port = devices.homelab.wireguardPort;
 in
 {
   networking.wireguard.interfaces.wg0 = {

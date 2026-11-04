@@ -1,6 +1,8 @@
 {
   homelab = {
     ip = "10.100.0.1";
+    lanIp = "192.168.1.2";
+    wireguardPort = 51820;
     publicKey = "TkdsA32GzAWl2GTESZgJeoTwIodaDvSzYTCuvy9oRRk=";
   };
 

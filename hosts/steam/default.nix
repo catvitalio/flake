@@ -1,5 +1,6 @@
 {
   config,
+  devices,
   pkgs,
   secrets,
   ...
@@ -59,7 +60,7 @@
 
   my.nightlyBuild.steam.updater = {
     enable = true;
-    builderHost = "192.168.1.2";
+    builderHost = devices.homelab.lanIp;
     user = config.my.user;
     steamosButton = true;
   };
