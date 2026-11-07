@@ -25,6 +25,7 @@
       "udev.log_level=3"
       "systemd.show_status=false"
       "usbcore.autosuspend=-1"
+      "amdgpu.vm_update_mode=3"
     ];
   };
 
