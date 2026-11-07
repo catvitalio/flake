@@ -9,7 +9,7 @@ This repository contains a complete NixOS system configuration using flakes, des
 ## homelab
 
 ### Hardware
-- Ryzen 9 4650G
+- Ryzen 5 PRO 4650G
 - B550 Aorus Elite V2
 - 48GB RAM
 - 256GB SSD
@@ -37,6 +37,7 @@ This repository contains a complete NixOS system configuration using flakes, des
 - 2TB SSD for NixOS / 1TB SSD for Windows 11
 - Radeon 9070XT
 - Lian Li A3 Case
+- UGREEN DP-134 for HDMI-CEC support
 
 ### Solutions
 - **Jovian** - SteamOS-like config for NixOS
@@ -44,7 +45,7 @@ This repository contains a complete NixOS system configuration using flakes, des
 - **CachyOS Proton** - custom Proton with FSR4 support
 - **CachyOS kernel** - custom kernel with HDMI-DP dongle support
 - **LACT** - AMD GPU overclocking
-- **ADB/WOL wake up** - for waking up TV from sleep
+- **HDMI-CEC** - for waking up TV from sleep
 - **lanzaboote** - secure boot
 
 ## Installation
