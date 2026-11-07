@@ -3,9 +3,6 @@
 let
   connector = "DP-2";
 
-  # Physical address of the TV port that carries the picture (HDMI 1).
-  pictureAddress = "10:00";
-
   cecClient = lib.getExe' pkgs.libcec "cec-client";
   cecCtl = lib.getExe' pkgs.v4l-utils "cec-ctl";
   loginctl = "${pkgs.systemd}/bin/loginctl";
@@ -22,6 +19,10 @@ let
             pkgs.python3
           ]
         }
+
+        mkdir -p /run/tv-cec
+        exec 8>/run/tv-cec/adapter.lock
+        ${pkgs.util-linux}/bin/flock -w 10 8
 
         dir=""
         for _ in $(seq 1 40); do
@@ -62,10 +63,9 @@ let
         ${cecCtl} -d /dev/cec0 2>/dev/null | grep -i "Physical Address" | tr -s ' '
   '';
 
-  # Every command goes out from a fresh client: the TV queries the sender back,
-  # and a client that has already exited counts as absent, so the command is
-  # dropped.
-  cecCommands =
+  # Keep one client alive for the whole exchange so the TV can query it back.
+  # Address overrides and on/off exchanges must not share the adapter at once.
+  cecSession =
     name: commands:
     pkgs.writeShellScript name ''
       PATH=${
@@ -76,6 +76,8 @@ let
       }
       dir=/run/tv-cec
       mkdir -p $dir
+      exec 8> $dir/adapter.lock
+      ${pkgs.util-linux}/bin/flock -w 45 8
       fifo=$dir/${name}
       log=$dir/${name}.log
       rm -f $fifo
@@ -84,30 +86,65 @@ let
 
       ${cecClient} -d 8 -t p -o steam < $fifo > $log 2>&1 &
       client=$!
-      trap 'kill $client 2>/dev/null' EXIT
+      cleanup() {
+        kill "$client" 2>/dev/null || true
+        wait "$client" 2>/dev/null || true
+        rm -f "$fifo"
+      }
+      trap cleanup EXIT
+      trap 'exit 0' TERM INT
 
+      ready=0
       for _ in $(seq 1 100); do
-        grep -q "waiting for input" $log 2>/dev/null && break
+        kill -0 "$client" 2>/dev/null || { cat "$log" >&2; exit 1; }
+        if grep -q "waiting for input" "$log"; then
+          ready=1
+          break
+        fi
         sleep 0.1
       done
+      [ "$ready" = 1 ] || { echo "CEC client did not become ready" >&2; exit 1; }
 
-      ${lib.concatMapStringsSep "\n      " (command: ''
-        printf '%s\n' "${command}" > $fifo
-        sleep 0.8
-      '') commands}
+      send() {
+        kill -0 "$client"
+        printf '%s\n' "$1" >&9
+      }
 
-      sleep 1
-      echo "sent over cec: ${lib.concatStringsSep " then " commands}"
+      ${commands}
     '';
 
-  # One touch play: turn the TV on and announce ourselves as the active source
-  # on the picture port; the TV answers with Set Stream Path to that address.
-  turnTvOn = cecCommands "tv-on" [
-    "tx 40:04"
-    "tx 4f:82:${pictureAddress}"
-  ];
+  # The TV restores its previous input while waking, after an early Active
+  # Source has already been sent. Wait for power-on, then reclaim the source
+  # through libCEC so it also answers subsequent routing requests correctly.
+  turnTvOn = cecSession "tv-on" ''
+    send "on 0"
+    powered_on=0
+    for _ in $(seq 1 20); do
+      line=$(wc -l < "$log")
+      send "pow 0"
+      sleep 1
+      if tail -n +$((line + 1)) "$log" | grep -q '^power status: on$'; then
+        powered_on=1
+        break
+      fi
+    done
+    [ "$powered_on" = 1 ] || { echo "TV did not report power-on" >&2; exit 1; }
 
-  turnTvOff = cecCommands "tv-off" [ "standby 0" ];
+    sleep 2
+    for _ in $(seq 1 3); do
+      send "as"
+      sleep 2
+    done
+    send "self"
+    sleep 1
+    echo "requested active source on HDMI 1 after TV power-on"
+  '';
+
+  turnTvOff = cecSession "tv-off" ''
+    send "standby 0"
+    sleep 2
+    echo "sent TV standby over CEC"
+  '';
 
   tvControlAllowed = pkgs.writeShellScript "tv-control-allowed" ''
     session=$(${loginctl} show-seat seat0 -p ActiveSession --value 2>/dev/null)
@@ -149,14 +186,17 @@ in
 
   systemd.services.tv-on = {
     description = "Turn the TV on and select the picture input over CEC";
-    after = sleepTargets ++ [ "tv-cec-address.service" ];
+    after = sleepTargets ++ [
+      "tv-cec-address.service"
+      "tv-off.service"
+    ];
     wants = [ "tv-cec-address.service" ];
     wantedBy = sleepTargets;
     serviceConfig = {
       Type = "oneshot";
       ExecCondition = tvControlAllowed;
       ExecStart = turnTvOn;
-      TimeoutStartSec = "60s";
+      TimeoutStartSec = "90s";
     };
   };
 
@@ -168,7 +208,7 @@ in
       Type = "oneshot";
       ExecCondition = tvControlAllowed;
       ExecStart = turnTvOff;
-      TimeoutStartSec = "30s";
+      TimeoutStartSec = "60s";
     };
   };
 }
