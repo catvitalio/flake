@@ -86,7 +86,6 @@
             lanzaboote.nixosModules.lanzaboote
             steam-config-nix.nixosModules.default
             ./modules/nightly-build.nix
-            ./modules/wireguard-client.nix
             ./hosts/steam
           ];
           specialArgs = {
