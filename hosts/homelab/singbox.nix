@@ -37,7 +37,7 @@ in
           tag = "inbound:tun";
           interface_name = "singbox0";
           mtu = 1280;
-          stack = "gvisor";
+          stack = "mixed";
           address = [ "172.19.0.1/30" ];
           auto_route = true;
           strict_route = false;
