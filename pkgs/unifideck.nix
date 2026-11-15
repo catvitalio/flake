@@ -21,11 +21,11 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "unifideck";
-  version = "0.7.6";
+  version = "0.8.0";
 
   src = fetchurl {
     url = "https://github.com/mubaraknumann/unifideck/releases/download/Release-${finalAttrs.version}/unifideck.prod.v${finalAttrs.version}.zip";
-    hash = "sha256-NsngV6IuLapfdAbaeJ6F2wOQBd4wfhYPclET8qOeYxU=";
+    hash = "sha256-b+ekVm5wGtpk87yQzRSPpOQuOyPlyuc2G5WAMrLhHSA=";
   };
 
   nativeBuildInputs = [
