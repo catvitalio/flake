@@ -6,16 +6,18 @@
   # it read the theme, and Adwaita has to be inside the env to be found.
   nixpkgs.overlays = lib.mkAfter [
     (_: prev: {
-      jovianPackages = prev.jovianPackages // {
-        steam = prev.jovianPackages.steam.override (old: {
-          extraPkgs = p: (old.extraPkgs or (_: [ ])) p ++ [ p.adwaita-icon-theme ];
-          extraProfile = (old.extraProfile or "") + ''
-            case "$XDG_CURRENT_DESKTOP" in
-              *GNOME*) export LD_PRELOAD=libXcursor.so.1 ;;
-            esac
-          '';
-        });
-      };
+      jovianPackages = prev.jovianPackages.overrideScope (
+        _: prevJovian: {
+          steam = prevJovian.steam.override (old: {
+            extraPkgs = p: (old.extraPkgs or (_: [ ])) p ++ [ p.adwaita-icon-theme ];
+            extraProfile = (old.extraProfile or "") + ''
+              case "$XDG_CURRENT_DESKTOP" in
+                *GNOME*) export LD_PRELOAD=libXcursor.so.1 ;;
+              esac
+            '';
+          });
+        }
+      );
     })
   ];
 }

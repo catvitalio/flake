@@ -359,13 +359,17 @@ in
 
       nixpkgs.overlays = lib.mapAttrsToList (
         name: host:
-        (final: prev: {
-          jovian-stubs = prev.jovian-stubs.overrideAttrs (old: {
-            buildCommand = old.buildCommand + ''
-              install -D -m 755 ${steamosScript name host} $out/bin/holo-update
-              install -D -m 755 ${steamosScript name host} $out/bin/steamos-polkit-helpers/steamos-update
-            '';
-          });
+        (_: prev: {
+          jovianPackages = prev.jovianPackages.overrideScope (
+            _: prevJovian: {
+              jovian-stubs = prevJovian.jovian-stubs.overrideAttrs (old: {
+                buildCommand = old.buildCommand + ''
+                  install -D -m 755 ${steamosScript name host} $out/bin/holo-update
+                  install -D -m 755 ${steamosScript name host} $out/bin/steamos-polkit-helpers/steamos-update
+                '';
+              });
+            }
+          );
         })
       ) (lib.filterAttrs (_: host: host.updater.steamosButton) updaters);
     }
