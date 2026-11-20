@@ -8,6 +8,9 @@ deploy host:
 deploy-homelab: (deploy "homelab")
 deploy-steam: (deploy "steam")
 
+build-steam:
+    ssh root@homelab 'systemctl start nightly-build-steam.service && readlink /var/lib/nightly-build/steam/result'
+
 update input="":
     nix flake update {{input}}
 
