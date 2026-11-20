@@ -57,7 +57,6 @@ in
     "L+ ${bashFallbackPath} - - - - ${pluginScriptDeps}/bin"
     "d ${deckyStateDir} 0755 ${owner} -"
     "d ${deckyStateDir}/plugins 0755 ${owner} -"
-    "L+ ${steamRoot}/compatibilitytools.d/proton-cachyos - - - - ${pkgs.proton-cachyos_x86_64_v3}"
   ];
 
   nixpkgs.overlays = [

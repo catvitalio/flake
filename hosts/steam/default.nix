@@ -1,6 +1,7 @@
 {
   config,
   devices,
+  lib,
   pkgs,
   secrets,
   ...
@@ -52,7 +53,9 @@
       user = config.my.user;
       desktopSession = "gnome";
       environment = {
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-cachyos_x86_64_v3}";
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+          lib.makeSearchPathOutput "steamcompattool" ""
+            config.programs.steam.extraCompatPackages;
         LOW_LATENCY_LAYER = "1";
       };
     };
@@ -64,6 +67,8 @@
     user = config.my.user;
     steamosButton = true;
   };
+
+  programs.steam.extraCompatPackages = [ pkgs.proton-cachyos-bin_x86_64_v3 ];
 
   hardware.graphics.extraPackages = [ pkgs.low-latency-layer ];
 
